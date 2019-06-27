@@ -1,10 +1,6 @@
 import Foundation
 
-internal protocol CorrelationVectorBaseProtocol {
-  init(_ baseVector: String, _ extension: Int, _ immutable: Bool)
-}
-
-@objc internal class CorrelationVectorBase: NSObject, CorrelationVectorBaseProtocol {
+@objc internal class CorrelationVectorBase: NSObject {
   @objc internal var baseVector: String
   @objc internal var `extension`: Int
   @objc internal var immutable: Bool
@@ -16,7 +12,7 @@ internal protocol CorrelationVectorBaseProtocol {
   }
 }
 
-internal extension CorrelationVectorProtocol where Self: CorrelationVectorBaseProtocol {
+internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   static func isImmutable(_ correlationVector: String?) -> Bool {
     return !(correlationVector ?? "").isEmpty && correlationVector!.hasSuffix(CorrelationVector.terminator)
   }
