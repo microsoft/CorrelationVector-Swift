@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import CorrelationVector
 
 final class CorrelationVectorTests: XCTestCase {

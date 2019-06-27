@@ -1,6 +1,5 @@
 import Foundation
 
-
 /// This protocol represents the Correlation Vector.
 /// The Correlation Vector is a format for tracing and correlating events in large systems.
 @objc public protocol CorrelationVectorProtocol {
