@@ -50,4 +50,9 @@ import Foundation
     // TODO
     return CorrelationVector()
   }
+
+  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) -> CorrelationVectorProtocol {
+    // TODO
+    return CorrelationVector()
+  }
 }
