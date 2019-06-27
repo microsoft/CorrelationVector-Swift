@@ -51,13 +51,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		048F5A0D22C51B7500EFFAE5 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Config/Release.xcconfig; sourceTree = "<group>"; };
+		048F5A0E22C51B9800EFFAE5 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Config/Debug.xcconfig; sourceTree = "<group>"; };
 		C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorProtocol.swift; sourceTree = "<group>"; };
 		C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorVersion.swift; sourceTree = "<group>"; };
 		C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV1.swift; sourceTree = "<group>"; };
 		C2D482F422C4BF160075F09B /* CorrelationVectorV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV2.swift; sourceTree = "<group>"; };
 		C2D482FA22C507770075F09B /* CorrelationVectorBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorBase.swift; sourceTree = "<group>"; };
 		"CorrelationVector::CorrelationVector::Product" /* CorrelationVector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = CorrelationVectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVector.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = CorrelationVector.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* CorrelationVectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_17 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -108,14 +110,16 @@
 			isa = PBXGroup;
 			children = (
 				"CorrelationVector::CorrelationVector::Product" /* CorrelationVector.framework */,
-				"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */,
+				"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVector.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				048F5A0E22C51B9800EFFAE5 /* Debug.xcconfig */,
+				048F5A0D22C51B7500EFFAE5 /* Release.xcconfig */,
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
@@ -124,7 +128,6 @@
 				OBJ_18 /* LICENSE-CODE */,
 				OBJ_19 /* README.md */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -156,6 +159,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_21 /* Build configuration list for PBXNativeTarget "CorrelationVector" */;
 			buildPhases = (
+				0401AF6C22C51765001349E5 /* Verify no buildSettings */,
 				OBJ_24 /* Sources */,
 				OBJ_26 /* Frameworks */,
 			);
@@ -182,7 +186,7 @@
 			);
 			name = CorrelationVectorTests;
 			productName = CorrelationVectorTests;
-			productReference = "CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */;
+			productReference = "CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVector.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		"CorrelationVector::SwiftPMPackageDescription" /* CorrelationVectorPackageDescription */ = {
@@ -216,7 +220,7 @@
 				English,
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_14 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -228,6 +232,28 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0401AF6C22C51765001349E5 /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_24 /* Sources */ = {
@@ -279,100 +305,31 @@
 		OBJ_22 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVector_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = CorrelationVector;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = CorrelationVector;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
 		OBJ_23 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVector_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = CorrelationVector;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = CorrelationVector;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
 		OBJ_29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 048F5A0E22C51B9800EFFAE5 /* Debug.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"SWIFT_PACKAGE=1",
-					"DEBUG=1",
-				);
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				USE_HEADERMAP = NO;
 			};
 			name = Debug;
 		};
 		OBJ_30 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -390,74 +347,20 @@
 		};
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 048F5A0D22C51B7500EFFAE5 /* Release.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"SWIFT_PACKAGE=1",
-				);
-				OTHER_SWIFT_FLAGS = "-DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				USE_HEADERMAP = NO;
 			};
 			name = Release;
 		};
 		OBJ_40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVectorTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = CorrelationVectorTests;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
 		OBJ_41 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVectorTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = CorrelationVectorTests;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
