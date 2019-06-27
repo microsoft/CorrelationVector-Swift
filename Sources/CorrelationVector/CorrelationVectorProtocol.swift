@@ -3,12 +3,14 @@ import Foundation
 
 /// This protocol represents the Correlation Vector.
 /// The Correlation Vector is a format for tracing and correlating events in large systems.
-@objc protocol CorrelationVectorProtocol {
+@objc public protocol CorrelationVectorProtocol {
 
   /// Gets the value of the correlation vector as a string.
   var value: String { get }
 
   var base: String { get }
+
+  var `extension`: Int { get }
 
   /// Gets the version of the correlation vector implementation.
   var version: CorrelationVectorVersion { get }
@@ -27,7 +29,7 @@ import Foundation
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  static func parse(_ correlationVector: String) -> CorrelationVectorProtocol
+  static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol
 
 
   /// Creates a new correlation vector by extending an existing value.
@@ -35,14 +37,14 @@ import Foundation
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  static func extend(_ correlationVector: String) -> CorrelationVectorProtocol
+  static func extend(_ correlationVector: String?) -> CorrelationVectorProtocol
 
   /// Creates a new correlation vector by applying the Spin operator to an existing value.
   /// This should be done at the entry point of an operation.
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  static func spin(_ correlationVector: String) -> CorrelationVectorProtocol
+  static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol
 
   // TODO spin with params
 }
