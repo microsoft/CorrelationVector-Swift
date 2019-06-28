@@ -54,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		04DF819222C605DF00308915 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
+		C2427FFD22C6250100778CD5 /* VerifyNoBuildSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyNoBuildSettings.swift; sourceTree = "<group>"; };
 		04DF819522C62C1E00308915 /* CorrelationVectorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrelationVectorError.swift; sourceTree = "<group>"; };
 		C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorProtocol.swift; sourceTree = "<group>"; };
 		C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorVersion.swift; sourceTree = "<group>"; };
@@ -62,7 +63,7 @@
 		C2D482FA22C507770075F09B /* CorrelationVectorBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorBase.swift; sourceTree = "<group>"; };
 		C2D482FC22C51DD70075F09B /* SpinParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinParameters.swift; sourceTree = "<group>"; };
 		"CorrelationVector::CorrelationVector::Product" /* CorrelationVector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVector.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = CorrelationVector.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = CorrelationVectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_12 /* CorrelationVectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_17 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -91,6 +92,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C2427FFA22C61F8300778CD5 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				04DF819222C605DF00308915 /* Global.xcconfig */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
+		C2427FFC22C6250100778CD5 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				C2427FFD22C6250100778CD5 /* VerifyNoBuildSettings.swift */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,7 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				"CorrelationVector::CorrelationVector::Product" /* CorrelationVector.framework */,
-				"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVector.xctest */,
+				"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -121,14 +138,15 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				04DF819222C605DF00308915 /* Global.xcconfig */,
-				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Sources */,
-				OBJ_10 /* Tests */,
-				OBJ_14 /* Products */,
 				OBJ_17 /* LICENSE */,
 				OBJ_18 /* LICENSE-CODE */,
 				OBJ_19 /* README.md */,
+				OBJ_6 /* Package.swift */,
+				C2427FFA22C61F8300778CD5 /* Configs */,
+				OBJ_14 /* Products */,
+				C2427FFC22C6250100778CD5 /* Scripts */,
+				OBJ_7 /* Sources */,
+				OBJ_10 /* Tests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -145,11 +163,11 @@
 			children = (
 				04DF819522C62C1E00308915 /* CorrelationVectorError.swift */,
 				OBJ_9 /* CorrelationVector.swift */,
+				C2D482FA22C507770075F09B /* CorrelationVectorBase.swift */,
 				C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */,
-				C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */,
 				C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */,
 				C2D482F422C4BF160075F09B /* CorrelationVectorV2.swift */,
-				C2D482FA22C507770075F09B /* CorrelationVectorBase.swift */,
+				C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */,
 				C2D482FC22C51DD70075F09B /* SpinParameters.swift */,
 			);
 			name = CorrelationVector;
@@ -190,7 +208,7 @@
 			);
 			name = CorrelationVectorTests;
 			productName = CorrelationVectorTests;
-			productReference = "CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVector.xctest */;
+			productReference = "CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		"CorrelationVector::SwiftPMPackageDescription" /* CorrelationVectorPackageDescription */ = {
