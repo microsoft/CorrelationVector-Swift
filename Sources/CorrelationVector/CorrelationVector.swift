@@ -3,6 +3,7 @@
 
 import Foundation
 
+/// This class represents a lightweight vector for identifying and measuring causality.
 @objc public class CorrelationVector: NSObject, CorrelationVectorProtocol {
   internal static let delimiter: Character = "."
   internal static let terminator = "!"
@@ -31,6 +32,11 @@ import Foundation
 
   public var version: CorrelationVectorVersion {
     return self.implementation.version
+  }
+
+  /// A string representation of the CV.
+  public override var description: String {
+    return self.value
   }
 
   /// Initializes a new instance of the Correlation Vector with V1 implementation.
@@ -66,8 +72,15 @@ import Foundation
     return self.implementation.increment()
   }
 
-  // TODO isEqual
-  // TODO toString
+  /// Determines whether two instances of the CorrelationVector class are equal.
+  ///
+  /// - Parameters:
+  ///   - lhs: a value to compare.
+  ///   - rhs: another value to compare.
+  /// - Returns: a boolean value indicating whether two values are equal.
+  static func ==(lhs: CorrelationVector, rhs: CorrelationVector) -> Bool {
+    return lhs.value == rhs.value
+  }
 
   public static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
     let version = CorrelationVectorVersion.infer(from: correlationVector)
