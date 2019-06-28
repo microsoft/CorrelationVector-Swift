@@ -16,8 +16,7 @@ import Foundation
   }
 
   required convenience init() {
-    // TODO
-    self.init("", 0, false)
+    self.init(CorrelationVectorV1.getUniqueValue(), 0, false)
   }
 
   required convenience init(_ base: UUID) {
@@ -51,4 +50,10 @@ import Foundation
     // TODO
     return CorrelationVector()
   }
+  
+  private static func getUniqueValue() -> String {
+    let uuid = UUID().uuidString
+    return Data(uuid.utf8).base64EncodedString()
+  }
+  
 }
