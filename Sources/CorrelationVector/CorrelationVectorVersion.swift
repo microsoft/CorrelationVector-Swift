@@ -1,9 +1,14 @@
 import Foundation
 
+/// Version of Correlation Vector protocol specification.
+///
+/// - v1: represents the correlation vector version 1.
+/// - v2: represents the correlation vector version 2.
 @objc public enum CorrelationVectorVersion: Int {
   case v1 = 1
   case v2 = 2
 
+  /// The type of implementation for the specific version of protocol.
   internal var type: CorrelationVectorProtocol.Type {
     switch self {
     case .v1:

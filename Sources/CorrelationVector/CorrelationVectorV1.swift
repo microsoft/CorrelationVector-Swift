@@ -2,18 +2,11 @@ import Foundation
 
 @objc internal class CorrelationVectorV1: CorrelationVectorBase, CorrelationVectorProtocol {
 
+  /// The max length of a correlation vector.
   internal static let maxVectorLength = 63
+
+  /// The max length of a correlation vector base.
   internal static let baseLength = 16
-
-  var value: String {
-    // TODO
-    return ""
-  }
-
-  var base: String {
-    // TODO
-    return ""
-  }
 
   var version: CorrelationVectorVersion {
     return .v1
