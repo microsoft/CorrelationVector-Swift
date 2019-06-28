@@ -6,7 +6,7 @@ import Foundation
 @objc internal class CorrelationVectorV2: CorrelationVectorBase, CorrelationVectorProtocol {
 
   /// The max length of a correlation vector.
-  internal static let maxVectorLength = 127
+  internal static let maxLength = 127
 
   /// The max length of a correlation vector base.
   internal static let baseLength = 22
@@ -16,34 +16,19 @@ import Foundation
   }
 
   required convenience init() {
-    // TODO
-    self.init("", 0, false)
+    self.init(UUID())
   }
 
   required convenience init(_ base: UUID) {
-    // TODO
-    self.init("", 0, false)
+    self.init(baseUuid(from: base, baseLength: CorrelationVectorV2.baseLength), 0, false)
   }
 
-  required init(_ baseVector: String, _ extension: Int, _ immutable: Bool) {
-    super.init(baseVector, `extension`, immutable)
+  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+    super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV2.maxLength))
   }
 
   func increment() -> String {
-    return self.increment(CorrelationVectorV2.maxVectorLength)
-  }
-  
-  private func baseAsUuid() throws -> UUID {
-    if (CorrelationVector.validateDuringCreation) {
-      let index = base.index(before: base.endIndex)
-      let lastChar = base[index]
-      if (lastChar != "A" && lastChar != "Q" && lastChar != "g" && lastChar != "w") {
-        throw CorrelationVectorError.invalidOperation("The four least significant bits of the base64 encoded vector base must be zeros to reliably convert to a guid.")
-      }
-    }
-    let decodedData = Data(base64Encoded: base.appending("=="))
-    let decodedString = String(data: decodedData!, encoding: .utf8)
-    return UUID(uuidString: decodedString!)!
+    return self.increment(maxLength: CorrelationVectorV2.maxLength)
   }
 
   static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
@@ -51,7 +36,7 @@ import Foundation
   }
 
   static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    return try extend(from: correlationVector, maxVectorLength, baseLength)
+    return try extend(correlationVector, baseLength: baseLength, maxLength: maxLength)
   }
 
   static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {

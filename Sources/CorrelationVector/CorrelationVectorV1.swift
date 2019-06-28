@@ -6,7 +6,7 @@ import Foundation
 @objc internal class CorrelationVectorV1: CorrelationVectorBase, CorrelationVectorProtocol {
 
   /// The max length of a correlation vector.
-  internal static let maxVectorLength = 63
+  internal static let maxLength = 63
 
   /// The max length of a correlation vector base.
   internal static let baseLength = 16
@@ -20,15 +20,15 @@ import Foundation
   }
 
   required convenience init(_ base: UUID) {
-    self.init(CorrelationVectorBase.baseUuid(from: base, CorrelationVectorV1.baseLength), 0, false)
+    self.init(baseUuid(from: base, baseLength: CorrelationVectorV1.baseLength), 0, false)
   }
 
-  required init(_ baseVector: String, _ extension: Int, _ immutable: Bool) {
-    super.init(baseVector, `extension`, immutable)
+  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+    super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV1.maxLength))
   }
   
   func increment() -> String {
-    return self.increment(CorrelationVectorV1.maxVectorLength)
+    return self.increment(maxLength: CorrelationVectorV1.maxLength)
   }
 
   static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
@@ -36,7 +36,7 @@ import Foundation
   }
 
   static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    return try extend(from: correlationVector, maxVectorLength, baseLength)
+    return try extend(correlationVector, baseLength: baseLength, maxLength: maxLength)
   }
 
   static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {

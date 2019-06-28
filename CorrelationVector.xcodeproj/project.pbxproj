@@ -23,6 +23,8 @@
 /* Begin PBXBuildFile section */
 		04DF819622C62C1E00308915 /* CorrelationVectorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF819522C62C1E00308915 /* CorrelationVectorError.swift */; };
 		C242FB9522C6831500806AFB /* AtomicHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = C242FB9422C6831500806AFB /* AtomicHelper.c */; };
+		C242FB9922C6981500806AFB /* CorrelationVectorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C242FB9822C6981500806AFB /* CorrelationVectorUtils.swift */; };
+		C242FB9B22C69C2300806AFB /* CorrelationVectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C242FB9A22C69C2300806AFB /* CorrelationVectorExtensions.swift */; };
 		C2D482EF22C4B8950075F09B /* CorrelationVectorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */; };
 		C2D482F122C4BC0C0075F09B /* CorrelationVectorVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */; };
 		C2D482F322C4BF090075F09B /* CorrelationVectorV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */; };
@@ -60,6 +62,8 @@
 		C242FB9422C6831500806AFB /* AtomicHelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AtomicHelper.c; sourceTree = "<group>"; };
 		C242FB9622C6845000806AFB /* AtomicHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtomicHelper.h; sourceTree = "<group>"; };
 		C242FB9722C684AF00806AFB /* CorrelationVector-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CorrelationVector-Bridging-Header.h"; sourceTree = "<group>"; };
+		C242FB9822C6981500806AFB /* CorrelationVectorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorUtils.swift; sourceTree = "<group>"; };
+		C242FB9A22C69C2300806AFB /* CorrelationVectorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorExtensions.swift; sourceTree = "<group>"; };
 		C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorProtocol.swift; sourceTree = "<group>"; };
 		C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorVersion.swift; sourceTree = "<group>"; };
 		C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV1.swift; sourceTree = "<group>"; };
@@ -171,7 +175,9 @@
 				OBJ_9 /* CorrelationVector.swift */,
 				C2D482FA22C507770075F09B /* CorrelationVectorBase.swift */,
 				04DF819522C62C1E00308915 /* CorrelationVectorError.swift */,
+				C242FB9A22C69C2300806AFB /* CorrelationVectorExtensions.swift */,
 				C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */,
+				C242FB9822C6981500806AFB /* CorrelationVectorUtils.swift */,
 				C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */,
 				C2D482F422C4BF160075F09B /* CorrelationVectorV2.swift */,
 				C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */,
@@ -296,6 +302,7 @@
 			files = (
 				C2D482F322C4BF090075F09B /* CorrelationVectorV1.swift in Sources */,
 				C2D482F122C4BC0C0075F09B /* CorrelationVectorVersion.swift in Sources */,
+				C242FB9B22C69C2300806AFB /* CorrelationVectorExtensions.swift in Sources */,
 				OBJ_25 /* CorrelationVector.swift in Sources */,
 				C2D482F522C4BF160075F09B /* CorrelationVectorV2.swift in Sources */,
 				C242FB9522C6831500806AFB /* AtomicHelper.c in Sources */,
@@ -303,6 +310,7 @@
 				C2D482FB22C507770075F09B /* CorrelationVectorBase.swift in Sources */,
 				04DF819622C62C1E00308915 /* CorrelationVectorError.swift in Sources */,
 				C2D482EF22C4B8950075F09B /* CorrelationVectorProtocol.swift in Sources */,
+				C242FB9922C6981500806AFB /* CorrelationVectorUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

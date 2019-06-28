@@ -17,10 +17,10 @@ import Foundation
   required init(_ base: String, _ extension: Int, _ immutable: Bool) {
     self.base = base
     self.extension = `extension`
-    self.immutable = immutable // FIXME || isOversized(base, `extension`)
+    self.immutable = immutable
   }
   
-  func increment(_ maxVectorLength: Int) -> String {
+  func increment(maxLength: Int) -> String {
     if self.immutable {
       return self.value
     }
@@ -32,48 +32,21 @@ import Foundation
         return self.value
       }
       next = snapshot + 1
-      if CorrelationVectorBase.isOversized(base, next, maxVectorLength) {
+      if isOversized(base, next, maxLength: maxLength) {
         self.immutable = true
         return self.value
       }
     } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<Int>(&self.extension)), UnsafeMutablePointer<Int>(&snapshot), next)
     return "\(self.base).\(next)"
   }
-
-  /// Gets the length of an integer. The given integer must be non-negative.
-  ///
-  /// - Parameter i: non-negative integer.
-  /// - Returns: length of the given integer.
-  static func intLength(_ i: Int) -> Int {
-    return i > 0 ? Int(log10(Double(i))) + 1 : 1;
-  }
-
-  static func isOversized(_ baseVector: String?, _ extension: Int, _ maxVectorLength: Int) -> Bool {
-    guard let vector = baseVector, !vector.isEmpty else {
-      return false
-    }
-    let size = vector.count + 1 + intLength(`extension`)
-    return size > maxVectorLength
-  }
-  
-  /// Checks if the given CV string is immutable. If the given non-empty string
-  /// ends with the CV termination sign, the CV is said to be immutable.
-  ///
-  /// - Parameter correlationVector: string representation.
-  /// - Returns: true is the given CV string is immutable.
-  static func isImmutable(_ correlationVector: String?) -> Bool {
-    return !(correlationVector ?? "").isEmpty && correlationVector!.hasSuffix(CorrelationVector.terminator)
-  }
-
-  static func baseUuid(from uuid: UUID, _ baseLength: Int) -> String {
-    let uuidString = uuid.uuidString
-    let base64String = Data(uuidString.utf8).base64EncodedString();
-    let endIndex = base64String.index(base64String.startIndex, offsetBy: baseLength);
-    return String(base64String[..<endIndex])
-  }
 }
 
 internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
+
+  /// Converts a string representation of a Correlation Vector into this class.
+  ///
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: the Correlation Vector based on its version.
   static func parse(from correlationVector: String?) -> CorrelationVectorProtocol {
     if let vector = correlationVector {
       let p = vector.lastIndex(of: ".")
@@ -92,38 +65,21 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
     }
     return self.init()
   }
-  
-  /// Validates the CV string with the given CV version.
+
+  /// Creates a new correlation vector by extending an existing value.
+  /// This should be done at the entry point of an operation.
   ///
-  /// - Parameters:
-  ///   - correlationVector: string representation.
-  ///   - maxVectorLength: the max length of a correlation vector.
-  ///   - baseLength: the max length of a correlation vector base.
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: the Correlation Vector based on its version.
   /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
-  static func validate(from correlationVector: String?, _ maxVectorLength: Int, _ baseLength: Int) throws {
-    guard let vector = correlationVector, !vector.isEmpty && vector.count <= maxVectorLength else {
-      throw CorrelationVectorError.argumentException("The \(correlationVector!) correlation vector can not be null or bigger than \(maxVectorLength) characters")
-    }
-    let parts = vector.split(separator: ".")
-    if parts.count < 2 || parts[0].count != baseLength {
-        throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
-    }
-    for index in 1...parts.count {
-      let result = Int(parts[index])
-      if result == nil || result! < 0 {
-        throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
-      }
-    }
-  }
-  
-  static func extend(from correlationVector: String?, _ maxVectorLength: Int, _ baseLength: Int) throws -> CorrelationVectorProtocol {
+  static func extend(_ correlationVector: String?, baseLength: Int, maxLength: Int) throws -> CorrelationVectorProtocol {
     if isImmutable(correlationVector) {
       return parse(from: correlationVector)
     }
     if CorrelationVector.validateDuringCreation {
-      try validate(from: correlationVector, maxVectorLength, baseLength)
+      try validate(correlationVector, baseLength: baseLength, maxLength: maxLength)
     }
-    if let vector = correlationVector, isOversized(vector, 0, maxVectorLength) {
+    if let vector = correlationVector, isOversized(vector, 0, maxLength: maxLength) {
       return parse(vector.appending(CorrelationVector.terminator))
     }
     return self.init(correlationVector!, 0, false)
