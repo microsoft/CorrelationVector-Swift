@@ -49,9 +49,9 @@ import Foundation
   /// Initializes a new instance of the Correlation Vector of the V2 implementation
   /// using the given UUID as the vector base.
   ///
-  /// - Parameter vectorBase: the UUID to use as a correlation vector base.
-  public required convenience init(_ vectorBase: UUID) {
-    self.init(CorrelationVectorV2.init(vectorBase))
+  /// - Parameter base: the UUID to use as a correlation vector base.
+  public required convenience init(_ base: UUID) {
+    self.init(CorrelationVectorV2(base))
   }
 
   /// Initializes a new instance of the Correlation Vector of the given
@@ -61,6 +61,16 @@ import Foundation
   /// - Parameter version: the Correlation Vector implementation version.
   public convenience init(_ version: CorrelationVectorVersion) {
     self.init(version.type.init())
+  }
+
+  /// Initializes a new instance of the Correlation Vector of the given
+  /// implementation version and UUID as the vector base.
+  ///
+  /// - Parameters:
+  ///   - version: the Correlation Vector implementation version.
+  ///   - base: the UUID to use as a correlation vector base.
+  public required convenience init(_ version: CorrelationVectorVersion, _ base: UUID) {
+    self.init(CorrelationVectorV2(base))
   }
 
   private init(_ implementation: CorrelationVectorProtocol) {

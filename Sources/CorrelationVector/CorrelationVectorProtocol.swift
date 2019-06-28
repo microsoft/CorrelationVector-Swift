@@ -23,8 +23,8 @@ import Foundation
 
   /// Initializes a new instance of the Correlation Vector using the given UUID as the vector base.
   ///
-  /// - Parameter vectorBase: the UUID to use as a correlation vector base.
-  init(_ vectorBase: UUID)
+  /// - Parameter base: the UUID to use as a correlation vector base.
+  init(_ base: UUID)
 
   /// Increments the extension, the numerical value at the end of the vector, by one
   /// and returns the string representation.

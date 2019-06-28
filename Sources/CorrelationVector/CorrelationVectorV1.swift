@@ -20,7 +20,7 @@ import Foundation
     self.init("", 0, false)
   }
 
-  required convenience init(_ vectorBase: UUID) {
+  required convenience init(_ base: UUID) {
     // TODO
     self.init("", 0, false)
   }
