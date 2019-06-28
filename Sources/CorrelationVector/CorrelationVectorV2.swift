@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Foundation
 
 @objc internal class CorrelationVectorV2: CorrelationVectorBase, CorrelationVectorProtocol {
