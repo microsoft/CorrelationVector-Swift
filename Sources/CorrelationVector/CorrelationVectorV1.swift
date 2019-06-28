@@ -16,7 +16,7 @@ import Foundation
   }
 
   required convenience init() {
-    self.init(CorrelationVectorV1.getUniqueValue(), 0, false)
+    self.init(CorrelationVectorV1.uniqueValue(), 0, false)
   }
 
   required convenience init(_ base: UUID) {
@@ -47,7 +47,7 @@ import Foundation
     throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
   }
   
-  private static func getUniqueValue() -> String {
+  private static func uniqueValue() -> String {
     let uuid = UUID().uuidString
     return Data(uuid.utf8).base64EncodedString()
   }

@@ -43,9 +43,9 @@ import Foundation
         self.immutable = true
         return self.value
       }
-    } while OSAtomicCompareAndSwap(snapshot, next)
+    } while OSAtomicCompareAndSwap(self.extension, snapshot, next)
     
-    return "\(self.base).\(String(next))"
+    return "\(self.base).\(next)"
   }
   
   static func isOversized(_ baseVector: String?, _ baseExtension: Int, _ maxVectorLength: Int) -> Bool {
@@ -55,9 +55,6 @@ import Foundation
     let size = Double(vector.count) + 1 + (Double(baseExtension) > 0 ? log10(Double(baseExtension)) : 0) + 1
     return size > Double(maxVectorLength)
   }
-}
-
-internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   
   /// Checks if the given CV string is immutable. If the given non-empty string
   /// ends with the CV termination sign, the CV is said to be immutable.
@@ -67,11 +64,14 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   static func isImmutable(_ correlationVector: String?) -> Bool {
     return !(correlationVector ?? "").isEmpty && correlationVector!.hasSuffix(CorrelationVector.terminator)
   }
+}
+
+internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   
   static func parse(from correlationVector: String?) -> CorrelationVectorProtocol {
     if let vector = correlationVector {
       let p = vector.lastIndex(of: ".")
-      let immutable = self.isImmutable(correlationVector)
+      let immutable = isImmutable(correlationVector)
       if let lastDotIndex = p {
         let startIndex = vector.index(after: lastDotIndex)
         let distanceP = vector.distance(from: vector.startIndex, to: lastDotIndex)
@@ -84,7 +84,7 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
         }
       }
     }
-    return self.init("", 0, false)
+    return self.init()
   }
   
   /// Validates the CV string with the given CV version.
@@ -93,7 +93,7 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   ///   - correlationVector: string representation.
   ///   - maxVectorLength: the max length of a correlation vector.
   ///   - baseLength: the max length of a correlation vector base.
-  ///   - Throws: CorrelationVectorError.argumentException if vector is not valid.
+  /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
   static func validate(from correlationVector: String?, _ maxVectorLength: Int, _ baseLength: Int) throws {
     guard let vector = correlationVector, !vector.isEmpty && vector.count <= maxVectorLength else {
       throw CorrelationVectorError.argumentException("The \(correlationVector!) correlation vector can not be null or bigger than \(maxVectorLength) characters")
