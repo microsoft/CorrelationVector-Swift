@@ -30,7 +30,7 @@ import Foundation
   }
 
   func increment() -> String {
-    return self.increment(CorrelationVectorV2.baseLength)
+    return self.increment(CorrelationVectorV2.maxVectorLength)
   }
   
   private func baseAsUuid() throws -> UUID {

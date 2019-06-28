@@ -17,10 +17,10 @@ import Foundation
   required init(_ base: String, _ extension: Int, _ immutable: Bool) {
     self.base = base
     self.extension = `extension`
-    self.immutable = immutable
+    self.immutable = immutable // FIXME || isOversized(base, `extension`)
   }
   
-  func increment(_ baseLength: Int) -> String {
+  func increment(_ maxVectorLength: Int) -> String {
     if self.immutable {
       return self.value
     }
@@ -32,20 +32,28 @@ import Foundation
         return self.value
       }
       next = snapshot + 1
-      if CorrelationVectorBase.isOversized(base, next, baseLength) {
+      if CorrelationVectorBase.isOversized(base, next, maxVectorLength) {
         self.immutable = true
         return self.value
       }
     } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<Int>(&self.extension)), UnsafeMutablePointer<Int>(&snapshot), next)
     return "\(self.base).\(next)"
   }
-  
-  static func isOversized(_ baseVector: String?, _ baseExtension: Int, _ maxVectorLength: Int) -> Bool {
+
+  /// Gets the length of an integer. The given integer must be non-negative.
+  ///
+  /// - Parameter i: non-negative integer.
+  /// - Returns: length of the given integer.
+  static func intLength(_ i: Int) -> Int {
+    return i > 0 ? Int(log10(Double(i))) + 1 : 1;
+  }
+
+  static func isOversized(_ baseVector: String?, _ extension: Int, _ maxVectorLength: Int) -> Bool {
     guard let vector = baseVector, !vector.isEmpty else {
       return false
     }
-    let size = Double(vector.count) + 1 + (Double(baseExtension) > 0 ? log10(Double(baseExtension)) : 0) + 1
-    return size > Double(maxVectorLength)
+    let size = vector.count + 1 + intLength(`extension`)
+    return size > maxVectorLength
   }
   
   /// Checks if the given CV string is immutable. If the given non-empty string

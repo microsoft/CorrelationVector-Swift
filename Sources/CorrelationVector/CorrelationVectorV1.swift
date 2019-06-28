@@ -28,7 +28,7 @@ import Foundation
   }
   
   func increment() -> String {
-    return self.increment(CorrelationVectorV1.baseLength)
+    return self.increment(CorrelationVectorV1.maxVectorLength)
   }
 
   static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
