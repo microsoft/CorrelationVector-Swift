@@ -52,8 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		048F5A0D22C51B7500EFFAE5 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Config/Release.xcconfig; sourceTree = "<group>"; };
-		048F5A0E22C51B9800EFFAE5 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Config/Debug.xcconfig; sourceTree = "<group>"; };
+		04DF819222C605DF00308915 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorProtocol.swift; sourceTree = "<group>"; };
 		C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorVersion.swift; sourceTree = "<group>"; };
 		C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV1.swift; sourceTree = "<group>"; };
@@ -120,8 +119,7 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				048F5A0E22C51B9800EFFAE5 /* Debug.xcconfig */,
-				048F5A0D22C51B7500EFFAE5 /* Release.xcconfig */,
+				04DF819222C605DF00308915 /* Global.xcconfig */,
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
@@ -326,7 +324,7 @@
 		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 048F5A0E22C51B9800EFFAE5 /* Debug.xcconfig */;
+			baseConfigurationReference = 04DF819222C605DF00308915 /* Global.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
@@ -351,7 +349,7 @@
 		};
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 048F5A0D22C51B7500EFFAE5 /* Release.xcconfig */;
+			baseConfigurationReference = 04DF819222C605DF00308915 /* Global.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
