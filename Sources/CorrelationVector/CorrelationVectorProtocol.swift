@@ -7,14 +7,16 @@ import Foundation
 /// The Correlation Vector is a format for tracing and correlating events in large systems.
 @objc public protocol CorrelationVectorProtocol {
 
-  /// Gets the value of the correlation vector as a string.
+  /// The value of the correlation vector as a string.
   var value: String { get }
 
+  /// The base value of the correlation vector.
   var base: String { get }
 
+  /// The extension number.
   var `extension`: Int { get }
 
-  /// Gets the version of the correlation vector implementation.
+  /// The version of the correlation vector implementation.
   var version: CorrelationVectorVersion { get }
 
   /// Initializes a new instance of the Correlation Vector.
