@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		04DF819622C62C1E00308915 /* CorrelationVectorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF819522C62C1E00308915 /* CorrelationVectorError.swift */; };
 		C2D482EF22C4B8950075F09B /* CorrelationVectorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */; };
 		C2D482F122C4BC0C0075F09B /* CorrelationVectorVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */; };
 		C2D482F322C4BF090075F09B /* CorrelationVectorV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		04DF819222C605DF00308915 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
+		04DF819522C62C1E00308915 /* CorrelationVectorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrelationVectorError.swift; sourceTree = "<group>"; };
 		C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorProtocol.swift; sourceTree = "<group>"; };
 		C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorVersion.swift; sourceTree = "<group>"; };
 		C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV1.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		OBJ_8 /* CorrelationVector */ = {
 			isa = PBXGroup;
 			children = (
+				04DF819522C62C1E00308915 /* CorrelationVectorError.swift */,
 				OBJ_9 /* CorrelationVector.swift */,
 				C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */,
 				C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */,
@@ -267,6 +270,7 @@
 				C2D482F522C4BF160075F09B /* CorrelationVectorV2.swift in Sources */,
 				C2D482FD22C51DD70075F09B /* SpinParameters.swift in Sources */,
 				C2D482FB22C507770075F09B /* CorrelationVectorBase.swift in Sources */,
+				04DF819622C62C1E00308915 /* CorrelationVectorError.swift in Sources */,
 				C2D482EF22C4B8950075F09B /* CorrelationVectorProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

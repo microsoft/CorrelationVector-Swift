@@ -51,4 +51,17 @@ import Foundation
     // TODO
     return CorrelationVector()
   }
+  
+  func getBaseAsGuid() throws -> UUID {
+    if (CorrelationVector.validateDuringCreation) {
+      let index = base.index(before: base.endIndex)
+      let lastChar = base[index]
+      if (lastChar != "A" && lastChar != "Q" && lastChar != "g" && lastChar != "w") {
+        throw CorrelationVectorError.invalidOperation("The four least significant bits of the base64 encoded vector base must be zeros to reliably convert to a guid.")
+      }
+    }
+    let decodedData = Data(base64Encoded: base.appending("=="))
+    let decodedString = String(data: decodedData!, encoding: .utf8)
+    return UUID(uuidString: decodedString!)!
+  }
 }

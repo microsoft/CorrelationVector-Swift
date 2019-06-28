@@ -55,4 +55,11 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
     // TODO if isOversized(correlationVector, 0)
     return self.init()
   }
+  
+  static func getBaseFromGuid(guid: UUID, baseLength: Int) -> String {
+    let guidString = guid.uuidString
+    let base64String = Data(guidString.utf8).base64EncodedString();
+    let endIndex = base64String.index(base64String.startIndex, offsetBy: baseLength);
+    return String(base64String[..<endIndex])
+  }
 }
