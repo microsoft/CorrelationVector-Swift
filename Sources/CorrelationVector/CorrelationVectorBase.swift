@@ -20,13 +20,6 @@ import Foundation
     self.immutable = immutable
   }
   
-  static func baseUuid(from uuid: UUID, _ baseLength: Int) -> String {
-    let uuidString = uuid.uuidString
-    let base64String = Data(uuidString.utf8).base64EncodedString();
-    let endIndex = base64String.index(base64String.startIndex, offsetBy: baseLength);
-    return String(base64String[..<endIndex])
-  }
-  
   func increment(_ baseLength: Int) -> String {
     if self.immutable {
       return self.value
@@ -43,8 +36,7 @@ import Foundation
         self.immutable = true
         return self.value
       }
-    } while OSAtomicCompareAndSwap(self.extension, snapshot, next)
-    
+    } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<Int>(&self.extension)), UnsafeMutablePointer<Int>(&snapshot), next)
     return "\(self.base).\(next)"
   }
   
@@ -64,10 +56,16 @@ import Foundation
   static func isImmutable(_ correlationVector: String?) -> Bool {
     return !(correlationVector ?? "").isEmpty && correlationVector!.hasSuffix(CorrelationVector.terminator)
   }
+
+  static func baseUuid(from uuid: UUID, _ baseLength: Int) -> String {
+    let uuidString = uuid.uuidString
+    let base64String = Data(uuidString.utf8).base64EncodedString();
+    let endIndex = base64String.index(base64String.startIndex, offsetBy: baseLength);
+    return String(base64String[..<endIndex])
+  }
 }
 
 internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
-  
   static func parse(from correlationVector: String?) -> CorrelationVectorProtocol {
     if let vector = correlationVector {
       let p = vector.lastIndex(of: ".")

@@ -30,29 +30,10 @@ import Foundation
   }
 
   func increment() -> String {
-    // TODO
-    return ""
-  }
-
-  static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    return parse(from: correlationVector)
-  }
-
-  static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    return try extend(from: correlationVector, maxVectorLength, baseLength)
-  }
-
-  static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    // TODO
-    return CorrelationVector()
-  }
-
-  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) -> CorrelationVectorProtocol {
-    // TODO
-    return CorrelationVector()
+    return self.increment(CorrelationVectorV2.baseLength)
   }
   
-  func getBaseAsGuid() throws -> UUID {
+  private func baseAsUuid() throws -> UUID {
     if (CorrelationVector.validateDuringCreation) {
       let index = base.index(before: base.endIndex)
       let lastChar = base[index]
@@ -63,5 +44,23 @@ import Foundation
     let decodedData = Data(base64Encoded: base.appending("=="))
     let decodedString = String(data: decodedData!, encoding: .utf8)
     return UUID(uuidString: decodedString!)!
+  }
+
+  static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
+    return parse(from: correlationVector)
+  }
+
+  static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    return try extend(from: correlationVector, maxVectorLength, baseLength)
+  }
+
+  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    // TODO
+    return CorrelationVector()
+  }
+
+  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
+    // TODO
+    return CorrelationVector()
   }
 }
