@@ -49,14 +49,13 @@ import Foundation
   }
   
   static func isOversized(_ baseVector: String?, _ baseExtension: Int, _ maxVectorLength: Int) -> Bool {
-    if let vector = baseVector {
-      if !vector.isEmpty {
-        let size = Double(vector.count) + 1 + (Double(baseExtension) > 0 ? log10(Double(baseExtension)) : 0) + 1
-        return size > Double(maxVectorLength)
-      }
+    guard let vector = baseVector, !vector.isEmpty else {
+      return false
     }
-    return false
+    let size = Double(vector.count) + 1 + (Double(baseExtension) > 0 ? log10(Double(baseExtension)) : 0) + 1
+    return size > Double(maxVectorLength)
   }
+}
 
 internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   
@@ -70,18 +69,18 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   }
   
   static func parse(from correlationVector: String?) -> CorrelationVectorProtocol {
-    if correlationVector != nil {
-      let p = correlationVector?.lastIndex(of: ".")
+    if let vector = correlationVector {
+      let p = vector.lastIndex(of: ".")
       let immutable = self.isImmutable(correlationVector)
-      if p != nil {
-        let startIndex = correlationVector?.index(after: p!)
-        let distanceP = correlationVector!.distance(from: correlationVector!.startIndex, to: p!)
-        let endIndex = correlationVector?.index(correlationVector!.startIndex, offsetBy: correlationVector!.count - 1 - CorrelationVector.terminator.count - distanceP)
-        let endIndexSecond = correlationVector?.index(after: p!)
-        let extensionValue = String(immutable ? correlationVector![startIndex!...endIndex!] : correlationVector![..<endIndexSecond!])
+      if let lastDotIndex = p {
+        let startIndex = vector.index(after: lastDotIndex)
+        let distanceP = vector.distance(from: vector.startIndex, to: lastDotIndex)
+        let endIndex = vector.index(vector.startIndex, offsetBy: vector.count - 1 - CorrelationVector.terminator.count - distanceP)
+        let endIndexSecond = startIndex
+        let extensionValue = String(immutable ? vector[startIndex...endIndex] : vector[..<endIndexSecond])
         let extensionIntValue = Int(extensionValue)
-        if (extensionIntValue != nil) && extensionIntValue! >= 0 {
-          return self.init(String(correlationVector![..<p!]), extensionIntValue!, immutable)
+        if extensionIntValue != nil && extensionIntValue! >= 0 {
+          return self.init(String(vector[..<lastDotIndex]), extensionIntValue!, immutable)
         }
       }
     }
@@ -96,21 +95,17 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   ///   - baseLength: the max length of a correlation vector base.
   ///   - Throws: CorrelationVectorError.argumentException if vector is not valid.
   static func validate(from correlationVector: String?, _ maxVectorLength: Int, _ baseLength: Int) throws {
-    let maxVectorLength = maxVectorLength
-    let baseLength = baseLength
-    if correlationVector != nil && (correlationVector!.isEmpty || correlationVector!.count > maxVectorLength) {
+    guard let vector = correlationVector, !vector.isEmpty && vector.count <= maxVectorLength else {
       throw CorrelationVectorError.argumentException("The \(correlationVector!) correlation vector can not be null or bigger than \(maxVectorLength) characters")
     }
-    let parts = correlationVector?.split(separator: ".")
-    if parts != nil {
-      if parts!.count < 2 || parts![0].count != baseLength {
-        throw CorrelationVectorError.argumentException("Invalid correlation vector \(correlationVector!). Invalid base value \(parts![0])")
-      }
-      for index in 1...parts!.count {
-        let result = Int(parts![index])
-        if result! < 0 {
-          throw CorrelationVectorError.argumentException("Invalid correlation vector \(correlationVector!). Invalid base value \(parts![0])")
-        }
+    let parts = vector.split(separator: ".")
+    if parts.count < 2 || parts[0].count != baseLength {
+        throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
+    }
+    for index in 1...parts.count {
+      let result = Int(parts[index])
+      if result == nil || result! < 0 {
+        throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
       }
     }
   }
@@ -122,9 +117,9 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
     if CorrelationVector.validateDuringCreation {
       try validate(from: correlationVector, maxVectorLength, baseLength)
     }
-    if isOversized(correlationVector!, 0, maxVectorLength) {
-      return parse(correlationVector!.appending(CorrelationVector.terminator))
+    if let vector = correlationVector, isOversized(vector, 0, maxVectorLength) {
+      return parse(vector.appending(CorrelationVector.terminator))
     }
-    return self.init()
+    return self.init(correlationVector!, 0, false)
   }
 }
