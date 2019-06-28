@@ -38,8 +38,8 @@ import Foundation
     return parse(from: correlationVector)
   }
 
-  static func extend(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    return extend(from: correlationVector, maxVectorLength, baseLength)
+  static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    return try extend(from: correlationVector, maxVectorLength, baseLength)
   }
 
   static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol {

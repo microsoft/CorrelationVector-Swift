@@ -98,21 +98,21 @@ import Foundation
     return CorrelationVector(instance)
   }
 
-  public static func extend(_ correlationVector: String?) -> CorrelationVectorProtocol {
+  public static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
     let version = CorrelationVectorVersion.infer(from: correlationVector)
-    let instance = version.type.extend(correlationVector)
+    let instance = try version.type.extend(correlationVector)
     return CorrelationVector(instance)
   }
 
-  public static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol {
+  public static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
     let version = CorrelationVectorVersion.infer(from: correlationVector)
-    let instance = version.type.spin(correlationVector)
+    let instance = try version.type.spin(correlationVector)
     return CorrelationVector(instance)
   }
 
-  public static func spin(_ correlationVector: String?, _ parameters: SpinParameters) -> CorrelationVectorProtocol {
+  public static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
     let version = CorrelationVectorVersion.infer(from: correlationVector)
-    let instance = version.type.spin(correlationVector, parameters)
+    let instance = try version.type.spin(correlationVector, parameters)
     return CorrelationVector(instance)
   }
 }

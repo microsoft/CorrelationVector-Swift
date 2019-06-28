@@ -20,40 +20,35 @@ import Foundation
   }
 
   required convenience init(_ base: UUID) {
-    // TODO
-    self.init("", 0, false)
+    self.init(CorrelationVectorBase.baseUuid(from: base, CorrelationVectorV1.baseLength), 0, false)
   }
 
   required init(_ baseVector: String, _ extension: Int, _ immutable: Bool) {
     super.init(baseVector, `extension`, immutable)
   }
-
+  
   func increment() -> String {
-    // TODO
-    return ""
+    return self.increment(CorrelationVectorV1.baseLength)
   }
 
   static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
     return parse(from: correlationVector)
   }
 
-  static func extend(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    return extend(from: correlationVector, maxVectorLength, baseLength)
+  static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    return try extend(from: correlationVector, maxVectorLength, baseLength)
   }
 
-  static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    // TODO
-    return CorrelationVector()
+  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
   }
 
-  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) -> CorrelationVectorProtocol {
-    // TODO
-    return CorrelationVector()
+  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
+    throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
   }
   
   private static func getUniqueValue() -> String {
     let uuid = UUID().uuidString
     return Data(uuid.utf8).base64EncodedString()
   }
-  
 }
