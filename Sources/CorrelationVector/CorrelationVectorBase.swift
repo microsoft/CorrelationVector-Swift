@@ -1,14 +1,21 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Foundation
 
 @objc internal class CorrelationVectorBase: NSObject {
-  @objc internal var baseVector: String
+  @objc internal var base: String
   @objc internal var `extension`: Int
 
   /// Indicates whether the CV object is immutable.
   @objc internal var immutable: Bool
 
-  required init(_ baseVector: String, _ extension: Int, _ immutable: Bool) {
-    self.baseVector = baseVector
+  @objc var value: String {
+    return "\(self.base).\(self.extension)\(self.immutable ? CorrelationVector.terminator : "")"
+  }
+
+  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+    self.base = base
     self.extension = `extension`
     self.immutable = immutable
   }
@@ -16,12 +23,11 @@ import Foundation
 
 internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
 
-
   /// Checks if the given CV string is immutable. If the given non-empty string
   /// ends with the CV termination sign, the CV is said to be immutable.
   ///
-  /// - Parameter correlationVector: <#correlationVector description#>
-  /// - Returns: <#return value description#>
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: true is the given CV string is immutable.
   static func isImmutable(_ correlationVector: String?) -> Bool {
     return !(correlationVector ?? "").isEmpty && correlationVector!.hasSuffix(CorrelationVector.terminator)
   }
@@ -34,9 +40,9 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   /// Validates the CV string with the given CV version.
   ///
   /// - Parameters:
-  ///   - correlationVector: <#correlationVector description#>
-  ///   - maxVectorLength: <#maxVectorLength description#>
-  ///   - baseLength: <#baseLength description#>
+  ///   - correlationVector: string representation.
+  ///   - maxVectorLength: the max length of a correlation vector.
+  ///   - baseLength: the max length of a correlation vector base.
   static func validate(from correlationVector: String?, _ maxVectorLength: Int, _ baseLength: Int) {
     // TODO
   }

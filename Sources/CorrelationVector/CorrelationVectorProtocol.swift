@@ -1,17 +1,22 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Foundation
 
 /// This protocol represents the Correlation Vector.
 /// The Correlation Vector is a format for tracing and correlating events in large systems.
 @objc public protocol CorrelationVectorProtocol {
 
-  /// Gets the value of the correlation vector as a string.
+  /// The value of the correlation vector as a string.
   var value: String { get }
 
+  /// The base value of the correlation vector.
   var base: String { get }
 
+  /// The extension number.
   var `extension`: Int { get }
 
-  /// Gets the version of the correlation vector implementation.
+  /// The version of the correlation vector implementation.
   var version: CorrelationVectorVersion { get }
 
   /// Initializes a new instance of the Correlation Vector.
@@ -20,8 +25,8 @@ import Foundation
 
   /// Initializes a new instance of the Correlation Vector using the given UUID as the vector base.
   ///
-  /// - Parameter vectorBase: the UUID to use as a correlation vector base.
-  init(_ vectorBase: UUID)
+  /// - Parameter base: the UUID to use as a correlation vector base.
+  init(_ base: UUID)
 
   /// Increments the extension, the numerical value at the end of the vector, by one
   /// and returns the string representation.

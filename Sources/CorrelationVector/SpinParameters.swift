@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Foundation
 
 /// The number of least significant bits to drop when computing the counter
-/// for CV's Spin operation.
+/// for CV's spin operation.
 ///
 /// - coarse: the coarse interval drops the 24 least significant bits
 ///           resulting in a counter that increments every 1.67 seconds.
@@ -12,7 +15,7 @@ import Foundation
   case fine = 16
 }
 
-/// Counter for CV's Spin operation.
+/// Counter for CV's spin operation.
 ///
 /// - none: do not store a counter as part of the spin value.
 /// - short: the short periodicity stores the counter using 16 bits.
@@ -25,7 +28,7 @@ import Foundation
   case long = 32
 }
 
-/// Entropy bytes that is used for CV's Spin operation.
+/// Entropy bytes that is used for CV's spin operation.
 ///
 /// - none: do not generate entropy as part of the spin value
 /// - one: generate entropy using 8 bits.
@@ -40,6 +43,7 @@ import Foundation
   case four = 4
 }
 
+/// Configuration parameters used by CV's spin operation.
 @objc public class SpinParameters: NSObject {
 
   /// The interval (proportional to time) by which the counter increments.
@@ -53,6 +57,7 @@ import Foundation
   /// minimum of 0 to a maximum of 4.
   var entropy: SpinEntropy = .two
 
+  /// The total number of bits to keep for the spin operation.
   var totalBits: Int {
     return periodicity.rawValue + entropy.rawValue * 8
   }

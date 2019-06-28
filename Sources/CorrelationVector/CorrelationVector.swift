@@ -1,5 +1,9 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Foundation
 
+/// This class represents a lightweight vector for identifying and measuring causality.
 @objc public class CorrelationVector: NSObject, CorrelationVectorProtocol {
   internal static let delimiter: Character = "."
   internal static let terminator = "!"
@@ -30,6 +34,11 @@ import Foundation
     return self.implementation.version
   }
 
+  /// A string representation of the CV.
+  public override var description: String {
+    return self.value
+  }
+
   /// Initializes a new instance of the Correlation Vector with V1 implementation.
   /// This should only be called when no correlation vector was found in the
   /// message header.
@@ -40,9 +49,9 @@ import Foundation
   /// Initializes a new instance of the Correlation Vector of the V2 implementation
   /// using the given UUID as the vector base.
   ///
-  /// - Parameter vectorBase: the UUID to use as a correlation vector base.
-  public required convenience init(_ vectorBase: UUID) {
-    self.init(CorrelationVectorV2.init(vectorBase))
+  /// - Parameter base: the UUID to use as a correlation vector base.
+  public required convenience init(_ base: UUID) {
+    self.init(CorrelationVectorV2(base))
   }
 
   /// Initializes a new instance of the Correlation Vector of the given
@@ -54,6 +63,16 @@ import Foundation
     self.init(version.type.init())
   }
 
+  /// Initializes a new instance of the Correlation Vector of the given
+  /// implementation version and UUID as the vector base.
+  ///
+  /// - Parameters:
+  ///   - version: the Correlation Vector implementation version.
+  ///   - base: the UUID to use as a correlation vector base.
+  public required convenience init(_ version: CorrelationVectorVersion, _ base: UUID) {
+    self.init(version.type.init(base))
+  }
+
   private init(_ implementation: CorrelationVectorProtocol) {
     self.implementation = implementation
     super.init()
@@ -63,8 +82,15 @@ import Foundation
     return self.implementation.increment()
   }
 
-  // TODO isEqual
-  // TODO toString
+  /// Determines whether two instances of the CorrelationVector class are equal.
+  ///
+  /// - Parameters:
+  ///   - lhs: a value to compare.
+  ///   - rhs: another value to compare.
+  /// - Returns: a boolean value indicating whether two values are equal.
+  static func ==(lhs: CorrelationVector, rhs: CorrelationVector) -> Bool {
+    return lhs.value == rhs.value
+  }
 
   public static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
     let version = CorrelationVectorVersion.infer(from: correlationVector)

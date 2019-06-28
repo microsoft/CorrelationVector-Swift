@@ -1,19 +1,15 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import Foundation
 
 @objc internal class CorrelationVectorV2: CorrelationVectorBase, CorrelationVectorProtocol {
 
+  /// The max length of a correlation vector.
   internal static let maxVectorLength = 127
+
+  /// The max length of a correlation vector base.
   internal static let baseLength = 22
-
-  var value: String {
-    // TODO
-    return ""
-  }
-
-  var base: String {
-    // TODO
-    return ""
-  }
 
   var version: CorrelationVectorVersion {
     return .v2
@@ -24,7 +20,7 @@ import Foundation
     self.init("", 0, false)
   }
 
-  required convenience init(_ vectorBase: UUID) {
+  required convenience init(_ base: UUID) {
     // TODO
     self.init("", 0, false)
   }
