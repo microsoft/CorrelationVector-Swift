@@ -70,7 +70,7 @@ import Foundation
   ///   - version: the Correlation Vector implementation version.
   ///   - base: the UUID to use as a correlation vector base.
   public required convenience init(_ version: CorrelationVectorVersion, _ base: UUID) {
-    self.init(CorrelationVectorV2(base))
+    self.init(version.type.init(base))
   }
 
   private init(_ implementation: CorrelationVectorProtocol) {
