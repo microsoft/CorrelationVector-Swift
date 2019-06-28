@@ -3,6 +3,7 @@
 
 import Foundation
 
+// MARK: - Extensions methods providing additional functionality for correlation vectors.
 public extension CorrelationVector {
 
   /// Gets the value of the correlation vector base encoded as a UUID.
@@ -22,7 +23,7 @@ public extension CorrelationVector {
       // Q - 01 0000  
       // g - 10 0000
       // w - 11 0000
-      let lastChar = base[base.index(before: base.endIndex)]
+      let lastChar = base.last
       if lastChar != "A" && lastChar != "Q" && lastChar != "g" && lastChar != "w" {
         throw CorrelationVectorError.invalidOperation("The four least significant bits of the base64 encoded vector base must be zeros to reliably convert to a UUID.")
       }

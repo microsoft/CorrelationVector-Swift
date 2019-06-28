@@ -48,19 +48,15 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
   static func parse(from correlationVector: String?) -> CorrelationVectorProtocol {
-    if let vector = correlationVector {
-      let p = vector.lastIndex(of: ".")
+    if let vector = correlationVector, let lastDot = vector.lastIndex(of: ".") {
+      let base = vector[..<lastDot]
+      var ext = vector[vector.index(after: lastDot)...]
       let immutable = isImmutable(correlationVector)
-      if let lastDotIndex = p {
-        let startIndex = vector.index(after: lastDotIndex)
-        let distanceP = vector.distance(from: vector.startIndex, to: lastDotIndex)
-        let endIndex = vector.index(vector.startIndex, offsetBy: vector.count - 1 - CorrelationVector.terminator.count - distanceP)
-        let endIndexSecond = startIndex
-        let extensionValue = String(immutable ? vector[startIndex...endIndex] : vector[..<endIndexSecond])
-        let extensionIntValue = Int(extensionValue)
-        if extensionIntValue != nil && extensionIntValue! >= 0 {
-          return self.init(String(vector[..<lastDotIndex]), extensionIntValue!, immutable)
-        }
+      if immutable {
+        ext = ext[..<ext.index(ext.endIndex, offsetBy: -CorrelationVector.terminator.count)]
+      }
+      if let extValue = Int(ext), extValue >= 0 {
+        return self.init(String(base), extValue, immutable)
       }
     }
     return self.init()
@@ -79,9 +75,12 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
     if CorrelationVector.validateDuringCreation {
       try validate(correlationVector, baseLength: baseLength, maxLength: maxLength)
     }
-    if let vector = correlationVector, isOversized(vector, 0, maxLength: maxLength) {
-      return parse(vector.appending(CorrelationVector.terminator))
+    if let vector = correlationVector {
+      if isOversized(vector, 0, maxLength: maxLength) {
+        return parse(vector + CorrelationVector.terminator)
+      }
+      return self.init(vector, 0, false)
     }
-    return self.init(correlationVector!, 0, false)
+    return self.init()
   }
 }

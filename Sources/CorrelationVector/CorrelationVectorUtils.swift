@@ -16,7 +16,7 @@ fileprivate func intLength(_ i: Int) -> Int {
 /// - Parameters:
 ///   - baseVector: <#baseVector description#>
 ///   - extension: <#extension description#>
-///   - maxLength: <#maxVectorLength description#>
+///   - maxLength: the max length of a correlation vector.
 /// - Returns: True if new vector will be too large. False if there is no vector or the vector is the appropriate size.
 internal func isOversized(_ baseVector: String?, _ extension: Int, maxLength: Int) -> Bool {
   guard let vector = baseVector, !vector.isEmpty else {
@@ -32,7 +32,10 @@ internal func isOversized(_ baseVector: String?, _ extension: Int, maxLength: In
 /// - Parameter correlationVector: string representation.
 /// - Returns: true is the given CV string is immutable.
 internal func isImmutable(_ correlationVector: String?) -> Bool {
-  return !(correlationVector ?? "").isEmpty && correlationVector!.hasSuffix(CorrelationVector.terminator)
+  guard let vector = correlationVector, !vector.isEmpty else {
+    return false
+  }
+  return vector.hasSuffix(CorrelationVector.terminator)
 }
 
 /// Validates the CV string with the given CV version.
@@ -40,7 +43,7 @@ internal func isImmutable(_ correlationVector: String?) -> Bool {
 /// - Parameters:
 ///   - correlationVector: string representation.
 ///   - baseLength: the max length of a correlation vector base.
-///   - maxVectorLength: the max length of a correlation vector.
+///   - maxLength: the max length of a correlation vector.
 /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
 internal func validate(_ correlationVector: String?, baseLength: Int, maxLength: Int) throws {
   guard let vector = correlationVector, !vector.isEmpty && vector.count <= maxLength else {
@@ -58,12 +61,12 @@ internal func validate(_ correlationVector: String?, baseLength: Int, maxLength:
   }
 }
 
-/// <#Description#>
+/// Gets an encoded vector base value from the UUID.
 ///
 /// - Parameters:
-///   - uuid: <#uuid description#>
-///   - baseLength: <#baseLength description#>
-/// - Returns: <#return value description#>
+///   - uuid: The UUID to encode as a vector base.
+///   - baseLength: the max length of a correlation vector base.
+/// - Returns: The encoded vector base value.
 internal func baseUuid(from uuid: UUID, baseLength: Int) -> String {
   let uuidString = uuid.uuidString
   let base64String = Data(uuidString.utf8).base64EncodedString();
