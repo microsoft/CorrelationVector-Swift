@@ -53,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		04DF819222C605DF00308915 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
+		C2427FFD22C6250100778CD5 /* VerifyNoBuildSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyNoBuildSettings.swift; sourceTree = "<group>"; };
 		C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorProtocol.swift; sourceTree = "<group>"; };
 		C2D482F022C4BC0C0075F09B /* CorrelationVectorVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorVersion.swift; sourceTree = "<group>"; };
 		C2D482F222C4BF090075F09B /* CorrelationVectorV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV1.swift; sourceTree = "<group>"; };
@@ -97,6 +98,14 @@
 			path = Configs;
 			sourceTree = "<group>";
 		};
+		C2427FFC22C6250100778CD5 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				C2427FFD22C6250100778CD5 /* VerifyNoBuildSettings.swift */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +142,7 @@
 				OBJ_6 /* Package.swift */,
 				C2427FFA22C61F8300778CD5 /* Configs */,
 				OBJ_14 /* Products */,
+				C2427FFC22C6250100778CD5 /* Scripts */,
 				OBJ_7 /* Sources */,
 				OBJ_10 /* Tests */,
 			);
