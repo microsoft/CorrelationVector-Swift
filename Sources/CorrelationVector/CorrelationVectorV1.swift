@@ -10,14 +10,6 @@ import Foundation
 
   /// The max length of a correlation vector base.
   internal static let baseLength = 16
-  
-  // TODO override base!
-  /*override var base: String {
-    get {
-      let firstDot = value.firstIndex(of: ".")
-      return String(value[..<firstDot!])
-    }
-  }*/
 
   var version: CorrelationVectorVersion {
     return .v1
