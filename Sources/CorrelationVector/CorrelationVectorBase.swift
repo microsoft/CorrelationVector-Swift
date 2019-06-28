@@ -39,23 +39,24 @@ import Foundation
         return self.value
       }
       next = snapshot + 1
-      if CorrelationVectorBase.isOversized(base, `extension`, baseLength) {
+      if CorrelationVectorBase.isOversized(base, next, baseLength) {
         self.immutable = true
         return self.value
       }
     } while OSAtomicCompareAndSwap(snapshot, next)
     
-    return self.base + "." + String(next)
+    return "\(self.base).\(String(next))"
   }
   
-  static func isOversized(_ baseVector: String, _ baseExtension: Int, _ maxVectorLength: Int) -> Bool {
-    if !baseVector.isEmpty {
-      let size = Double(baseVector.count) + 1 + (Double(baseExtension) > 0 ? log10(Double(baseExtension)) : 0) + 1
-      return size > Double(maxVectorLength)
+  static func isOversized(_ baseVector: String?, _ baseExtension: Int, _ maxVectorLength: Int) -> Bool {
+    if let vector = baseVector {
+      if !vector.isEmpty {
+        let size = Double(vector.count) + 1 + (Double(baseExtension) > 0 ? log10(Double(baseExtension)) : 0) + 1
+        return size > Double(maxVectorLength)
+      }
     }
     return false
   }
-}
 
 internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   
