@@ -5,17 +5,17 @@ import Foundation
 
 /// Gets the length of an integer. The given integer must be non-negative.
 ///
-/// - Parameter i: non-negative integer.
+/// - Parameter value: non-negative integer.
 /// - Returns: length of the given integer.
-fileprivate func intLength(_ i: Int) -> Int {
-  return i > 0 ? Int(log10(Double(i))) + 1 : 1;
+fileprivate func intLength(_ value: Int) -> Int {
+  return value > 0 ? Int(log10(Double(value))) + 1 : 1;
 }
 
 /// Checks if the cV will be too big if an extension is added to the base vector.
 ///
 /// - Parameters:
-///   - baseVector: <#baseVector description#>
-///   - extension: <#extension description#>
+///   - baseVector: base vector from the incoming request.
+///   - extension: extension number.
 ///   - maxLength: the max length of a correlation vector.
 /// - Returns: True if new vector will be too large. False if there is no vector or the vector is the appropriate size.
 internal func isOversized(_ baseVector: String?, _ extension: Int, maxLength: Int) -> Bool {
@@ -26,8 +26,8 @@ internal func isOversized(_ baseVector: String?, _ extension: Int, maxLength: In
   return size > maxLength
 }
 
-/// Checks if the given CV string is immutable. If the given non-empty string
-/// ends with the CV termination sign, the CV is said to be immutable.
+/// Checks if the given cV string is immutable. If the given non-empty string
+/// ends with the cV termination sign, the CV is said to be immutable.
 ///
 /// - Parameter correlationVector: string representation.
 /// - Returns: true is the given CV string is immutable.
@@ -38,7 +38,7 @@ internal func isImmutable(_ correlationVector: String?) -> Bool {
   return vector.hasSuffix(CorrelationVector.terminator)
 }
 
-/// Validates the CV string with the given CV version.
+/// Validates the cV string with the given cV version.
 ///
 /// - Parameters:
 ///   - correlationVector: string representation.
@@ -54,8 +54,7 @@ internal func validate(_ correlationVector: String?, baseLength: Int, maxLength:
     throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
   }
   for index in 1...parts.count {
-    let result = Int(parts[index])
-    if result == nil || result! < 0 {
+    guard let result = Int(parts[index]), result < 0 else {
       throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
     }
   }

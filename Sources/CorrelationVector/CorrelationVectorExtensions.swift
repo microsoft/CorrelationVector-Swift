@@ -9,7 +9,7 @@ public extension CorrelationVector {
   /// Gets the value of the correlation vector base encoded as a UUID.
   ///
   /// - Returns: The UUID value of the encoded vector base.
-  /// - Throws: <#throws value description#>
+  /// - Throws: CorrelationVectorError.invalidOperation if value is not valid.
   func baseAsUUID() throws -> UUID? {
     if version == .v1 {
       throw CorrelationVectorError.invalidOperation("Cannot convert a V1 correlation vector base to a UUID.")
