@@ -6,20 +6,20 @@ import Foundation
 @objc internal class CorrelationVectorBase: NSObject {
   @objc internal var base: String
   @objc internal var `extension`: Int
-  
+
   /// Indicates whether the CV object is immutable.
   @objc internal var immutable: Bool
-  
+
   @objc var value: String {
     return "\(self.base).\(self.extension)\(self.immutable ? CorrelationVector.terminator : "")"
   }
-  
+
   required init(_ base: String, _ extension: Int, _ immutable: Bool) {
     self.base = base
     self.extension = `extension`
     self.immutable = immutable
   }
-  
+
   func increment(maxLength: Int) -> String {
     if self.immutable {
       return self.value

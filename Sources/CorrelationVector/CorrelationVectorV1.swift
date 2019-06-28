@@ -26,7 +26,7 @@ import Foundation
   required init(_ base: String, _ extension: Int, _ immutable: Bool) {
     super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV1.maxLength))
   }
-  
+
   func increment() -> String {
     return self.increment(maxLength: CorrelationVectorV1.maxLength)
   }
@@ -46,7 +46,7 @@ import Foundation
   static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
     throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
   }
-  
+
   private static func uniqueValue() -> String {
     let uuid = UUID()
     let data = withUnsafePointer(to: uuid.uuid) {

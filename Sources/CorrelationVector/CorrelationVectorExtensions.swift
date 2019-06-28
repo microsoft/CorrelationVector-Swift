@@ -20,7 +20,7 @@ public extension CorrelationVector {
       // base64 content-bearing 6-bit block must be zeros.
       // There are four such base64 characters so we can easily detect whether this condition is true.
       // A - 00 0000
-      // Q - 01 0000  
+      // Q - 01 0000
       // g - 10 0000
       // w - 11 0000
       let lastChar = base.last
