@@ -3,14 +3,12 @@ import XCTest
 @testable import CorrelationVector
 
 final class CorrelationVectorTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(CorrelationVector().text, "Hello, World!")
-    }
+  func defaultVersion() {
+    let sut = CorrelationVector()
+    XCTAssertEqual(sut.version, .v1)
+  }
 
-    static var allTests = [
-        ("testExample", testExample),
-    ]
+  static var allTests = [
+    ("defaultVersion", defaultVersion),
+  ]
 }
