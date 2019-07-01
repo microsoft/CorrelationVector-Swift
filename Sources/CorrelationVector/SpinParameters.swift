@@ -61,4 +61,10 @@ import Foundation
   var totalBits: Int {
     return periodicity.rawValue + entropy.rawValue * 8
   }
+
+  init(interval: SpinCounterInterval = .coarse, periodicity: SpinCounterPeriodicity = .short, entropy: SpinEntropy = .two) {
+    self.interval = interval
+    self.periodicity = periodicity
+    self.entropy = entropy
+  }
 }
