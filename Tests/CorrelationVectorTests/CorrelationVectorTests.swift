@@ -127,6 +127,119 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(baseVector+".9!", sut.value)
   }
   
+  func testSpinOverMaxCVLength() throws {
+    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23";
+    
+    //todo: Java doesn't throw error on this test
+    //let cv = try CorrelationVector.spin(baseVector);
+    //XCTAssertEqual(baseVector + CorrelationVector.terminator, cv.value)
+    
+    XCTAssertThrowsError(try CorrelationVector.spin(baseVector)) { error in
+      guard case CorrelationVectorError.invalidOperation(let value) = error else {
+        return XCTFail()
+      }
+      XCTAssertEqual(value, "Spin is not supported in Correlation Vector V1")
+    }
+  }
+  
+  func testSpinOverMaxCVLengthV2() throws {
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214";
+    let cv = try CorrelationVector.spin(baseVector);
+    XCTAssertEqual(baseVector + CorrelationVector.terminator, cv.value)
+  }
+  
+  func testSpinSortValidation() throws {
+    let sut = CorrelationVector()
+    
+    let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
+    
+    var lastSpinValue : Int64 = 0;
+    var wrappedCounter = 0;
+    
+    for _ in 0...100 {
+      let cV2 = try CorrelationVector.spin(sut.value, params)
+      
+      // The cV after a spin will look like <cvBase>.0.<spinValue>.0, so the spinValue
+      // is at index = 2
+      let splitCv = cV2.value.split(separator: ".")
+      let spinValue = Int64(splitCv[2])!
+      
+      // Count the number of times the counter wraps.
+      if (spinValue <= lastSpinValue) {
+        wrappedCounter += 1
+      }
+      lastSpinValue = spinValue
+      
+      //Wait for 10ms
+      usleep(10000)
+    }
+    
+  }
+  
+  func testThrowWithInsufficientCharsCorrelationVectorValue() {
+    let baseValue = "tul4NUsfs9Cl7mO"
+    let baseValueWithExtension = "\(baseValue).1"
+    CorrelationVector.validateDuringCreation = true;
+    XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
+      guard case CorrelationVectorError.invalidArgument(let value) = error else {
+        return XCTFail()
+      }
+      XCTAssertEqual(value, "Invalid correlation vector \(baseValueWithExtension). Invalid base value \(baseValue)")
+    }
+  }
+  
+  func testThrowWithTooBigCorrelationVectorValue() {
+    let baseValue = "tul4NUsfs9Cl7mOf"
+    let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647"
+    CorrelationVector.validateDuringCreation = true;
+    XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
+      guard case CorrelationVectorError.invalidArgument(let value) = error else {
+        return XCTFail()
+      }
+      XCTAssertEqual(value, "The \(baseValueWithExtension) correlation vector can not be null or bigger than 63 characters")
+    }
+  }
+  
+  func testThrowWithTooBigCorrelationVectorValueV2() {
+    let baseValue = "KZY+dsX2jEaZesgCPjJ2Ng"
+    let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647"
+    CorrelationVector.validateDuringCreation = true;
+    XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
+      guard case CorrelationVectorError.invalidArgument(let value) = error else {
+        return XCTFail()
+      }
+      XCTAssertEqual(value, "The \(baseValueWithExtension) correlation vector can not be null or bigger than 127 characters")
+    }
+  }
+  
+  func testThrowWithTooBigExtensionCorrelationVectorValue() {
+    let baseValue = "tul4NUsfs9Cl7mOf"
+    let baseValueWithExtension = "\(baseValue).11111111111111111111111111111"
+    CorrelationVector.validateDuringCreation = true;
+    XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
+      guard case CorrelationVectorError.invalidArgument(let value) = error else {
+        return XCTFail()
+      }
+      XCTAssertEqual(value, "Invalid correlation vector \(baseValueWithExtension). Invalid base value \(baseValue)")
+    }
+  }
+  
+  func testThrowWithTooManyCharsCorrelationVectorValue() throws {
+    let baseValue = "tul4NUsfs9Cl7mOfN/dupsl"
+    let baseValueWithExtension = "\(baseValue).1"
+    let sut = try CorrelationVector.extend(baseValueWithExtension)
+    XCTAssertEqual(0, sut.extension)
+    
+    //Enable validation
+    CorrelationVector.validateDuringCreation = true
+    XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
+      guard case CorrelationVectorError.invalidArgument(let value) = error else {
+        return XCTFail()
+      }
+      XCTAssertEqual(value, "Invalid correlation vector \(baseValueWithExtension). Invalid base value \(baseValue)")
+    }
+  }
+  
   static var allTests = [
     ("defaultVersion", testDefaultVersion),
     ("increment", testIncrement),
@@ -141,5 +254,13 @@ final class CorrelationVectorTests: XCTestCase {
     ("immutableCVWithTerminatorV2", testImmutableCVWIthTerminatorV2),
     ("incrementPastMaxWithNoErrors", testIncrementPastMaxWithNoErrors),
     ("incrementPastMaxWithNoErrorsV2", testIncrementPastMaxWithNoErrorsV2),
+    ("spinOverMaxCVLength", testSpinOverMaxCVLength),
+    ("spinOverMaxCVLengthV2", testSpinOverMaxCVLengthV2),
+    ("spinSortValidation", testSpinSortValidation),
+    ("throwWithInsufficientCharsCorrelationVectorValue", testThrowWithInsufficientCharsCorrelationVectorValue),
+    ("throwWithTooBigCorrelationVectorValue", testThrowWithTooBigCorrelationVectorValue),
+    ("throwWithTooBigCorrelationVectorValueV2", testThrowWithTooBigCorrelationVectorValueV2),
+    ("throwWithTooBigExtensionCorrelationVectorValue", testThrowWithTooBigExtensionCorrelationVectorValue),
+    ("throwWithTooManyCharsCorrelationVectorValue", testThrowWithTooManyCharsCorrelationVectorValue)
   ]
 }
