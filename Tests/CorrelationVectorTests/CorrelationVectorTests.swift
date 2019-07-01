@@ -14,6 +14,10 @@ final class CorrelationVectorTests: XCTestCase {
     let _ = sut.increment()
     XCTAssertEqual(1, sut.extension)
   }
+  
+  func createCorrelationVectorFromString() throws {
+    let sut = try CorrelationVector.extend("tul4NUsfs9Cl7mOf.1")
+  }
 
   static var allTests = [
     ("defaultVersion", testDefaultVersion),
