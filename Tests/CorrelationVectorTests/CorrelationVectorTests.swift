@@ -79,6 +79,54 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(baseVector + CorrelationVector.terminator, sut.value);
   }
   
+  func testExctendNullCorrelationVector() throws {
+    let nullString = ""
+    let sut = try CorrelationVector.extend(nullString)
+    XCTAssertEqual(".0", sut.value)
+    CorrelationVector.validateDuringCreation = true;
+    XCTAssertThrowsError(try CorrelationVector.extend(nullString)) {
+      error in guard case CorrelationVectorError.invalidArgument(let value) = error else {
+        return XCTFail()
+      }
+      XCTAssertEqual(value, "The  correlation vector can not be null or bigger than 63 characters")
+    }
+  }
+  
+  func testImmutableCVWithTerminator() {
+    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479.0!"
+    XCTAssertEqual(baseVector, try CorrelationVector.extend(baseVector).value)
+    XCTAssertEqual(baseVector, CorrelationVector.parse(baseVector).increment())
+  }
+ 
+  func testImmutableCVWIthTerminatorV2() {
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.21474836479.0!"
+    XCTAssertEqual(baseVector, try CorrelationVector.extend(baseVector).value)
+    XCTAssertEqual(baseVector, try CorrelationVector.spin(baseVector).value)
+    XCTAssertEqual(baseVector, CorrelationVector.parse(baseVector).increment())
+  }
+  
+  func testIncrementPastMaxWithNoErrors() throws {
+    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479"
+    let sut = try CorrelationVector.extend(baseVector)
+    sut.increment()
+    XCTAssertEqual(baseVector+".1", sut.value)
+    for i in 1...20 {
+      sut.increment()
+    }
+    XCTAssertEqual(baseVector+".9!", sut.value)
+  }
+  
+  func testIncrementPastMaxWithNoErrorsV2() throws {
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214"
+    let sut = try CorrelationVector.extend(baseVector)
+    sut.increment()
+    XCTAssertEqual(baseVector+".1", sut.value)
+    for i in 1...20 {
+      sut.increment()
+    }
+    XCTAssertEqual(baseVector+".9!", sut.value)
+  }
+  
   static var allTests = [
     ("defaultVersion", testDefaultVersion),
     ("increment", testIncrement),
@@ -89,5 +137,9 @@ final class CorrelationVectorTests: XCTestCase {
     ("createExtendAndIncrementCorrelationVectorV2fromUuid", testCreateExtendAndIncrementCorrelationVectorV2fromUuid),
     ("extendOverMaxCVLength", testExtendOverMaxCVLength),
     ("extendOverMaxCVLength", testExtendOverMaxCVLengthV2),
+    ("immutableCVWithTerminator", testImmutableCVWithTerminator),
+    ("immutableCVWithTerminatorV2", testImmutableCVWIthTerminatorV2),
+    ("incrementPastMaxWithNoErrors", testIncrementPastMaxWithNoErrors),
+    ("incrementPastMaxWithNoErrorsV2", testIncrementPastMaxWithNoErrorsV2),
   ]
 }
