@@ -80,7 +80,7 @@ internal func baseUuid(from uuid: UUID, baseLength: Int) -> String {
 internal func randomBytes(count: Int) -> Data {
   var data = Data(count: count)
   data.withUnsafeMutableBytes {
-    arc4random_buf($0.baseAddress!, count)
+    arc4random_buf($0.pointee, count)
   }
   return data
 }
