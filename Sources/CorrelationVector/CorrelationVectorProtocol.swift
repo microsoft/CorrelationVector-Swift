@@ -45,7 +45,7 @@ import Foundation
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
+  /// - Throws: CorrelationVectorError.invalidArgument if vector is not valid.
   static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol
 
   /// Creates a new correlation vector by applying the spin operator to an existing value.

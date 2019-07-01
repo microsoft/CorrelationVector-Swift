@@ -4,7 +4,18 @@
 import Foundation
 
 // MARK: - Extensions methods providing additional functionality for correlation vectors.
-public extension CorrelationVector {
+public extension CorrelationVectorProtocol {
+
+  /// Creates a new correlation vector by applying the spin operator to an existing value.
+  /// This should be done at the entry point of an operation.
+  ///
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: the Correlation Vector based on its version.
+  /// - Throws: CorrelationVectorError.invalidOperation if spin operation isn't supported
+  ///           for this correlation vector.
+  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    return try spin(correlationVector, SpinParameters())
+  }
 
   /// Gets the value of the correlation vector base encoded as a UUID.
   ///
@@ -34,19 +45,5 @@ public extension CorrelationVector {
       }
     }
     return nil
-  }
-}
-
-public extension CorrelationVectorProtocol {
-
-  /// Creates a new correlation vector by applying the spin operator to an existing value.
-  /// This should be done at the entry point of an operation.
-  ///
-  /// - Parameter correlationVector: string representation.
-  /// - Returns: the Correlation Vector based on its version.
-  /// - Throws: CorrelationVectorError.invalidOperation if spin operation isn't supported
-  ///           for this correlation vector.
-  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    return try spin(correlationVector, SpinParameters())
   }
 }

@@ -46,7 +46,8 @@ import Foundation
     if CorrelationVector.validateDuringCreation {
       try validate(correlationVector, baseLength: baseLength, maxLength: maxLength)
     }
-    var value = Int64(Date().timeIntervalSince1970 * 10_000_000) >> parameters.interval.rawValue
+    let ticks = Int64(Date().timeIntervalSince1970 * 10_000_000)
+    var value = ticks >> parameters.interval.rawValue
     randomBytes(count: parameters.entropy.rawValue).forEach {
       value = (value << 8) | Int64($0)
     }

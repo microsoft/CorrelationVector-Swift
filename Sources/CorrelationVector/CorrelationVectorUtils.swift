@@ -44,18 +44,18 @@ internal func isImmutable(_ correlationVector: String?) -> Bool {
 ///   - correlationVector: string representation.
 ///   - baseLength: the max length of a correlation vector base.
 ///   - maxLength: the max length of a correlation vector.
-/// - Throws: CorrelationVectorError.argumentException if vector is not valid.
+/// - Throws: CorrelationVectorError.invalidArgument if vector is not valid.
 internal func validate(_ correlationVector: String?, baseLength: Int, maxLength: Int) throws {
   guard let vector = correlationVector, !vector.isEmpty && vector.count <= maxLength else {
-    throw CorrelationVectorError.argumentException("The \(correlationVector!) correlation vector can not be null or bigger than \(maxLength) characters")
+    throw CorrelationVectorError.invalidArgument("The \(correlationVector!) correlation vector can not be null or bigger than \(maxLength) characters")
   }
   let parts = vector.split(separator: CorrelationVector.delimiter)
   if parts.count < 2 || parts[0].count != baseLength {
-    throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
+    throw CorrelationVectorError.invalidArgument("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
   }
   for index in 1...parts.count {
     guard let result = Int(parts[index]), result < 0 else {
-      throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
+      throw CorrelationVectorError.invalidArgument("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
     }
   }
 }
@@ -73,6 +73,10 @@ internal func baseUuid(from uuid: UUID, baseLength: Int) -> String {
   return String(base64String[..<endIndex])
 }
 
+/// Generates data with random bytes.
+///
+/// - Parameter count: the number of bytes.
+/// - Returns: the data object with random bytes.
 internal func randomBytes(count: Int) -> Data {
   var data = Data(count: count)
   data.withUnsafeMutableBytes {
@@ -80,4 +84,3 @@ internal func randomBytes(count: Int) -> Data {
   }
   return data
 }
-

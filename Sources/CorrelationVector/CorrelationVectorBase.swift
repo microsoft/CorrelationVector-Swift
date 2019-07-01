@@ -67,7 +67,7 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
+  /// - Throws: CorrelationVectorError.invalidArgument if vector is not valid.
   static func extend(_ correlationVector: String?, baseLength: Int, maxLength: Int) throws -> CorrelationVectorProtocol {
     if isImmutable(correlationVector) {
       return parse(from: correlationVector)
