@@ -45,14 +45,17 @@ import Foundation
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  static func extend(_ correlationVector: String?) -> CorrelationVectorProtocol
+  /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
+  static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol
 
   /// Creates a new correlation vector by applying the spin operator to an existing value.
   /// This should be done at the entry point of an operation.
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol
+  /// - Throws: CorrelationVectorError.invalidOperation if spin operation isn't supported
+  ///           for this correlation vector.
+  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol
 
   /// Creates a new correlation vector by applying the spin operator to an existing value.
   /// This should be done at the entry point of an operation.
@@ -61,5 +64,7 @@ import Foundation
   ///   - correlationVector: string representation.
   ///   - parameters: the parameters to use when applying the Spin operator.
   /// - Returns: the Correlation Vector based on its version.
-  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) -> CorrelationVectorProtocol
+  /// - Throws: CorrelationVectorError.invalidOperation if spin operation isn't supported
+  ///           for this correlation vector.
+  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol
 }

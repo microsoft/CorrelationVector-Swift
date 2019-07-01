@@ -19,40 +19,68 @@ import Foundation
     self.extension = `extension`
     self.immutable = immutable
   }
+
+  func increment(maxLength: Int) -> String {
+    if self.immutable {
+      return self.value
+    }
+    var snapshot = 0
+    var next = 0
+    repeat {
+      snapshot = self.extension
+      if snapshot == Int.max {
+        return self.value
+      }
+      next = snapshot + 1
+      if isOversized(base, next, maxLength: maxLength) {
+        self.immutable = true
+        return self.value
+      }
+    } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<Int>(&self.extension)), UnsafeMutablePointer<Int>(&snapshot), next)
+    return "\(self.base).\(next)"
+  }
 }
 
 internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
 
-  /// Checks if the given CV string is immutable. If the given non-empty string
-  /// ends with the CV termination sign, the CV is said to be immutable.
+  /// Converts a string representation of a Correlation Vector into this class.
   ///
   /// - Parameter correlationVector: string representation.
-  /// - Returns: true is the given CV string is immutable.
-  static func isImmutable(_ correlationVector: String?) -> Bool {
-    return !(correlationVector ?? "").isEmpty && correlationVector!.hasSuffix(CorrelationVector.terminator)
-  }
-
+  /// - Returns: the Correlation Vector based on its version.
   static func parse(from correlationVector: String?) -> CorrelationVectorProtocol {
-    // TODO
-    return self.init("", 0, false)
-  }
-
-  /// Validates the CV string with the given CV version.
-  ///
-  /// - Parameters:
-  ///   - correlationVector: string representation.
-  ///   - maxVectorLength: the max length of a correlation vector.
-  ///   - baseLength: the max length of a correlation vector base.
-  static func validate(from correlationVector: String?, _ maxVectorLength: Int, _ baseLength: Int) {
-    // TODO
-  }
-
-  static func extend(from correlationVector: String?, _ maxVectorLength: Int, _ baseLength: Int) -> CorrelationVectorProtocol {
-    if isImmutable(correlationVector) {
-      return parse(correlationVector)
+    if let vector = correlationVector, let lastDot = vector.lastIndex(of: ".") {
+      let base = vector[..<lastDot]
+      var ext = vector[vector.index(after: lastDot)...]
+      let immutable = isImmutable(correlationVector)
+      if immutable {
+        ext = ext[..<ext.index(ext.endIndex, offsetBy: -CorrelationVector.terminator.count)]
+      }
+      if let extValue = Int(ext), extValue >= 0 {
+        return self.init(String(base), extValue, immutable)
+      }
     }
-    validate(from: correlationVector, maxVectorLength, baseLength)
-    // TODO if isOversized(correlationVector, 0)
+    return self.init()
+  }
+
+  /// Creates a new correlation vector by extending an existing value.
+  /// This should be done at the entry point of an operation.
+  ///
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: the Correlation Vector based on its version.
+  /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
+  static func extend(_ correlationVector: String?, baseLength: Int, maxLength: Int) throws -> CorrelationVectorProtocol {
+    if isImmutable(correlationVector) {
+      return parse(from: correlationVector)
+    }
+    if CorrelationVector.validateDuringCreation {
+      try validate(correlationVector, baseLength: baseLength, maxLength: maxLength)
+    }
+    if let vector = correlationVector {
+      if isOversized(vector, 0, maxLength: maxLength) {
+        return parse(vector + CorrelationVector.terminator)
+      }
+      return self.init(vector, 0, false)
+    }
     return self.init()
   }
 }

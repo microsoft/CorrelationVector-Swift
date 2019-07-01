@@ -6,7 +6,7 @@ import Foundation
 @objc internal class CorrelationVectorV1: CorrelationVectorBase, CorrelationVectorProtocol {
 
   /// The max length of a correlation vector.
-  internal static let maxVectorLength = 63
+  internal static let maxLength = 63
 
   /// The max length of a correlation vector base.
   internal static let baseLength = 16
@@ -16,39 +16,42 @@ import Foundation
   }
 
   required convenience init() {
-    // TODO
-    self.init("", 0, false)
+    self.init(CorrelationVectorV1.uniqueValue(), 0, false)
   }
 
   required convenience init(_ base: UUID) {
-    // TODO
-    self.init("", 0, false)
+    self.init(baseUuid(from: base, baseLength: CorrelationVectorV1.baseLength), 0, false)
   }
 
-  required init(_ baseVector: String, _ extension: Int, _ immutable: Bool) {
-    super.init(baseVector, `extension`, immutable)
+  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+    super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV1.maxLength))
   }
 
   func increment() -> String {
-    // TODO
-    return ""
+    return self.increment(maxLength: CorrelationVectorV1.maxLength)
   }
 
   static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
     return parse(from: correlationVector)
   }
 
-  static func extend(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    return extend(from: correlationVector, maxVectorLength, baseLength)
+  static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    return try extend(correlationVector, baseLength: baseLength, maxLength: maxLength)
   }
 
-  static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    // TODO
-    return CorrelationVector()
+  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
   }
 
-  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) -> CorrelationVectorProtocol {
-    // TODO
-    return CorrelationVector()
+  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
+    throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
+  }
+
+  private static func uniqueValue() -> String {
+    let uuid = UUID()
+    let data = withUnsafePointer(to: uuid.uuid) {
+      Data(bytes: $0, count: 12)
+    }
+    return data.base64EncodedString()
   }
 }

@@ -6,7 +6,7 @@ import Foundation
 @objc internal class CorrelationVectorV2: CorrelationVectorBase, CorrelationVectorProtocol {
 
   /// The max length of a correlation vector.
-  internal static let maxVectorLength = 127
+  internal static let maxLength = 127
 
   /// The max length of a correlation vector base.
   internal static let baseLength = 22
@@ -16,38 +16,35 @@ import Foundation
   }
 
   required convenience init() {
-    // TODO
-    self.init("", 0, false)
+    self.init(UUID())
   }
 
   required convenience init(_ base: UUID) {
-    // TODO
-    self.init("", 0, false)
+    self.init(baseUuid(from: base, baseLength: CorrelationVectorV2.baseLength), 0, false)
   }
 
-  required init(_ baseVector: String, _ extension: Int, _ immutable: Bool) {
-    super.init(baseVector, `extension`, immutable)
+  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+    super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV2.maxLength))
   }
 
   func increment() -> String {
-    // TODO
-    return ""
+    return self.increment(maxLength: CorrelationVectorV2.maxLength)
   }
 
   static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
     return parse(from: correlationVector)
   }
 
-  static func extend(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    return extend(from: correlationVector, maxVectorLength, baseLength)
+  static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
+    return try extend(correlationVector, baseLength: baseLength, maxLength: maxLength)
   }
 
-  static func spin(_ correlationVector: String?) -> CorrelationVectorProtocol {
+  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
     // TODO
     return CorrelationVector()
   }
 
-  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) -> CorrelationVectorProtocol {
+  static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
     // TODO
     return CorrelationVector()
   }
