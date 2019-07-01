@@ -49,7 +49,7 @@ internal func validate(_ correlationVector: String?, baseLength: Int, maxLength:
   guard let vector = correlationVector, !vector.isEmpty && vector.count <= maxLength else {
     throw CorrelationVectorError.argumentException("The \(correlationVector!) correlation vector can not be null or bigger than \(maxLength) characters")
   }
-  let parts = vector.split(separator: ".")
+  let parts = vector.split(separator: CorrelationVector.delimiter)
   if parts.count < 2 || parts[0].count != baseLength {
     throw CorrelationVectorError.argumentException("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
   }
@@ -72,3 +72,12 @@ internal func baseUuid(from uuid: UUID, baseLength: Int) -> String {
   let endIndex = base64String.index(base64String.startIndex, offsetBy: baseLength);
   return String(base64String[..<endIndex])
 }
+
+internal func randomBytes(count: Int) -> Data {
+  var data = Data(count: count)
+  data.withUnsafeMutableBytes {
+    arc4random_buf($0.baseAddress!, count)
+  }
+  return data
+}
+
