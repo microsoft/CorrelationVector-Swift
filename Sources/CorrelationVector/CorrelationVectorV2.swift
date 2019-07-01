@@ -39,11 +39,6 @@ import Foundation
     return try extend(correlationVector, baseLength: baseLength, maxLength: maxLength)
   }
 
-  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    // TODO
-    return CorrelationVector()
-  }
-
   static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
     // TODO
     return CorrelationVector()
