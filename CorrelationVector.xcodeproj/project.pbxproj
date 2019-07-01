@@ -58,6 +58,7 @@
 /* Begin PBXFileReference section */
 		04DF819222C605DF00308915 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		04DF819522C62C1E00308915 /* CorrelationVectorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrelationVectorError.swift; sourceTree = "<group>"; };
+		04DF81A922CA5A3C00308915 /* CorrelationVector.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CorrelationVector.podspec; sourceTree = "<group>"; };
 		C2427FFD22C6250100778CD5 /* VerifyNoBuildSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyNoBuildSettings.swift; sourceTree = "<group>"; };
 		C242FB9422C6831500806AFB /* AtomicHelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AtomicHelper.c; sourceTree = "<group>"; };
 		C242FB9622C6845000806AFB /* AtomicHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtomicHelper.h; sourceTree = "<group>"; };
@@ -146,6 +147,7 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				04DF81A922CA5A3C00308915 /* CorrelationVector.podspec */,
 				OBJ_17 /* LICENSE */,
 				OBJ_18 /* LICENSE-CODE */,
 				OBJ_19 /* README.md */,
