@@ -37,7 +37,7 @@ import Foundation
         return self.value
       }
     } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<Int>(&self.extension)), UnsafeMutablePointer<Int>(&snapshot), next)
-    return "\(self.base).\(next)"
+    return "\(self.base)\(CorrelationVector.delimiter)\(next)"
   }
 }
 
@@ -48,7 +48,7 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
   static func parse(from correlationVector: String?) -> CorrelationVectorProtocol {
-    if let vector = correlationVector, let lastDot = vector.lastIndex(of: ".") {
+    if let vector = correlationVector, let lastDot = vector.lastIndex(of: CorrelationVector.delimiter) {
       let base = vector[..<lastDot]
       var ext = vector[vector.index(after: lastDot)...]
       let immutable = isImmutable(correlationVector)
@@ -67,7 +67,7 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
   ///
   /// - Parameter correlationVector: string representation.
   /// - Returns: the Correlation Vector based on its version.
-  /// - Throws: CorrelationVectorError.argumentException if vector is not valid.
+  /// - Throws: CorrelationVectorError.invalidArgument if vector is not valid.
   static func extend(_ correlationVector: String?, baseLength: Int, maxLength: Int) throws -> CorrelationVectorProtocol {
     if isImmutable(correlationVector) {
       return parse(from: correlationVector)

@@ -39,10 +39,6 @@ import Foundation
     return try extend(correlationVector, baseLength: baseLength, maxLength: maxLength)
   }
 
-  static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
-  }
-
   static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
     throw CorrelationVectorError.invalidOperation("Spin is not supported in Correlation Vector V1")
   }

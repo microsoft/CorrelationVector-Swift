@@ -104,12 +104,6 @@ import Foundation
     return CorrelationVector(instance)
   }
 
-  public static func spin(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    let version = CorrelationVectorVersion.infer(from: correlationVector)
-    let instance = try version.type.spin(correlationVector)
-    return CorrelationVector(instance)
-  }
-
   public static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
     let version = CorrelationVectorVersion.infer(from: correlationVector)
     let instance = try version.type.spin(correlationVector, parameters)
