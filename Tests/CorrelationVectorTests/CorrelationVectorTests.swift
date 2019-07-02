@@ -21,6 +21,35 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(sut.version, .v1)
   }
   
+  func testConvertFromVectorBaseToGuidBackToVectorBase() throws {
+
+    // If
+    // CV bases which have four zero least significant bits meaning a conversion to a Guid will retain all
+    // information.
+    // CV Base -> Guid -> CV Base conversions result in:
+    //   /////////////////////A -> ffffffff-ffff-ffff-ffff-fffffffffffc -> /////////////////////A
+    //   /////////////////////Q -> ffffffff-ffff-ffff-ffff-fffffffffffd -> /////////////////////Q
+    //   /////////////////////g -> ffffffff-ffff-ffff-ffff-fffffffffffe -> /////////////////////g
+    //   /////////////////////w -> ffffffff-ffff-ffff-ffff-ffffffffffff -> /////////////////////w
+    let validGuidVectorBases = ["/////////////////////A",
+        "/////////////////////Q",
+        "/////////////////////g",
+        "/////////////////////w"]
+    
+    for vectorBase in validGuidVectorBases
+    {
+      
+      // When
+      let correlationVector = CorrelationVector.parse("\(vectorBase).0")
+      guard let baseAsGuid = try correlationVector.baseAsUUID() else { return XCTFail() }
+      let correlationVectorFromGuid = CorrelationVectorV2(baseAsGuid)
+      
+      // Then
+      XCTAssertEqual(correlationVector.value, correlationVectorFromGuid.value);
+    }
+    
+  }
+  
   func testImplicitV2Creation() throws {
     
     // If
@@ -251,6 +280,7 @@ final class CorrelationVectorTests: XCTestCase {
   
   static var allTests = [
     ("defaultVersion", testDefaultVersion),
+    ("convertFromVectorBaseToGuidAndBack", testConvertFromVectorBaseToGuidBackToVectorBase),
     ("implicitV2Creation", testImplicitV2Creation),
     ("explicitVersionCreation", testExplicitVersionCreation),
     ("increment", testIncrement),
