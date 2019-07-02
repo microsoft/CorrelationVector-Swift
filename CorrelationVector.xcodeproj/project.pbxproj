@@ -22,7 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		04DF819622C62C1E00308915 /* CorrelationVectorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF819522C62C1E00308915 /* CorrelationVectorError.swift */; };
-		C242FB9522C6831500806AFB /* AtomicHelper.c in Sources */ = {isa = PBXBuildFile; fileRef = C242FB9422C6831500806AFB /* AtomicHelper.c */; };
+		C242FB9522C6831500806AFB /* AtomicHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C242FB9422C6831500806AFB /* AtomicHelper.m */; };
 		C242FB9922C6981500806AFB /* CorrelationVectorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C242FB9822C6981500806AFB /* CorrelationVectorUtils.swift */; };
 		C242FB9B22C69C2300806AFB /* CorrelationVectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C242FB9A22C69C2300806AFB /* CorrelationVectorExtensions.swift */; };
 		C2D482EF22C4B8950075F09B /* CorrelationVectorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D482EE22C4B8950075F09B /* CorrelationVectorProtocol.swift */; };
@@ -61,7 +61,7 @@
 		04DF819222C605DF00308915 /* Global.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		04DF819522C62C1E00308915 /* CorrelationVectorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrelationVectorError.swift; sourceTree = "<group>"; };
 		C2427FFD22C6250100778CD5 /* VerifyNoBuildSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyNoBuildSettings.swift; sourceTree = "<group>"; };
-		C242FB9422C6831500806AFB /* AtomicHelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AtomicHelper.c; sourceTree = "<group>"; };
+		C242FB9422C6831500806AFB /* AtomicHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AtomicHelper.m; sourceTree = "<group>"; };
 		C242FB9622C6845000806AFB /* AtomicHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtomicHelper.h; sourceTree = "<group>"; };
 		C242FB9722C684AF00806AFB /* CorrelationVector-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CorrelationVector-Bridging-Header.h"; sourceTree = "<group>"; };
 		C242FB9822C6981500806AFB /* CorrelationVectorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorUtils.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 		OBJ_8 /* CorrelationVector */ = {
 			isa = PBXGroup;
 			children = (
-				C242FB9422C6831500806AFB /* AtomicHelper.c */,
+				C242FB9422C6831500806AFB /* AtomicHelper.m */,
 				C242FB9622C6845000806AFB /* AtomicHelper.h */,
 				C242FB9722C684AF00806AFB /* CorrelationVector-Bridging-Header.h */,
 				OBJ_9 /* CorrelationVector.swift */,
@@ -311,7 +311,7 @@
 				C242FB9B22C69C2300806AFB /* CorrelationVectorExtensions.swift in Sources */,
 				OBJ_25 /* CorrelationVector.swift in Sources */,
 				C2D482F522C4BF160075F09B /* CorrelationVectorV2.swift in Sources */,
-				C242FB9522C6831500806AFB /* AtomicHelper.c in Sources */,
+				C242FB9522C6831500806AFB /* AtomicHelper.m in Sources */,
 				C2D482FD22C51DD70075F09B /* SpinParameters.swift in Sources */,
 				C2D482FB22C507770075F09B /* CorrelationVectorBase.swift in Sources */,
 				04DF819622C62C1E00308915 /* CorrelationVectorError.swift in Sources */,

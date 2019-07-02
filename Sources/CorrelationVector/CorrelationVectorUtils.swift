@@ -54,7 +54,7 @@ internal func validate(_ correlationVector: String?, baseLength: Int, maxLength:
     throw CorrelationVectorError.invalidArgument("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
   }
   for index in 1...parts.count {
-    guard let result = Int(parts[index]), result < 0 else {
+    guard let result = Int(parts[index]), result >= 0 else {
       throw CorrelationVectorError.invalidArgument("Invalid correlation vector \(vector). Invalid base value \(parts[0])")
     }
   }
@@ -83,4 +83,13 @@ internal func randomBytes(count: Int) -> Data {
     arc4random_buf($0.baseAddress!, count)
   }
   return data
+}
+
+internal extension Date {
+
+  /// The number of ticks since epoch time.
+  var ticks: Int64 {
+    let ticksInSecond = 10_000_000.0
+    return Int64(self.timeIntervalSince1970 * ticksInSecond)
+  }
 }
