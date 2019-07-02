@@ -6,34 +6,57 @@ import XCTest
 @testable import CorrelationVector
 
 final class CorrelationVectorV2Tests: XCTestCase {
+  
   override func setUp() {
+    super.setUp()
     CorrelationVector.validateDuringCreation = false
   }
   
-  func testCreateCorrelationVectorFromStringV2() throws {
+  func testCreateFromString() throws {
+    
+    // If
     let sut = try CorrelationVectorV2.extend("KZY+dsX2jEaZesgCPjJ2Ng.1")
-    XCTAssertEqual(0, sut.extension)
+    XCTAssertEqual(sut.extension, 0)
+    XCTAssertEqual(sut.version, .v2)
+    
+    // When
     sut.increment()
+    
+    // Then
     let split = sut.value.split(separator: ".")
     XCTAssertEqual(3, split.count)
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual("KZY+dsX2jEaZesgCPjJ2Ng.1.1", sut.value)
   }
   
-  func testCreateExtendAndIncrementCorrelationVectorV2() throws {
+  func testCreateExtendAndIncrement() throws {
+    
+    // If
     let sut = CorrelationVectorV2()
+    XCTAssertEqual(sut.version, .v2)
+    
+    // When
     sut.increment()
+    
+    // Then
     let split = sut.value.split(separator: ".")
     XCTAssertEqual(2, split.count)
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual(22, split[0].count)
   }
   
-  func testCreateExtendAndIncrementCorrelationVectorV2fromUuid() throws {
+  func testCreateExtendAndIncrementFromUuid() throws {
+    
+    // If
     let uuid = UUID.init()
     let sut = CorrelationVectorV2(uuid)
-    XCTAssertEqual(0, sut.extension)
+    XCTAssertEqual(sut.extension, 0)
+    XCTAssertEqual(sut.version, .v2)
+    
+    // When
     sut.increment()
+    
+    // Then
     let split = sut.value.split(separator: ".")
     let uuidString = uuid.uuidString
     let base64String = Data(uuidString.utf8).base64EncodedString();
@@ -42,53 +65,89 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(1, sut.extension)
   }
   
-  func testExtendOverMaxCVLengthV2() throws {
+  func testExtendOverMaxLength() throws {
+    
+    // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2141"
     let sut = try CorrelationVectorV2.extend(baseVector)
+    XCTAssertEqual(sut.version, .v2)
+    
+    // Then
     XCTAssertEqual(baseVector + CorrelationVector.terminator, sut.value);
   }
   
-  func testImmutableCVWIthTerminatorV2() throws {
+  func testImmutableWithTerminator() throws {
+    
+    // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.21474836479.0!"
+    
+    // Then
     XCTAssertEqual(baseVector, try CorrelationVectorV2.extend(baseVector).value)
     XCTAssertEqual(baseVector, try CorrelationVectorV2.spin(baseVector).value)
     XCTAssertEqual(baseVector, CorrelationVectorV2.parse(baseVector).increment())
   }
   
-  func testIncrementPastMaxWithNoErrorsV2() throws {
+  func testIncrementPastMaxWithNoErrors() throws {
+    
+    // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214"
     let sut = try CorrelationVectorV2.extend(baseVector)
+    XCTAssertEqual(sut.version, .v2)
+    
+    // When
     sut.increment()
+    
+    // Then
     XCTAssertEqual(baseVector+".1", sut.value)
+    
+    // When
     for _ in 1...20 {
       sut.increment()
     }
+    
+    // Then
     XCTAssertEqual(baseVector+".9!", sut.value)
   }
   
-  func testSpinOverMaxCVLengthV2() throws {
+  func testSpinOverMaxLength() throws {
+    
+    // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214";
+    
+    // When
     let cv = try CorrelationVectorV2.spin(baseVector);
+    
+    // Then
     XCTAssertEqual(baseVector + CorrelationVector.terminator, cv.value)
   }
   
-  func testThrowWithTooBigCorrelationVectorValueV2() {
+  func testThrowWithTooBigValue() {
+    
+    // If
     let baseValue = "KZY+dsX2jEaZesgCPjJ2Ng"
     let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647"
     CorrelationVector.validateDuringCreation = true;
+    
+    // When
     XCTAssertThrowsError(try CorrelationVectorV2.extend(baseValueWithExtension)) { error in
       guard case CorrelationVectorError.invalidArgument(let value) = error else {
         return XCTFail()
       }
+      
+      // Then
       XCTAssertEqual(value, "The \(baseValueWithExtension) correlation vector can not be null or bigger than 127 characters")
     }
   }
   
-  func testSpinSortValidationV2() throws {
+  func testSpinSortValidation() throws {
+    
+    // If
     let sut = CorrelationVectorV2()
     let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
     var lastSpinValue : Int64 = 0;
     var wrappedCounter = 0;
+    
+    // When
     for _ in 0...100 {
       let cV2 = try CorrelationVectorV2.spin(sut.value, params)
       let splitCv = cV2.value.split(separator: ".")
@@ -100,24 +159,25 @@ final class CorrelationVectorV2Tests: XCTestCase {
       }
       lastSpinValue = spinValue
       
-      //Wait for 10ms
+      // Wait for 10ms.
       usleep(10000)
     }
     
+    // Then
     // The cV after a spin will look like <cvBase>.0.<spinValue>.0, so the spinValue
-    // is at index = 2
+    // is at index = 2.
     XCTAssertTrue(wrappedCounter <= 1)
   }
   
   static var allTests = [
-    ("createCorrelationVectorFromStringV2", testCreateCorrelationVectorFromStringV2),
-    ("createExtendAndIncrementCorrelationVectorV2", testCreateExtendAndIncrementCorrelationVectorV2),
-    ("createExtendAndIncrementCorrelationVectorV2fromUuid", testCreateExtendAndIncrementCorrelationVectorV2fromUuid),
-    ("extendOverMaxCVLengthV2", testExtendOverMaxCVLengthV2),
-    ("immutableCVWithTerminatorV2", testImmutableCVWIthTerminatorV2),
-    ("incrementPastMaxWithNoErrorsV2", testIncrementPastMaxWithNoErrorsV2),
-    ("spinOverMaxCVLengthV2", testSpinOverMaxCVLengthV2),
-    ("throwWithTooBigCorrelationVectorValueV2", testThrowWithTooBigCorrelationVectorValueV2),
-    ("spinSortValidationV2", testSpinSortValidationV2),
+    ("createFromStringV2", testCreateFromString),
+    ("createExtendAndIncrement", testCreateExtendAndIncrement),
+    ("createExtendAndIncrementFromUuid", testCreateExtendAndIncrementFromUuid),
+    ("extendOverMaxLength", testExtendOverMaxLength),
+    ("immutableWithTerminator", testImmutableWithTerminator),
+    ("incrementPastMaxWithNoErrors", testIncrementPastMaxWithNoErrors),
+    ("spinOverMaxLength", testSpinOverMaxLength),
+    ("throwWithTooBigValue", testThrowWithTooBigValue),
+    ("spinSortValidation", testSpinSortValidation),
   ]
 }
