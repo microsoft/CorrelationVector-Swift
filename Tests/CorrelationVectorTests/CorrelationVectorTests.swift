@@ -25,7 +25,7 @@ final class CorrelationVectorTests: XCTestCase {
     
     // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.1"
-    let cv1 = try CorrelationVector.parse(baseVector)
+    let cv1 = CorrelationVector.parse(baseVector)
     let cv2 = try CorrelationVector.extend(baseVector)
     
     //Then
@@ -36,8 +36,8 @@ final class CorrelationVectorTests: XCTestCase {
   func testExplicitVersionCreation() throws {
  
     // If
-    let cv1 = try CorrelationVector(.v1)
-    let cv2 = try CorrelationVector(.v2)
+    let cv1 = CorrelationVector(.v1)
+    let cv2 = CorrelationVector(.v2)
     
     // Then
     XCTAssertEqual(cv1.version, .v1)
