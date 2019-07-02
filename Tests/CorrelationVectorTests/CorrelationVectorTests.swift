@@ -25,7 +25,7 @@ final class CorrelationVectorTests: XCTestCase {
     
     // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.1"
-    let cv1 = try CorrelationVector.parse(baseVector)
+    let cv1 = CorrelationVector.parse(baseVector)
     let cv2 = try CorrelationVector.extend(baseVector)
     
     //Then
@@ -36,8 +36,8 @@ final class CorrelationVectorTests: XCTestCase {
   func testExplicitVersionCreation() throws {
  
     // If
-    let cv1 = try CorrelationVector(.v1)
-    let cv2 = try CorrelationVector(.v2)
+    let cv1 = CorrelationVector(.v1)
+    let cv2 = CorrelationVector(.v2)
     
     // Then
     XCTAssertEqual(cv1.version, .v1)
@@ -102,7 +102,7 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(sut.extension, 0)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     let split = sut.value.split(separator: CorrelationVector.delimiter)
@@ -160,14 +160,14 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(sut.version, .v1)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     XCTAssertEqual(baseVector + ".1", sut.value)
     
     // When
     for _ in 1...20 {
-      sut.increment()
+      let _ = sut.increment()
     }
     
     // Then
@@ -206,7 +206,7 @@ final class CorrelationVectorTests: XCTestCase {
       }
       
       // Then
-      XCTAssertEqual(value, "The \(baseValueWithExtension) correlation vector can not be null or bigger than 63 characters")
+      XCTAssertEqual(value, "The correlation vector can not be null or bigger than 63 characters")
     }
   }
   

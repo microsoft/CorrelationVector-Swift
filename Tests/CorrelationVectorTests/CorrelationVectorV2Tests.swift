@@ -20,7 +20,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(sut.version, .v2)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     let split = sut.value.split(separator: CorrelationVector.delimiter)
@@ -36,7 +36,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(sut.version, .v2)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     let split = sut.value.split(separator: CorrelationVector.delimiter)
@@ -54,7 +54,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(sut.version, .v2)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     let split = sut.value.split(separator: CorrelationVector.delimiter)
@@ -95,14 +95,14 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(sut.version, .v2)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     XCTAssertEqual(baseVector+".1", sut.value)
     
     // When
     for _ in 1...20 {
-      sut.increment()
+      let _ = sut.increment()
     }
     
     // Then
@@ -135,7 +135,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
       }
       
       // Then
-      XCTAssertEqual(value, "The \(baseValueWithExtension) correlation vector can not be null or bigger than 127 characters")
+      XCTAssertEqual(value, "The correlation vector can not be null or bigger than 127 characters")
     }
   }
   
