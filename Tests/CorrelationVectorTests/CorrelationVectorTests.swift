@@ -79,33 +79,6 @@ final class CorrelationVectorTests: XCTestCase {
     }
   }
   
-  func testSpinSortValidation() throws {
-    let sut = CorrelationVector()
-    let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
-    
-    var lastSpinValue : Int64 = 0;
-    var wrappedCounter = 0;
-    
-    for _ in 0...100 {
-      let cV2 = try CorrelationVector.spin(sut.value, params)
-      
-      // The cV after a spin will look like <cvBase>.0.<spinValue>.0, so the spinValue
-      // is at index = 2
-      let splitCv = cV2.value.split(separator: ".")
-      let spinValue = Int64(splitCv[2])!
-      
-      // Count the number of times the counter wraps.
-      if (spinValue <= lastSpinValue) {
-        wrappedCounter += 1
-      }
-      lastSpinValue = spinValue
-      
-      //Wait for 10ms
-      usleep(10000)
-    }
-    
-  }
-  
   func testThrowWithInsufficientCharsCorrelationVectorValue() {
     let baseValue = "tul4NUsfs9Cl7mO"
     let baseValueWithExtension = "\(baseValue).1"
@@ -166,7 +139,6 @@ final class CorrelationVectorTests: XCTestCase {
     ("immutableCVWithTerminator", testImmutableCVWithTerminator),
     ("incrementPastMaxWithNoErrors", testIncrementPastMaxWithNoErrors),
     ("spinOverMaxCVLength", testSpinOverMaxCVLength),
-    ("spinSortValidation", testSpinSortValidation),
     ("throwWithInsufficientCharsCorrelationVectorValue", testThrowWithInsufficientCharsCorrelationVectorValue),
     ("throwWithTooBigCorrelationVectorValue", testThrowWithTooBigCorrelationVectorValue),
     ("throwWithTooBigExtensionCorrelationVectorValue", testThrowWithTooBigExtensionCorrelationVectorValue),

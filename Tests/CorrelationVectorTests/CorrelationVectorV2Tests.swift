@@ -84,6 +84,31 @@ final class CorrelationVectorV2Tests: XCTestCase {
     }
   }
   
+  func testSpinSortValidationV2() throws {
+    let sut = CorrelationVectorV2()
+    let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
+    var lastSpinValue : Int64 = 0;
+    var wrappedCounter = 0;
+    for _ in 0...100 {
+      let cV2 = try CorrelationVectorV2.spin(sut.value, params)
+      let splitCv = cV2.value.split(separator: ".")
+      let spinValue = Int64(splitCv[2])!
+      
+      // Count the number of times the counter wraps.
+      if (spinValue <= lastSpinValue) {
+        wrappedCounter += 1
+      }
+      lastSpinValue = spinValue
+      
+      //Wait for 10ms
+      usleep(10000)
+    }
+    
+    // The cV after a spin will look like <cvBase>.0.<spinValue>.0, so the spinValue
+    // is at index = 2
+    XCTAssertTrue(wrappedCounter <= 1)
+  }
+  
   static var allTests = [
     ("createCorrelationVectorFromStringV2", testCreateCorrelationVectorFromStringV2),
     ("createExtendAndIncrementCorrelationVectorV2", testCreateExtendAndIncrementCorrelationVectorV2),
@@ -93,5 +118,6 @@ final class CorrelationVectorV2Tests: XCTestCase {
     ("incrementPastMaxWithNoErrorsV2", testIncrementPastMaxWithNoErrorsV2),
     ("spinOverMaxCVLengthV2", testSpinOverMaxCVLengthV2),
     ("throwWithTooBigCorrelationVectorValueV2", testThrowWithTooBigCorrelationVectorValueV2),
+    ("spinSortValidationV2", testSpinSortValidationV2),
   ]
 }
