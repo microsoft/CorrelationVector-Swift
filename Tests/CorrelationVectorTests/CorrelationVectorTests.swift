@@ -24,7 +24,7 @@ final class CorrelationVectorTests: XCTestCase {
   func testImplicitV2Creation() throws{
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.1"
     let cv1 = try CorrelationVector.parse(baseVector)
     
     //Then
