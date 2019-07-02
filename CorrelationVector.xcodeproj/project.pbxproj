@@ -132,9 +132,9 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_12 /* CorrelationVectorTests.swift */,
-				OBJ_13 /* XCTestManifests.swift */,
-				C90A0C8122CA6CD8003F7CC7 /* CorrelationVectorV2Tests.swift */,
 				C90A0C8322CA6E17003F7CC7 /* CorrelationVectorV1Tests.swift */,
+				C90A0C8122CA6CD8003F7CC7 /* CorrelationVectorV2Tests.swift */,
+				OBJ_13 /* XCTestManifests.swift */,
 			);
 			name = CorrelationVectorTests;
 			path = Tests/CorrelationVectorTests;

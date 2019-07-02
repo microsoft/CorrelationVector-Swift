@@ -69,6 +69,30 @@ final class CorrelationVectorTests: XCTestCase {
     // Then
     XCTAssertEqual(1, sut.extension)
   }
+
+  func testIncrementIsUniqueAcrossMultipleThreads() {
+
+    // If
+    let sut = CorrelationVector()
+    XCTAssertEqual(sut.extension, 0)
+    XCTAssertEqual(sut.version, .v1)
+
+    // When
+    let queue = DispatchQueue(label: "cv.increment", qos: .utility, attributes: .concurrent)
+    for i in 0..<100 {
+      let expectation = self.expectation(description: "\(#function):\(i)")
+      queue.async {
+        for _ in 0..<10_000 {
+          let _ = sut.increment()
+        }
+        expectation.fulfill()
+      }
+    }
+
+    // Then
+    waitForExpectations(timeout: 10)
+    XCTAssertEqual(1_000_000, sut.extension)
+  }
   
   func testCreateFromString() throws {
     
@@ -230,6 +254,7 @@ final class CorrelationVectorTests: XCTestCase {
     ("implicitV2Creation", testImplicitV2Creation),
     ("explicitVersionCreation", testExplicitVersionCreation),
     ("increment", testIncrement),
+    ("incrementIsUniqueAcrossMultipleThreads", testIncrementIsUniqueAcrossMultipleThreads),
     ("createFromString", testCreateFromString),
     ("extendOverMaxLength", testExtendOverMaxLength),
     ("immutableWithTerminator", testImmutableWithTerminator),
