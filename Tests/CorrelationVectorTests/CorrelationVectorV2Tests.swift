@@ -166,7 +166,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     // Then
     // The cV after a spin will look like <cvBase>.0.<spinValue>.0, so the spinValue
     // is at index = 2.
-    XCTAssertTrue(wrappedCounter <= 1)
+    XCTAssertLessThanOrEqual(wrappedCounter, 1)
   }
   
   static var allTests = [

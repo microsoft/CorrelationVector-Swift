@@ -94,14 +94,14 @@ final class CorrelationVectorTests: XCTestCase {
   func testExtendNull() throws {
     
     // If
-    let nullString = ""
-    let sut = try CorrelationVector.extend(nullString)
+    let emptyString = ""
+    let sut = try CorrelationVector.extend(emptyString)
     XCTAssertEqual(sut.value, ".0")
     XCTAssertEqual(sut.version, .v1)
     
     // When
     CorrelationVector.validateDuringCreation = true;
-    XCTAssertThrowsError(try CorrelationVector.extend(nullString)) { error in
+    XCTAssertThrowsError(try CorrelationVector.extend(emptyString)) { error in
       guard case CorrelationVectorError.invalidArgument(let value) = error else {
         return XCTFail()
       }
@@ -148,7 +148,7 @@ final class CorrelationVectorTests: XCTestCase {
     // If
     let baseValue = "tul4NUsfs9Cl7mO"
     let baseValueWithExtension = "\(baseValue).1"
-    CorrelationVector.validateDuringCreation = true;
+    CorrelationVector.validateDuringCreation = true
     
     // When
     XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
