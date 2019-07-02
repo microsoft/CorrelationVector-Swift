@@ -182,7 +182,7 @@ final class CorrelationVectorTests: XCTestCase {
       }
       
       // Then
-      XCTAssertEqual(value, "The \(baseValueWithExtension) correlation vector can not be null or bigger than 63 characters")
+      XCTAssertEqual(value, "The correlation vector can not be null or bigger than 63 characters")
     }
   }
   
