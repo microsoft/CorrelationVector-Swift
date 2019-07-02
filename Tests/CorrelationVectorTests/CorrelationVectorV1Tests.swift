@@ -23,7 +23,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     XCTAssertEqual(2, split.count)
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual(16, split[0].count)

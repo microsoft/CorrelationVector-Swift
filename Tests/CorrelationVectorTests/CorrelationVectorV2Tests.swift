@@ -23,7 +23,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     XCTAssertEqual(3, split.count)
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual("KZY+dsX2jEaZesgCPjJ2Ng.1.1", sut.value)
@@ -39,7 +39,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     XCTAssertEqual(2, split.count)
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual(22, split[0].count)
@@ -57,7 +57,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     let uuidString = uuid.uuidString
     let base64String = Data(uuidString.utf8).base64EncodedString();
     let endIndex = base64String.index(base64String.startIndex, offsetBy: 22);
@@ -150,7 +150,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     // When
     for _ in 0...100 {
       let cV2 = try CorrelationVectorV2.spin(sut.value, params)
-      let splitCv = cV2.value.split(separator: ".")
+      let splitCv = cV2.value.split(separator: CorrelationVector.delimiter)
       let spinValue = Int64(splitCv[2])!
       
       // Count the number of times the counter wraps.
@@ -170,7 +170,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   }
   
   static var allTests = [
-    ("createFromStringV2", testCreateFromString),
+    ("createFromString", testCreateFromString),
     ("createExtendAndIncrement", testCreateExtendAndIncrement),
     ("createExtendAndIncrementFromUuid", testCreateExtendAndIncrementFromUuid),
     ("extendOverMaxLength", testExtendOverMaxLength),
