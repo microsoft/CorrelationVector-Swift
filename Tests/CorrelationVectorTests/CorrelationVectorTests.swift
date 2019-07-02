@@ -78,7 +78,7 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(sut.extension, 0)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     let split = sut.value.split(separator: CorrelationVector.delimiter)
@@ -136,14 +136,14 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(sut.version, .v1)
     
     // When
-    sut.increment()
+    let _ = sut.increment()
     
     // Then
     XCTAssertEqual(baseVector + ".1", sut.value)
     
     // When
     for _ in 1...20 {
-      sut.increment()
+      let _ = sut.increment()
     }
     
     // Then
