@@ -15,7 +15,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testCreateFromString() throws {
     
     // If
-    let sut = try CorrelationVectorV2.extend("KZY+dsX2jEaZesgCPjJ2Ng.1")
+    let sut = try CorrelationVectorV2.extend("KZY+dsX2jEaZesgCPjJ2Ng\(CorrelationVector.delimiter)1")
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v2)
     
@@ -26,7 +26,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     let split = sut.value.split(separator: ".")
     XCTAssertEqual(3, split.count)
     XCTAssertEqual(1, sut.extension)
-    XCTAssertEqual("KZY+dsX2jEaZesgCPjJ2Ng.1.1", sut.value)
+    XCTAssertEqual("KZY+dsX2jEaZesgCPjJ2Ng\(CorrelationVector.delimiter)1\(CorrelationVector.delimiter)1", sut.value)
   }
   
   func testCreateExtendAndIncrement() throws {
@@ -39,7 +39,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     XCTAssertEqual(2, split.count)
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual(22, split[0].count)
@@ -57,7 +57,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     let uuidString = uuid.uuidString
     let base64String = Data(uuidString.utf8).base64EncodedString();
     let endIndex = base64String.index(base64String.startIndex, offsetBy: 22);
@@ -68,7 +68,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testExtendOverMaxLength() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2141"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647.2147483647.2147483647.2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2141"
     let sut = try CorrelationVectorV2.extend(baseVector)
     XCTAssertEqual(sut.version, .v2)
     
@@ -79,7 +79,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testImmutableWithTerminator() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.21474836479.0!"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)21474836479\(CorrelationVector.delimiter)0!"
     
     // Then
     XCTAssertEqual(baseVector, try CorrelationVectorV2.extend(baseVector).value)
@@ -90,7 +90,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testIncrementPastMaxWithNoErrors() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)214"
     let sut = try CorrelationVectorV2.extend(baseVector)
     XCTAssertEqual(sut.version, .v2)
     
@@ -98,7 +98,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     sut.increment()
     
     // Then
-    XCTAssertEqual(baseVector+".1", sut.value)
+    XCTAssertEqual(baseVector+"\(CorrelationVector.delimiter)1", sut.value)
     
     // When
     for _ in 1...20 {
@@ -106,13 +106,13 @@ final class CorrelationVectorV2Tests: XCTestCase {
     }
     
     // Then
-    XCTAssertEqual(baseVector+".9!", sut.value)
+    XCTAssertEqual(baseVector+"\(CorrelationVector.delimiter)9\(CorrelationVector.terminator)", sut.value)
   }
   
   func testSpinOverMaxLength() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214";
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)214";
     
     // When
     let cv = try CorrelationVectorV2.spin(baseVector);
@@ -125,7 +125,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     
     // If
     let baseValue = "KZY+dsX2jEaZesgCPjJ2Ng"
-    let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647"
+    let baseValueWithExtension = "\(baseValue).2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647"
     CorrelationVector.validateDuringCreation = true;
     
     // When

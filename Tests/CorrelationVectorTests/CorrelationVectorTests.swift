@@ -29,7 +29,7 @@ final class CorrelationVectorTests: XCTestCase {
     
     // Then
     XCTAssertEqual(sut.version, .v1)
-    XCTAssertEqual(sut.value, "\(baseVector).0")
+    XCTAssertEqual(sut.value, "\(baseVector)\(CorrelationVector.delimiter)0")
     XCTAssertEqual(sut.base, baseVector)
   }
   
@@ -50,7 +50,7 @@ final class CorrelationVectorTests: XCTestCase {
   func testCreateFromString() throws {
     
     // If
-    let sut = try CorrelationVector.extend("tul4NUsfs9Cl7mOf.1")
+    let sut = try CorrelationVector.extend("tul4NUsfs9Cl7mOf\(CorrelationVector.delimiter)1")
     XCTAssertEqual(sut.version, .v1)
     XCTAssertEqual(sut.extension, 0)
     
@@ -58,16 +58,16 @@ final class CorrelationVectorTests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     XCTAssertEqual(3, split.count)
     XCTAssertEqual(1, sut.extension)
-    XCTAssertEqual("tul4NUsfs9Cl7mOf.1.1", sut.value)
+    XCTAssertEqual("tul4NUsfs9Cl7mOf\(CorrelationVector.delimiter)1\(CorrelationVector.delimiter)1", sut.value)
   }
   
   func testExtendOverMaxLength() throws {
     
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23"
+    let baseVector = "tul4NUsfs9Cl7mOf\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)214748364\(CorrelationVector.delimiter)23"
     let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v1)
     
@@ -80,7 +80,7 @@ final class CorrelationVectorTests: XCTestCase {
     // If
     let nullString = ""
     let sut = try CorrelationVector.extend(nullString)
-    XCTAssertEqual(sut.value, ".0")
+    XCTAssertEqual(sut.value, "\(CorrelationVector.delimiter)0")
     XCTAssertEqual(sut.version, .v1)
     
     // When
@@ -98,7 +98,7 @@ final class CorrelationVectorTests: XCTestCase {
   func testImmutableWithTerminator() {
     
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479.0!"
+    let baseVector = "tul4NUsfs9Cl7mOf\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)21474836479\(CorrelationVector.delimiter)0\(CorrelationVector.terminator)"
     
     // Then
     XCTAssertEqual(baseVector, try CorrelationVector.extend(baseVector).value)
@@ -108,7 +108,7 @@ final class CorrelationVectorTests: XCTestCase {
   func testIncrementPastMaxWithNoErrors() throws {
     
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479"
+    let baseVector = "tul4NUsfs9Cl7mOf\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)21474836479"
     let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v1)
     
@@ -116,7 +116,7 @@ final class CorrelationVectorTests: XCTestCase {
     sut.increment()
     
     // Then
-    XCTAssertEqual(baseVector + ".1", sut.value)
+    XCTAssertEqual(baseVector + "\(CorrelationVector.delimiter)1", sut.value)
     
     // When
     for _ in 1...20 {
@@ -124,14 +124,14 @@ final class CorrelationVectorTests: XCTestCase {
     }
     
     // Then
-    XCTAssertEqual(baseVector+".9!", sut.value)
+    XCTAssertEqual(baseVector+"\(CorrelationVector.delimiter)9\(CorrelationVector.terminator)", sut.value)
   }
   
   func testThrowWithInsufficientCharsValue() {
     
     // If
     let baseValue = "tul4NUsfs9Cl7mO"
-    let baseValueWithExtension = "\(baseValue).1"
+    let baseValueWithExtension = "\(baseValue)\(CorrelationVector.delimiter)1"
     CorrelationVector.validateDuringCreation = true;
     
     // When
@@ -149,7 +149,7 @@ final class CorrelationVectorTests: XCTestCase {
     
     // If
     let baseValue = "tul4NUsfs9Cl7mOf"
-    let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647"
+    let baseValueWithExtension = "\(baseValue)\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647"
     CorrelationVector.validateDuringCreation = true;
     
     // When
@@ -167,7 +167,7 @@ final class CorrelationVectorTests: XCTestCase {
     
     // If
     let baseValue = "tul4NUsfs9Cl7mOf"
-    let baseValueWithExtension = "\(baseValue).11111111111111111111111111111"
+    let baseValueWithExtension = "\(baseValue)\(CorrelationVector.delimiter)11111111111111111111111111111"
     CorrelationVector.validateDuringCreation = true;
     
     // When
@@ -185,7 +185,7 @@ final class CorrelationVectorTests: XCTestCase {
     
     // If
     let baseValue = "tul4NUsfs9Cl7mOfN/dupsl"
-    let baseValueWithExtension = "\(baseValue).1"
+    let baseValueWithExtension = "\(baseValue)\(CorrelationVector.delimiter)1"
     let sut = try CorrelationVector.extend(baseValueWithExtension)
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v1)

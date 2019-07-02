@@ -23,7 +23,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
     sut.increment()
     
     // Then
-    let split = sut.value.split(separator: ".")
+    let split = sut.value.split(separator: CorrelationVector.delimiter)
     XCTAssertEqual(2, split.count)
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual(16, split[0].count)
@@ -32,7 +32,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testSpinOverMaxLength() throws {
     
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23";
+    let baseVector = "tul4NUsfs9Cl7mOf\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)2147483647\(CorrelationVector.delimiter)214748364\(CorrelationVector.delimiter)23";
     
     // When
     XCTAssertThrowsError(try CorrelationVector.spin(baseVector)) { error in
