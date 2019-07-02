@@ -30,7 +30,7 @@ import Foundation
 
 /// Entropy bytes that is used for CV's spin operation.
 ///
-/// - none: do not generate entropy as part of the spin value
+/// - none: do not generate entropy as part of the spin value.
 /// - one: generate entropy using 8 bits.
 /// - two: generate entropy using 16 bits.
 /// - three: generate entropy using 24 bits.
@@ -47,19 +47,20 @@ import Foundation
 @objc public class SpinParameters: NSObject {
 
   /// The interval (proportional to time) by which the counter increments.
-  var interval: SpinCounterInterval = .coarse
+  var interval: SpinCounterInterval
 
   /// How frequently the counter wraps around to zero, as determined by the amount
   /// of space to store the counter.
-  var periodicity: SpinCounterPeriodicity = .short
+  var periodicity: SpinCounterPeriodicity
 
   /// The number of bytes to use for entropy. Valid values from a
   /// minimum of 0 to a maximum of 4.
-  var entropy: SpinEntropy = .two
+  var entropy: SpinEntropy
 
   /// The total number of bits to keep for the spin operation.
   var totalBits: Int {
-    return periodicity.rawValue + entropy.rawValue * 8
+    let bitsInByte = 8
+    return periodicity.rawValue + entropy.rawValue * bitsInByte
   }
 
   init(interval: SpinCounterInterval = .coarse, periodicity: SpinCounterPeriodicity = .short, entropy: SpinEntropy = .two) {
