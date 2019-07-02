@@ -62,7 +62,7 @@ final class CorrelationVectorTests: XCTestCase {
     let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479"
     let sut = try CorrelationVector.extend(baseVector)
     sut.increment()
-    XCTAssertEqual(baseVector+".1", sut.value)
+    XCTAssertEqual(baseVector + ".1", sut.value)
     for i in 1...20 {
       sut.increment()
     }
