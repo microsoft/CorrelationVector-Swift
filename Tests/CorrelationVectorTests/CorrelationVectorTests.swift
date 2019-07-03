@@ -216,7 +216,7 @@ final class CorrelationVectorTests: XCTestCase {
     let _ = sut.increment()
     
     // Then
-    XCTAssertEqual("\(vectorBase).\(uintMax).1", sut.value)
+    XCTAssertEqual("\(vectorBase).\(uintMax)", sut.value)
   }
   
   func testThrowWithInsufficientCharsValue() {
