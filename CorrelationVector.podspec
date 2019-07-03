@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
   spec.platform     = :ios, "9.0"
   spec.swift_version = '5.0'
   spec.source       = { :git => "https://github.com/microsoft/CorrelationVector-Swift.git", :tag => "#{spec.version}" }
-  spec.source_files  = "Sources/CorrelationVector/*.swift", "Sources/CorrelationVector/*.{c,h}"
+  spec.source_files  = "Sources/CorrelationVector/*"
   spec.preserve_path = 'README.md'
 
   spec.framework  = "Foundation"
