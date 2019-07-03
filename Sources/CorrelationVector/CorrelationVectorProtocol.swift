@@ -14,7 +14,7 @@ import Foundation
   var base: String { get }
 
   /// The extension number.
-  var `extension`: Int { get }
+  var `extension`: UInt32 { get }
 
   /// The version of the correlation vector implementation.
   var version: CorrelationVectorVersion { get }
