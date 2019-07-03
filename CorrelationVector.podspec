@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   DESC
   spec.homepage     = "https://github.com/microsoft/CorrelationVector"
 
-  spec.license      = { :type => "MIT", :file => 'LICENSE'}
+  spec.license      = { :type => "MIT", :file => 'LICENSE' }
   spec.documentation_url = "https://github.com/microsoft/CorrelationVector"
 
   spec.author             = { "Microsoft" => "askcodex@microsoft.com" }
