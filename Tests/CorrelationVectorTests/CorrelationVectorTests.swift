@@ -22,7 +22,7 @@ final class CorrelationVectorTests: XCTestCase {
   }
   
   func testConvertFromVectorBaseToGuidBackToVectorBase() throws {
-
+    
     // If
     // CV bases which have four zero least significant bits meaning a conversion to a Guid will retain all
     // information.
@@ -32,9 +32,9 @@ final class CorrelationVectorTests: XCTestCase {
     //   /////////////////////g -> ffffffff-ffff-ffff-ffff-fffffffffffe -> /////////////////////g
     //   /////////////////////w -> ffffffff-ffff-ffff-ffff-ffffffffffff -> /////////////////////w
     let validGuidVectorBases = ["/////////////////////A",
-        "/////////////////////Q",
-        "/////////////////////g",
-        "/////////////////////w"]
+                                "/////////////////////Q",
+                                "/////////////////////g",
+                                "/////////////////////w"]
     
     for vectorBase in validGuidVectorBases
     {
@@ -63,7 +63,7 @@ final class CorrelationVectorTests: XCTestCase {
   }
   
   func testExplicitVersionCreation() throws {
- 
+    
     // If
     let cv1 = CorrelationVector(.v1)
     let cv2 = CorrelationVector(.v2)
@@ -98,14 +98,14 @@ final class CorrelationVectorTests: XCTestCase {
     // Then
     XCTAssertEqual(1, sut.extension)
   }
-
+  
   func testIncrementIsUniqueAcrossMultipleThreads() {
-
+    
     // If
     let sut = CorrelationVector()
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v1)
-
+    
     // When
     let queue = DispatchQueue(label: "cv.increment", qos: .utility, attributes: .concurrent)
     for i in 0..<100 {
@@ -117,7 +117,7 @@ final class CorrelationVectorTests: XCTestCase {
         expectation.fulfill()
       }
     }
-
+    
     // Then
     waitForExpectations(timeout: 10)
     XCTAssertEqual(1_000_000, sut.extension)
@@ -181,7 +181,7 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(baseVector, CorrelationVector.parse(baseVector).increment())
   }
   
-  func testIncrementPastMaxWithNoErrors() throws {
+  func testExtendAndIncrementPastMaxWithNoErrors() throws {
     
     // If
     let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479"
@@ -201,6 +201,22 @@ final class CorrelationVectorTests: XCTestCase {
     
     // Then
     XCTAssertEqual(baseVector+".9!", sut.value)
+  }
+  
+  func testIncrementPastMax() throws {
+    
+    // If
+    let vectorBase = "tul4NUsfs9Cl7mOf"
+    let uintMax = 0xFF_FF_FF_FF
+    let baseVector = "\(vectorBase).\(uintMax)"
+    let sut = CorrelationVector.parse(baseVector)
+    XCTAssertEqual(sut.version, .v1)
+    
+    // When
+    let _ = sut.increment()
+    
+    // Then
+    XCTAssertEqual("\(vectorBase).\(uintMax).1", sut.value)
   }
   
   func testThrowWithInsufficientCharsValue() {
@@ -288,7 +304,8 @@ final class CorrelationVectorTests: XCTestCase {
     ("createFromString", testCreateFromString),
     ("extendOverMaxLength", testExtendOverMaxLength),
     ("immutableWithTerminator", testImmutableWithTerminator),
-    ("incrementPastMaxWithNoErrors", testIncrementPastMaxWithNoErrors),
+    ("extendAndIncrementPastMaxWithNoErrors", testExtendAndIncrementPastMaxWithNoErrors),
+    ("incrementPastMax", testIncrementPastMax),
     ("throwWithInsufficientCharsValue", testThrowWithInsufficientCharsValue),
     ("throwWithTooBigValue", testThrowWithTooBigValue),
     ("throwWithTooBigExtensionValue", testThrowWithTooBigExtensionValue),
