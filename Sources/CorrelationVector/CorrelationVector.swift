@@ -26,7 +26,7 @@ import Foundation
     return self.implementation.base
   }
 
-  public var `extension`: Int {
+  public var `extension`: UInt32 {
     return self.implementation.extension
   }
 

@@ -23,7 +23,7 @@ import Foundation
     self.init(baseUuid(from: base, baseLength: CorrelationVectorV1.baseLength), 0, false)
   }
 
-  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+  required init(_ base: String, _ extension: UInt32, _ immutable: Bool) {
     super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV1.maxLength))
   }
 
