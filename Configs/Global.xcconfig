@@ -8,4 +8,4 @@ ALWAYS_SEARCH_USER_PATHS = NO
 SKIP_INSTALL = YES
 SWIFT_VERSION = 5.0
 SWIFT_OBJC_BRIDGING_HEADER = Sources/CorrelationVector/CorrelationVector-Bridging-Header.h
-SDKROOT = iphoneos;
+SDKROOT = iphoneos
