@@ -1,4 +1,4 @@
-framework module CorrelationVectorBindings {
-  umbrella "."
+module CorrelationVectorBindings {
+  umbrella header "CorrelationVectorBindings.h"
   export *
 }

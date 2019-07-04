@@ -73,7 +73,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C28C769B22CE210C003E574F /* Bindings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Bindings.xcconfig; path = Configs/Bindings.xcconfig; sourceTree = "<group>"; };
+		C2943F8122CE30FE00E82A17 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		C2943F8222CE327200E82A17 /* CorrelationVectorBindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CorrelationVectorBindings.h; sourceTree = "<group>"; };
 		"CorrelationVector::CorrelationVector::Product" /* CorrelationVector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CorrelationVector::CorrelationVectorBindings::Product" /* CorrelationVectorBindings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVectorBindings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = CorrelationVectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,7 +90,6 @@
 		OBJ_20 /* SpinParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinParameters.swift; sourceTree = "<group>"; };
 		OBJ_22 /* AtomicHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AtomicHelper.m; sourceTree = "<group>"; };
 		OBJ_24 /* AtomicHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtomicHelper.h; sourceTree = "<group>"; };
-		OBJ_25 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		OBJ_28 /* CorrelationVectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorTests.swift; sourceTree = "<group>"; };
 		OBJ_29 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_35 /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = SOURCE_ROOT; };
@@ -159,8 +159,9 @@
 		OBJ_23 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				C2943F8122CE30FE00E82A17 /* module.modulemap */,
 				OBJ_24 /* AtomicHelper.h */,
-				OBJ_25 /* module.modulemap */,
+				C2943F8222CE327200E82A17 /* CorrelationVectorBindings.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -211,7 +212,6 @@
 		OBJ_7 /* Configs */ = {
 			isa = PBXGroup;
 			children = (
-				C28C769B22CE210C003E574F /* Bindings.xcconfig */,
 				OBJ_8 /* Global.xcconfig */,
 			);
 			name = Configs;
@@ -355,7 +355,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			shellScript = "\"${PROJECT_DIR}/Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -459,7 +459,6 @@
 		};
 		OBJ_59 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C28C769B22CE210C003E574F /* Bindings.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVectorBindings_Info.plist;
 			};
@@ -467,7 +466,6 @@
 		};
 		OBJ_60 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C28C769B22CE210C003E574F /* Bindings.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVectorBindings_Info.plist;
 			};
