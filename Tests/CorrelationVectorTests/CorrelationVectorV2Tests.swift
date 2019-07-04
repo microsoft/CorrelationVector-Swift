@@ -29,6 +29,18 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual("KZY+dsX2jEaZesgCPjJ2Ng.1.1", sut.value)
   }
 
+  func testImplicitV2Creation() throws {
+
+    // If
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.1"
+    let cv1 = CorrelationVector.parse(baseVector)
+    let cv2 = try CorrelationVector.extend(baseVector)
+
+    //Then
+    XCTAssertEqual(cv1.version, .v2)
+    XCTAssertEqual(cv2.version, .v2)
+  }
+
   func testGetBaseAsUuidTest() throws {
 
     // If
@@ -184,6 +196,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   
   static var allTests = [
     ("createFromString", testCreateFromString),
+    ("implicitV2Creation", testImplicitV2Creation),
     ("getBaseAsUuidTest", testGetBaseAsUuidTest),
     ("createExtendAndIncrement", testCreateExtendAndIncrement),
     ("createExtendAndIncrementFromUuid", testCreateExtendAndIncrementFromUuid),

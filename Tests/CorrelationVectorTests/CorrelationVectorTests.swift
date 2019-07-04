@@ -20,9 +20,37 @@ final class CorrelationVectorTests: XCTestCase {
     // Then
     XCTAssertEqual(sut.version, .v1)
   }
-  
-  func testConvertFromVectorBaseToGuidBackToVectorBase() throws {
-    
+
+  func testGetBaseAsUuidForInvalidUuidVectorBase() throws {
+
+    // If
+    // CV base which has four non-zero least significant bits meaning conversion to Uuid will lose information.
+    // CV Base -> Uuid -> CV Base conversion results in:
+    //   /////////////////////B -> ffffffff-ffff-ffff-ffff-fffffffffffc -> /////////////////////A
+    let vectorBase = "/////////////////////B";
+    let vectorBaseUuid = UUID(uuidString: "ffffffff-ffff-ffff-ffff-fffffffffffc")
+    let correlationVector = CorrelationVector.parse("\(vectorBase).0")
+
+    // When
+    let baseAsUuid = try correlationVector.baseAsUUID()
+
+    // Then
+    XCTAssertEqual(vectorBaseUuid, baseAsUuid)
+
+    // When
+    CorrelationVector.validateDuringCreation = true
+    XCTAssertThrowsError(try correlationVector.baseAsUUID()) { error in
+      guard case CorrelationVectorError.invalidOperation(let value) = error else {
+        return XCTFail()
+      }
+
+      // Then
+      XCTAssertEqual(value, "The four least significant bits of the base64 encoded vector base must be zeros to reliably convert to a UUID.")
+    }
+  }
+
+  func testConvertFromVectorBaseToUuidBackToVectorBase() throws {
+
     // If
     // CV bases which have four zero least significant bits meaning a conversion to a Guid will retain all
     // information.
@@ -36,32 +64,18 @@ final class CorrelationVectorTests: XCTestCase {
                                 "/////////////////////g",
                                 "/////////////////////w"]
     
-    for vectorBase in validGuidVectorBases
-    {
-      
+    for vectorBase in validGuidVectorBases {
+
       // When
       let correlationVector = CorrelationVector.parse("\(vectorBase).0")
       guard let baseAsGuid = try correlationVector.baseAsUUID() else { return XCTFail() }
       let correlationVectorFromGuid = CorrelationVectorV2(baseAsGuid)
-      
+
       // Then
       XCTAssertEqual(correlationVector.value, correlationVectorFromGuid.value);
     }
-    
   }
-  
-  func testImplicitV2Creation() throws {
-    
-    // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.1"
-    let cv1 = CorrelationVector.parse(baseVector)
-    let cv2 = try CorrelationVector.extend(baseVector)
-    
-    //Then
-    XCTAssertEqual(cv1.version, .v2)
-    XCTAssertEqual(cv2.version, .v2)
-  }
-  
+
   func testExplicitVersionCreation() throws {
     
     // If
@@ -124,35 +138,7 @@ final class CorrelationVectorTests: XCTestCase {
     waitForExpectations(timeout: 10)
     XCTAssertEqual(1_000_000, sut.extension)
   }
-  
-  func testCreateFromString() throws {
-    
-    // If
-    let sut = try CorrelationVector.extend("tul4NUsfs9Cl7mOf.1")
-    XCTAssertEqual(sut.version, .v1)
-    XCTAssertEqual(sut.extension, 0)
-    
-    // When
-    let _ = sut.increment()
-    
-    // Then
-    let split = sut.value.split(separator: CorrelationVector.delimiter)
-    XCTAssertEqual(3, split.count)
-    XCTAssertEqual(1, sut.extension)
-    XCTAssertEqual("tul4NUsfs9Cl7mOf.1.1", sut.value)
-  }
-  
-  func testExtendOverMaxLength() throws {
-    
-    // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23"
-    let sut = try CorrelationVector.extend(baseVector)
-    XCTAssertEqual(sut.version, .v1)
-    
-    // Then
-    XCTAssertEqual(baseVector + CorrelationVector.terminator, sut.value);
-  }
-  
+
   func testExtendNull() throws {
     
     // If
@@ -171,54 +157,6 @@ final class CorrelationVectorTests: XCTestCase {
       // Then
       XCTAssertEqual(value, "The correlation vector can not be null or bigger than 63 characters")
     }
-  }
-  
-  func testImmutableWithTerminator() {
-    
-    // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479.0!"
-    
-    // Then
-    XCTAssertEqual(baseVector, try CorrelationVector.extend(baseVector).value)
-    XCTAssertEqual(baseVector, CorrelationVector.parse(baseVector).increment())
-  }
-  
-  func testExtendAndIncrementPastMaxWithNoErrors() throws {
-    
-    // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479"
-    let sut = try CorrelationVector.extend(baseVector)
-    XCTAssertEqual(sut.version, .v1)
-    
-    // When
-    let _ = sut.increment()
-    
-    // Then
-    XCTAssertEqual(baseVector + ".1", sut.value)
-    
-    // When
-    for _ in 1...20 {
-      let _ = sut.increment()
-    }
-    
-    // Then
-    XCTAssertEqual(baseVector+".9!", sut.value)
-  }
-  
-  func testIncrementPastMax() throws {
-    
-    // If
-    let vectorBase = "tul4NUsfs9Cl7mOf"
-    let uintMax = 0xFF_FF_FF_FF
-    let baseVector = "\(vectorBase).\(uintMax)"
-    let sut = CorrelationVector.parse(baseVector)
-    XCTAssertEqual(sut.version, .v1)
-    
-    // When
-    let _ = sut.increment()
-    
-    // Then
-    XCTAssertEqual("\(vectorBase).\(uintMax)", sut.value)
   }
   
   func testThrowWithInsufficientCharsValue() {
@@ -298,16 +236,10 @@ final class CorrelationVectorTests: XCTestCase {
   
   static var allTests = [
     ("defaultVersion", testDefaultVersion),
-    ("convertFromVectorBaseToGuidAndBack", testConvertFromVectorBaseToGuidBackToVectorBase),
-    ("implicitV2Creation", testImplicitV2Creation),
+    ("convertFromVectorBaseToUuidAndBack", testConvertFromVectorBaseToUuidBackToVectorBase),
     ("explicitVersionCreation", testExplicitVersionCreation),
     ("increment", testIncrement),
     ("incrementIsUniqueAcrossMultipleThreads", testIncrementIsUniqueAcrossMultipleThreads),
-    ("createFromString", testCreateFromString),
-    ("extendOverMaxLength", testExtendOverMaxLength),
-    ("immutableWithTerminator", testImmutableWithTerminator),
-    ("extendAndIncrementPastMaxWithNoErrors", testExtendAndIncrementPastMaxWithNoErrors),
-    ("incrementPastMax", testIncrementPastMax),
     ("throwWithInsufficientCharsValue", testThrowWithInsufficientCharsValue),
     ("throwWithTooBigValue", testThrowWithTooBigValue),
     ("throwWithTooBigExtensionValue", testThrowWithTooBigExtensionValue),
