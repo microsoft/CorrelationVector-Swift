@@ -29,3 +29,40 @@ Privacy information can be found at https://privacy.microsoft.com/en-us/
 
 Microsoft and any contributors reserve all other rights, whether under their respective copyrights, patents,
 or trademarks, whether by implication, estoppel or otherwise.
+
+# Usage
+
+For general info on correlation vector, refer to [spec](https://microsoft.sharepoint.com/:w:/t/OneCollector/EUy_CKFrDeNBvqOe7ru42oEBjVaqs7kMJkxbF09o7Dic-w?rtime=0bHE72sA10g).
+
+## Init new vector
+
+```swift
+let correlationVector = CorrelationVector() // Implicit v1 creation
+let correlationVectorV1 = CorrelationVector(.v1)
+let correlationVectorV2 = CorrelationVector(.v2)
+```
+
+## Create new vector via extending existing vector
+
+```swift
+let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1") // "vtul4NUsfs9Cl7mOf.1.0"
+```
+
+## Spin
+
+**NOTE-:** Spin operator operator can only be used on v2 correlation vectors
+
+```swift
+let correlationVector = CorrelationVectorV2()
+let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
+let spinCorrelationVector = try CorrelationVectorV2.spin(correlationVector.value, params)
+```
+
+## General methods
+
+```swift
+let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1") // "vtul4NUsfs9Cl7mOf.1.0"
+let vBase = correlationVector.base // "vtul4NUsfs9Cl7mOf"
+let vExtension = correlationVector.extension // 0
+let vIncrement = correlationVector.increment() // will return "vtul4NUsfs9Cl7mOf.1"
+```
