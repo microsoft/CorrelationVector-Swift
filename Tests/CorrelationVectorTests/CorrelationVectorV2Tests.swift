@@ -28,7 +28,20 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(1, sut.extension)
     XCTAssertEqual("KZY+dsX2jEaZesgCPjJ2Ng.1.1", sut.value)
   }
-  
+
+  func testGetBaseAsUuidTest() throws {
+
+    // If
+    let uuid = UUID.init()
+
+    // When
+    let cV = CorrelationVectorV2(uuid)
+    let actualUuid = try cV.baseAsUUID()
+
+    // Then
+    XCTAssertEqual(uuid, actualUuid)
+  }
+
   func testCreateExtendAndIncrement() throws {
     
     // If
@@ -171,6 +184,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   
   static var allTests = [
     ("createFromString", testCreateFromString),
+    ("getBaseAsUuidTest", testGetBaseAsUuidTest),
     ("createExtendAndIncrement", testCreateExtendAndIncrement),
     ("createExtendAndIncrementFromUuid", testCreateExtendAndIncrementFromUuid),
     ("extendOverMaxLength", testExtendOverMaxLength),

@@ -12,6 +12,22 @@ final class CorrelationVectorV1Tests: XCTestCase {
     CorrelationVector.validateDuringCreation = false
   }
   
+  func testGetBaseAsUuidTest(){
+
+    // If
+    let cV = CorrelationVectorV1()
+
+    // When
+    XCTAssertThrowsError(try cV.baseAsUUID()) { error in
+      guard case CorrelationVectorError.invalidOperation(let value) = error else {
+        return XCTFail()
+      }
+
+      // Then
+      XCTAssertEqual(value, "Cannot convert a V1 correlation vector base to a UUID.")
+    }
+  }
+
   func testCreateExtendAndIncrement() throws {
     
     // If
@@ -46,6 +62,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   }
   
   static var allTests = [
+    ("getBaseAsUuidTest", testGetBaseAsUuidTest),
     ("createExtendAndIncrement", testCreateExtendAndIncrement),
     ("spinOverMaxLength", testSpinOverMaxLength),
   ]
