@@ -67,8 +67,7 @@ internal func validate(_ correlationVector: String?, baseLength: Int, maxLength:
 ///   - baseLength: the max length of a correlation vector base.
 /// - Returns: the encoded vector base value.
 internal func baseUuid(from uuid: UUID, baseLength: Int) -> String {
-  let uuidString = uuid.uuidString
-  let base64String = Data(uuidString.utf8).base64EncodedString();
+  let base64String = uuid.data.base64EncodedString()
   let endIndex = base64String.index(base64String.startIndex, offsetBy: baseLength);
   return String(base64String[..<endIndex])
 }
@@ -91,5 +90,31 @@ internal extension Date {
   var ticks: Int64 {
     let ticksInSecond = 10_000_000.0
     return Int64(self.timeIntervalSince1970 * ticksInSecond)
+  }
+}
+
+internal extension UUID {
+
+  /// The data representation of UUID.
+  var data: Data {
+    return withUnsafePointer(to: self.uuid) {
+      $0.withMemoryRebound(to: UInt8.self, capacity: MemoryLayout<uuid_t>.size) {
+        Data(bytes: $0, count: MemoryLayout<uuid_t>.size)
+      }
+    }
+  }
+}
+
+internal extension Data {
+  
+  /// The UUID representation of Data.
+  var uuid: UUID {
+    var uuid: uuid_t = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    withUnsafeMutablePointer(to: &uuid) {
+      $0.withMemoryRebound(to: UInt8.self, capacity: MemoryLayout<uuid_t>.size) {
+        self.copyBytes(to: $0, count: MemoryLayout<uuid_t>.size)
+      }
+    }
+    return UUID(uuid: uuid)
   }
 }
