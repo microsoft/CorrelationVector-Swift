@@ -32,7 +32,7 @@ or trademarks, whether by implication, estoppel or otherwise.
 
 # Usage
 
-For general info on correlation vector, refer to [spec](https://microsoft.sharepoint.com/:w:/t/OneCollector/EUy_CKFrDeNBvqOe7ru42oEBjVaqs7kMJkxbF09o7Dic-w?rtime=0bHE72sA10g).
+For general info on correlation vector, refer to [wiki page](https://osgwiki.com/wiki/CorrelationVector).
 
 ## Init new vector
 
@@ -40,6 +40,7 @@ For general info on correlation vector, refer to [spec](https://microsoft.sharep
 let correlationVector = CorrelationVector() // Implicit v1 creation
 let correlationVectorV1 = CorrelationVector(.v1)
 let correlationVectorV2 = CorrelationVector(.v2)
+let parsedCorrelationVector = CorrelationVector.parse("vtul4NUsfs9Cl7mOf.1")
 ```
 
 ## Create new vector via extending existing vector
