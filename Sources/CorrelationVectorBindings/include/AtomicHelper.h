@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#pragma once
+
 #import <stdatomic.h>
 #import <stdbool.h>
 #import <stdint.h>

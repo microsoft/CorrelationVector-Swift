@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import Foundation
+import CorrelationVectorBindings
 
 @objc internal class CorrelationVectorBase: NSObject {
   @objc internal var base: String
