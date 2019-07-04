@@ -85,18 +85,20 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(sut.base, baseVector)
   }
   
-  func testIncrement() {
+  func testIncrement() throws {
     
     // If
-    let sut = CorrelationVector()
+    let vectorBase = "tul4NUsfs9Cl7mOf"
+    let sut = try CorrelationVector.extend(vectorBase)
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v1)
     
     // When
-    let _ = sut.increment()
+    let increment = sut.increment()
     
     // Then
     XCTAssertEqual(1, sut.extension)
+    XCTAssertEqual("\(vectorBase).1", increment)
   }
   
   func testIncrementIsUniqueAcrossMultipleThreads() {
