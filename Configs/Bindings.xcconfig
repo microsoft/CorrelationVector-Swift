@@ -1,0 +1,2 @@
+DEFINES_MODULE = YES
+MODULEMAP_FILE = Sources/CorrelationVectorBindings/include/module.modulemap

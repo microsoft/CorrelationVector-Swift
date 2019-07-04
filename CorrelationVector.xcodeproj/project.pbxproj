@@ -73,6 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C28C769B22CE210C003E574F /* Bindings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Bindings.xcconfig; path = Configs/Bindings.xcconfig; sourceTree = "<group>"; };
 		"CorrelationVector::CorrelationVector::Product" /* CorrelationVector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CorrelationVector::CorrelationVectorBindings::Product" /* CorrelationVectorBindings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVectorBindings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = CorrelationVectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +211,7 @@
 		OBJ_7 /* Configs */ = {
 			isa = PBXGroup;
 			children = (
+				C28C769B22CE210C003E574F /* Bindings.xcconfig */,
 				OBJ_8 /* Global.xcconfig */,
 			);
 			name = Configs;
@@ -242,6 +244,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_40 /* Build configuration list for PBXNativeTarget "CorrelationVector" */;
 			buildPhases = (
+				C28C769C22CE226B003E574F /* Verify no buildSettings */,
 				OBJ_43 /* Sources */,
 				OBJ_54 /* Frameworks */,
 			);
@@ -334,6 +337,28 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C28C769C22CE226B003E574F /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_43 /* Sources */ = {
@@ -434,19 +459,17 @@
 		};
 		OBJ_59 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C28C769B22CE210C003E574F /* Bindings.xcconfig */;
 			buildSettings = {
-				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVectorBindings_Info.plist;
-				MODULEMAP_FILE = Sources/CorrelationVectorBindings/include/module.modulemap;
 			};
 			name = Debug;
 		};
 		OBJ_60 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C28C769B22CE210C003E574F /* Bindings.xcconfig */;
 			buildSettings = {
-				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVectorBindings_Info.plist;
-				MODULEMAP_FILE = Sources/CorrelationVectorBindings/include/module.modulemap;
 			};
 			name = Release;
 		};
