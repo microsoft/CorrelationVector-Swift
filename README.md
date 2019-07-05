@@ -53,7 +53,7 @@ dependencies: [
 ## With Cocoapods
 
 1. Run `pod init` if not yet initialized
-2. Add following line to corresponding target's section in `Podfile':
+2. Add following line to corresponding target's section in `Podfile`:
 ```
 pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector-Swift.git', :branch => 'master'
 ```
