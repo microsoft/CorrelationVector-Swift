@@ -44,10 +44,6 @@ import Foundation
   }
 
   private static func uniqueValue() -> String {
-    let uuid = UUID()
-    let data = withUnsafePointer(to: uuid.uuid) {
-      Data(bytes: $0, count: 12)
-    }
-    return data.base64EncodedString()
+    return UUID().data.prefix(12).base64EncodedString()
   }
 }
