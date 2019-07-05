@@ -42,9 +42,7 @@ let correlationVector = CorrelationVector()
 
 // Explicit creation
 let correlationVectorV1 = CorrelationVector(.v1)
-let correlationVectorV1a = CorrelationVectorV1()
 let correlationVectorV2 = CorrelationVector(.v2)
-let correlationVectorV2a = CorrelationVectorV2()
 
 // Automatic version detection
 let parsedCorrelationVector = CorrelationVector.parse("vtul4NUsfs9Cl7mOf.1")
@@ -62,9 +60,9 @@ let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 **NOTE-:** Spin operator can only be used on v2 correlation vectors
 
 ```swift
-let correlationVector = CorrelationVectorV2()
+let correlationVector = CorrelationVector(.v2)
 let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
-let spinCorrelationVector = try CorrelationVectorV2.spin(correlationVector.value, params)
+let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, params)
 ```
 
 ## General methods
