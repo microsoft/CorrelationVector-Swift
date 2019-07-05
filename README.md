@@ -30,6 +30,48 @@ Privacy information can be found at https://privacy.microsoft.com/en-us/
 Microsoft and any contributors reserve all other rights, whether under their respective copyrights, patents,
 or trademarks, whether by implication, estoppel or otherwise.
 
+# Installation
+
+## With Swift Manager
+
+1. Run `swift package init` if not yet initialized
+2. Add following dependency to `Package` section:
+```swift
+dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
+    ]
+```
+3. Add dependency to `Package`>`targets`>`target` section
+```swift
+.target(
+    name: "TestApp",
+    dependencies: ["CorrelationVector"])
+```
+
+## With Cocoapods
+
+1. Run `pod init` if not yet initialized
+2. Add following line to corresponding target's section in `Podfile':
+```
+pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector-Swift.git', :branch => 'master'
+```
+3. Run `pod install'
+
+## With Carthage
+
+1. Run `touch Cartfile` if `Cartfile` is not yet initialized
+2. Add 
+```
+github "https://github.com/microsoft/CorrelationVector-Swift" "master"
+```
+OR (for specific version)
+```
+github "https://github.com/microsoft/CorrelationVector-Swift" == 2.0
+```
+3. Run `carthage update --platform iOS` for iOS only or `carthage update` for all platforms
+
 # Usage
 
 For general info on correlation vector, refer to [specification](https://github.com/microsoft/CorrelationVector/blob/master/cV%20-%202.1.md).
