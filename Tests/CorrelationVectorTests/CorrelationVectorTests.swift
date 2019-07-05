@@ -234,6 +234,27 @@ final class CorrelationVectorTests: XCTestCase {
     }
   }
   
+  func testThrowWithCharsInExtension() throws {
+
+    // If
+    let baseValue = "tul4NUsfs9Cl7mOfN/dupsl"
+    let baseValueWithExtension = "\(baseValue).w"
+    let sut = try CorrelationVector.extend(baseValueWithExtension)
+    XCTAssertEqual(sut.extension, 0)
+    XCTAssertEqual(sut.version, .v1)
+
+    // When
+    CorrelationVector.validateDuringCreation = true
+    XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
+      guard case CorrelationVectorError.invalidArgument(let value) = error else {
+        return XCTFail()
+      }
+
+      // Then
+      XCTAssertEqual(value, "Invalid correlation vector \(baseValueWithExtension). Invalid base value \(baseValue)")
+    }
+  }
+
   static var allTests = [
     ("defaultVersion", testDefaultVersion),
     ("convertFromVectorBaseToUuidAndBack", testConvertFromVectorBaseToUuidBackToVectorBase),
@@ -243,6 +264,7 @@ final class CorrelationVectorTests: XCTestCase {
     ("throwWithInsufficientCharsValue", testThrowWithInsufficientCharsValue),
     ("throwWithTooBigValue", testThrowWithTooBigValue),
     ("throwWithTooBigExtensionValue", testThrowWithTooBigExtensionValue),
-    ("throwWithTooManyCharsValue", testThrowWithTooManyCharsValue)
+    ("throwWithTooManyCharsValue", testThrowWithTooManyCharsValue),
+    ("throwWithCharsInExtension", testThrowWithCharsInExtension)
   ]
 }
