@@ -32,7 +32,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testGetBaseAsUuidTest(){
 
     // If
-    let cV = CorrelationVectorV1()
+    let cV = CorrelationVector()
 
     // When
     XCTAssertThrowsError(try cV.baseAsUUID()) { error in
@@ -97,7 +97,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testCreateExtendAndIncrement() throws {
     
     // If
-    let sut = CorrelationVectorV1()
+    let sut = CorrelationVector()
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v1)
     

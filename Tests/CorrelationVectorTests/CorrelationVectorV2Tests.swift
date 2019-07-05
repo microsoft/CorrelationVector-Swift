@@ -15,7 +15,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testCreateFromString() throws {
     
     // If
-    let sut = try CorrelationVectorV2.extend("KZY+dsX2jEaZesgCPjJ2Ng.1")
+    let sut = try CorrelationVector.extend("KZY+dsX2jEaZesgCPjJ2Ng.1")
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v2)
     
@@ -47,7 +47,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     let uuid = UUID.init()
 
     // When
-    let cV = CorrelationVectorV2(uuid)
+    let cV = CorrelationVector(uuid)
     let actualUuid = try cV.baseAsUUID()
 
     // Then
@@ -57,7 +57,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testCreateExtendAndIncrement() throws {
     
     // If
-    let sut = CorrelationVectorV2()
+    let sut = CorrelationVector(.v2)
     XCTAssertEqual(sut.version, .v2)
     
     // When
@@ -74,7 +74,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     
     // If
     let uuid = UUID.init()
-    let sut = CorrelationVectorV2(uuid)
+    let sut = CorrelationVector(uuid)
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v2)
     
@@ -94,7 +94,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     
     // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2141"
-    let sut = try CorrelationVectorV2.extend(baseVector)
+    let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v2)
     
     // Then
@@ -107,16 +107,16 @@ final class CorrelationVectorV2Tests: XCTestCase {
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.21474836479.0!"
     
     // Then
-    XCTAssertEqual(baseVector, try CorrelationVectorV2.extend(baseVector).value)
-    XCTAssertEqual(baseVector, try CorrelationVectorV2.spin(baseVector).value)
-    XCTAssertEqual(baseVector, CorrelationVectorV2.parse(baseVector).increment())
+    XCTAssertEqual(baseVector, try CorrelationVector.extend(baseVector).value)
+    XCTAssertEqual(baseVector, try CorrelationVector.spin(baseVector).value)
+    XCTAssertEqual(baseVector, CorrelationVector.parse(baseVector).increment())
   }
   
   func testIncrementPastMaxWithNoErrors() throws {
     
     // If
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214"
-    let sut = try CorrelationVectorV2.extend(baseVector)
+    let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v2)
     
     // When
@@ -140,7 +140,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214";
     
     // When
-    let cv = try CorrelationVectorV2.spin(baseVector);
+    let cv = try CorrelationVector.spin(baseVector);
     
     // Then
     XCTAssertEqual(baseVector + CorrelationVector.terminator, cv.value)
@@ -154,7 +154,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     CorrelationVector.validateDuringCreation = true;
     
     // When
-    XCTAssertThrowsError(try CorrelationVectorV2.extend(baseValueWithExtension)) { error in
+    XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
       guard case CorrelationVectorError.invalidArgument(let value) = error else {
         return XCTFail()
       }
@@ -167,14 +167,14 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testSpinSortValidation() throws {
     
     // If
-    let sut = CorrelationVectorV2()
+    let sut = CorrelationVector(.v2)
     let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
     var lastSpinValue : Int64 = 0;
     var wrappedCounter = 0;
     
     // When
     for _ in 0...100 {
-      let cV2 = try CorrelationVectorV2.spin(sut.value, params)
+      let cV2 = try CorrelationVector.spin(sut.value, params)
       let splitCv = cV2.value.split(separator: CorrelationVector.delimiter)
       let spinValue = Int64(splitCv[2])!
       

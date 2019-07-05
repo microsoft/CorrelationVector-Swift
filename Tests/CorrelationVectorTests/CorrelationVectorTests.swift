@@ -69,8 +69,8 @@ final class CorrelationVectorTests: XCTestCase {
       // When
       let correlationVector = CorrelationVector.parse("\(vectorBase).0")
       guard let baseAsGuid = try correlationVector.baseAsUUID() else { return XCTFail() }
-      let correlationVectorFromGuid = CorrelationVectorV2(baseAsGuid)
-
+      let correlationVectorFromGuid = CorrelationVector(baseAsGuid)
+      
       // Then
       XCTAssertEqual(correlationVector.value, correlationVectorFromGuid.value);
     }
