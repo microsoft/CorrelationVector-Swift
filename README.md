@@ -38,8 +38,6 @@ or trademarks, whether by implication, estoppel or otherwise.
 2. Add following dependency to `Package` section:
 ```swift
 dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
     ]
 ```
@@ -57,7 +55,7 @@ dependencies: [
 ```
 pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector-Swift.git', :branch => 'master'
 ```
-3. Run `pod install'
+3. Run `pod install`
 
 ## With Carthage
 
