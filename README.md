@@ -32,21 +32,29 @@ or trademarks, whether by implication, estoppel or otherwise.
 
 # Usage
 
-For general info on correlation vector, refer to [wiki page](https://osgwiki.com/wiki/CorrelationVector).
+For general info on correlation vector, refer to [specification](https://github.com/microsoft/CorrelationVector/blob/master/cV%20-%202.1.md).
 
 ## Init new vector
 
 ```swift
-let correlationVector = CorrelationVector() // Implicit v1 creation
+// Implicit creation
+let correlationVector = CorrelationVector()
+
+// Explicit creation
 let correlationVectorV1 = CorrelationVector(.v1)
+let correlationVectorV1a = CorrelationVectorV1()
 let correlationVectorV2 = CorrelationVector(.v2)
+let correlationVectorV2a = CorrelationVectorV2()
+
+// Automatic version detection
 let parsedCorrelationVector = CorrelationVector.parse("vtul4NUsfs9Cl7mOf.1")
 ```
 
 ## Create new vector via extending existing vector
 
 ```swift
-let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1") // "vtul4NUsfs9Cl7mOf.1.0"
+// Init "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending
+let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 ```
 
 ## Spin
@@ -62,8 +70,15 @@ let spinCorrelationVector = try CorrelationVectorV2.spin(correlationVector.value
 ## General methods
 
 ```swift
-let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1") // "vtul4NUsfs9Cl7mOf.1.0"
-let vBase = correlationVector.base // "vtul4NUsfs9Cl7mOf"
-let vExtension = correlationVector.extension // 0
-let vIncrement = correlationVector.increment() // will return "vtul4NUsfs9Cl7mOf.1"
+// Init "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending
+let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
+
+// Get base of cv ("vtul4NUsfs9Cl7mOf")
+let vBase = correlationVector.base
+
+// Get extension of cv (0)
+let vExtension = correlationVector.extension
+
+// Increment existing vector and return result ("vtul4NUsfs9Cl7mOf.1.1")
+let vIncrement = correlationVector.increment()
 ```
