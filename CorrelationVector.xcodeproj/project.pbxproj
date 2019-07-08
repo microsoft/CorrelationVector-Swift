@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		C28C769A22CE177C003E574F /* AtomicHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* AtomicHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DF8355A122D34199008FFD45 /* CorrelationVectorV2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF83559F22D34199008FFD45 /* CorrelationVectorV2Tests.swift */; };
+		DF8355A222D34199008FFD45 /* CorrelationVectorV1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8355A022D34199008FFD45 /* CorrelationVectorV1Tests.swift */; };
 		OBJ_44 /* CorrelationVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CorrelationVector.swift */; };
 		OBJ_45 /* CorrelationVectorBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* CorrelationVectorBase.swift */; };
 		OBJ_46 /* CorrelationVectorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* CorrelationVectorError.swift */; };
@@ -78,6 +80,8 @@
 		"CorrelationVector::CorrelationVector::Product" /* CorrelationVector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CorrelationVector::CorrelationVectorBindings::Product" /* CorrelationVectorBindings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CorrelationVectorBindings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CorrelationVector::CorrelationVectorTests::Product" /* CorrelationVectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = CorrelationVectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF83559F22D34199008FFD45 /* CorrelationVectorV2Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV2Tests.swift; sourceTree = "<group>"; };
+		DF8355A022D34199008FFD45 /* CorrelationVectorV1Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrelationVectorV1Tests.swift; sourceTree = "<group>"; };
 		OBJ_11 /* CorrelationVector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVector.swift; sourceTree = "<group>"; };
 		OBJ_12 /* CorrelationVectorBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorBase.swift; sourceTree = "<group>"; };
 		OBJ_13 /* CorrelationVectorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrelationVectorError.swift; sourceTree = "<group>"; };
@@ -177,6 +181,8 @@
 		OBJ_27 /* CorrelationVectorTests */ = {
 			isa = PBXGroup;
 			children = (
+				DF8355A022D34199008FFD45 /* CorrelationVectorV1Tests.swift */,
+				DF83559F22D34199008FFD45 /* CorrelationVectorV2Tests.swift */,
 				OBJ_28 /* CorrelationVectorTests.swift */,
 				OBJ_29 /* XCTestManifests.swift */,
 			);
@@ -398,8 +404,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				DF8355A222D34199008FFD45 /* CorrelationVectorV1Tests.swift in Sources */,
 				OBJ_80 /* CorrelationVectorTests.swift in Sources */,
 				OBJ_81 /* XCTestManifests.swift in Sources */,
+				DF8355A122D34199008FFD45 /* CorrelationVectorV2Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
