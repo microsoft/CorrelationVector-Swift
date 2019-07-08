@@ -97,8 +97,7 @@ let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 
 ## Spin
 
-[!NOTE]
-> Spin operator can only be used on v2 correlation vectors
+**NOTE:** Spin operator can only be used on v2 correlation vectors
 
 ```swift
 let correlationVector = CorrelationVector(.v2)
