@@ -47,6 +47,7 @@ dependencies: [
     name: "YourApp",
     dependencies: ["CorrelationVector"])
 ```
+4. Run `swift build` to download, link and compile dependencies
 
 ## Cocoapods
 
@@ -70,7 +71,7 @@ github "https://github.com/microsoft/CorrelationVector-Swift" "master"
 
 For general info on correlation vector, refer to [specification](https://github.com/microsoft/CorrelationVector/blob/master/cV%20-%202.1.md).
 
-## Init new vector
+## Initialize new vector
 
 ```swift
 // Implicit creation
@@ -87,7 +88,7 @@ let parsedCorrelationVector = CorrelationVector.parse("vtul4NUsfs9Cl7mOf.1")
 ## Create new vector via extending existing vector
 
 ```swift
-// Init "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending
+// Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending
 let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 ```
 
@@ -104,7 +105,7 @@ let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, 
 ## General methods
 
 ```swift
-// Init "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending the existing vector
+// Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending the existing vector
 let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 
 // Get base of cv ("vtul4NUsfs9Cl7mOf")
