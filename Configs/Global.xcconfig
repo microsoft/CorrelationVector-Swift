@@ -1,11 +1,11 @@
 ENABLE_TESTABILITY = YES
-FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-INFOPLIST_FILE = CorrelationVector.xcodeproj/CorrelationVector_Info.plist
 IPHONEOS_DEPLOYMENT_TARGET = 9.0
-PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.correlationvector
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.$(TARGET_NAME)
 PRODUCT_NAME = $(TARGET_NAME)
 ALWAYS_SEARCH_USER_PATHS = NO
+CLANG_ENABLE_OBJC_ARC = YES
 SKIP_INSTALL = YES
 SWIFT_VERSION = 5.0
-SWIFT_OBJC_BRIDGING_HEADER = Sources/CorrelationVector/CorrelationVector-Bridging-Header.h
+SWIFT_INCLUDE_PATHS = Sources/CorrelationVectorBindings
 SDKROOT = iphoneos
+INSTALL_PATH = @executable_path/Frameworks
