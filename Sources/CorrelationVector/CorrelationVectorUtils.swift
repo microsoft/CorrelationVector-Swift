@@ -47,7 +47,7 @@ internal func isImmutable(_ correlationVector: String?) -> Bool {
 /// - Throws: CorrelationVectorError.invalidArgument if vector is not valid.
 internal func validate(_ correlationVector: String?, baseLength: Int, maxLength: Int) throws {
   guard let vector = correlationVector, !vector.isEmpty && vector.count <= maxLength else {
-    throw CorrelationVectorError.invalidArgument("The \(correlationVector!) correlation vector can not be null or bigger than \(maxLength) characters")
+    throw CorrelationVectorError.invalidArgument("The correlation vector can not be null or bigger than \(maxLength) characters")
   }
   let parts = vector.split(separator: CorrelationVector.delimiter)
   if parts.count < 2 || parts[0].count != baseLength {
