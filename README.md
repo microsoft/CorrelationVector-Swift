@@ -32,14 +32,14 @@ or trademarks, whether by implication, estoppel or otherwise.
 
 # Installation
 
-## With Swift Manager
+## Swift Package Manager
 
 1. Run `swift package init` if not yet initialized
 2. Add the following dependency to the **Package** section:
 ```swift
 dependencies: [
-        .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
-    ]
+    .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
+]
 ```
 3. Add dependency to the **Package** > **targets** > **target** > **dependencies** section
 ```swift
@@ -48,7 +48,7 @@ dependencies: [
     dependencies: ["CorrelationVector"])
 ```
 
-## With Cocoapods
+## Cocoapods
 
 1. Run `pod init` if not yet initialized
 2. Add the following line to the corresponding target's section in the **Podfile**:
@@ -57,7 +57,7 @@ pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector
 ```
 3. Run `pod install`
 
-## With Carthage
+## Carthage
 
 1. Run `touch Cartfile` if `Cartfile` is not yet initialized
 2. Add the following line:
