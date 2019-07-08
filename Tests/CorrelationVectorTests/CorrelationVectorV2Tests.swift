@@ -54,7 +54,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(uuid, actualUuid)
   }
 
-  func testCreateExtendAndIncrement() throws {
+  func testCreateIncrement() throws {
     
     // If
     let sut = CorrelationVector(.v2)
@@ -70,11 +70,11 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(22, split[0].count)
   }
   
-  func testCreateExtendAndIncrementFromUuid() throws {
+  func testCreateIncrementFromUuid() throws {
     
     // If
-    let uuid = UUID.init()
-    let sut = CorrelationVector(uuid)
+    let uuid = UUID(uuidString: "C1F00B9C-0076-437A-8BA9-4E230EB2C87A")
+    let sut = CorrelationVector(uuid!)
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v2)
     
@@ -82,11 +82,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     let _ = sut.increment()
     
     // Then
-    let split = sut.value.split(separator: CorrelationVector.delimiter)
-    let uuidString = uuid.uuidString
-    let base64String = Data(uuidString.utf8).base64EncodedString()
-    let endIndex = base64String.index(base64String.startIndex, offsetBy: 22)
-    XCTAssertEqual(String(base64String[..<endIndex]), String(split[0]))
+    XCTAssertEqual(uuid, try sut.baseAsUUID())
     XCTAssertEqual(1, sut.extension)
   }
   
@@ -198,8 +194,8 @@ final class CorrelationVectorV2Tests: XCTestCase {
     ("createFromString", testCreateFromString),
     ("implicitV2Creation", testImplicitV2Creation),
     ("getBaseAsUuidTest", testGetBaseAsUuidTest),
-    ("createExtendAndIncrement", testCreateExtendAndIncrement),
-    ("createExtendAndIncrementFromUuid", testCreateExtendAndIncrementFromUuid),
+    ("createIncrement", testCreateIncrement),
+    ("createIncrementFromUuid", testCreateIncrementFromUuid),
     ("extendOverMaxLength", testExtendOverMaxLength),
     ("immutableWithTerminator", testImmutableWithTerminator),
     ("incrementPastMaxWithNoErrors", testIncrementPastMaxWithNoErrors),

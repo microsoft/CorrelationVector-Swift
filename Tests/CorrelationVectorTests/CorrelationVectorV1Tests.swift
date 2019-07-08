@@ -82,7 +82,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
 
     // If
     let vectorBase = "tul4NUsfs9Cl7mOf"
-    let uintMax = 0xFF_FF_FF_FF
+    let uintMax:UInt32 = 0xFF_FF_FF_FF
     let baseVector = "\(vectorBase).\(uintMax)"
     let sut = CorrelationVector.parse(baseVector)
     XCTAssertEqual(sut.version, .v1)
@@ -94,7 +94,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
     XCTAssertEqual("\(vectorBase).\(uintMax)", sut.value)
   }
 
-  func testCreateExtendAndIncrement() throws {
+  func testCreateIncrement() throws {
     
     // If
     let sut = CorrelationVector()
@@ -144,7 +144,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
     ("extendAndIncrementPastMaxWithNoErrors", testExtendAndIncrementPastMaxWithNoErrors),
     ("immutableWithTerminator", testImmutableWithTerminator),
     ("incrementPastMax", testIncrementPastMax),
-    ("createExtendAndIncrement", testCreateExtendAndIncrement),
+    ("createIncrement", testCreateIncrement),
     ("spinOverMaxLength", testSpinOverMaxLength),
   ]
 }
