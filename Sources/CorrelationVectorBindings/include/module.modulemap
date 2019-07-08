@@ -1,0 +1,4 @@
+module CorrelationVectorBindings {
+  umbrella header "CorrelationVectorBindings.h"
+  export *
+}
