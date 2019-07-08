@@ -39,11 +39,6 @@ public extension CorrelationVectorProtocol {
         throw CorrelationVectorError.invalidOperation("The four least significant bits of the base64 encoded vector base must be zeros to reliably convert to a UUID.")
       }
     }
-    if let decodedData = Data(base64Encoded: base + "==") {
-      if let decodedString = String(data: decodedData, encoding: .utf8) {
-        return UUID(uuidString: decodedString)
-      }
-    }
-    return nil
+    return Data(base64Encoded: base + "==")?.uuid
   }
 }
