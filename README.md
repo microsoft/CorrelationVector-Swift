@@ -35,13 +35,13 @@ or trademarks, whether by implication, estoppel or otherwise.
 ## With Swift Manager
 
 1. Run `swift package init` if not yet initialized
-2. Add following dependency to `Package` section:
+2. Add the following dependency to the **Package** section:
 ```swift
 dependencies: [
         .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
     ]
 ```
-3. Add dependency to `Package`>`targets`>`target` section
+3. Add dependency to the **Package**>**targets**>**target** section
 ```swift
 .target(
     name: "TestApp",
@@ -51,7 +51,7 @@ dependencies: [
 ## With Cocoapods
 
 1. Run `pod init` if not yet initialized
-2. Add following line to corresponding target's section in `Podfile`:
+2. Add the following line to the corresponding target's section in the **Podfile**:
 ```
 pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector-Swift.git', :branch => 'master'
 ```
@@ -60,15 +60,15 @@ pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector
 ## With Carthage
 
 1. Run `touch Cartfile` if `Cartfile` is not yet initialized
-2. Add 
+2. Add the following line:
 ```
 github "https://github.com/microsoft/CorrelationVector-Swift" "master"
 ```
-OR (for specific version)
+or if you want a specific version:
 ```
 github "https://github.com/microsoft/CorrelationVector-Swift" == 2.0
 ```
-3. Run `carthage update --platform iOS` for iOS only or `carthage update` for all platforms
+3. Run `carthage update --platform iOS`
 
 # Usage
 
@@ -97,7 +97,8 @@ let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 
 ## Spin
 
-**NOTE-:** Spin operator can only be used on v2 correlation vectors
+[!NOTE]
+> Spin operator can only be used on v2 correlation vectors
 
 ```swift
 let correlationVector = CorrelationVector(.v2)
@@ -108,7 +109,7 @@ let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, 
 ## General methods
 
 ```swift
-// Init "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending
+// Init "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending the existing vector
 let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 
 // Get base of cv ("vtul4NUsfs9Cl7mOf")
