@@ -179,8 +179,8 @@ final class CorrelationVectorV2Tests: XCTestCase {
         wrappedCounter += 1
       }
       lastSpinValue = spinValue
-      
-      // Wait for 10ms.
+
+      // Spin depends on processor ticks. We need usleep() to make spin values unique, there will be a collision otherwise.
       usleep(10000)
     }
     
