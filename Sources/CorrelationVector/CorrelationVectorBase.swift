@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import Foundation
+import CorrelationVectorBindings
 
 @objc internal class CorrelationVectorBase: NSObject {
   @objc internal var base: String
-  @objc internal var `extension`: Int
+  @objc internal var `extension`: UInt32
 
   /// Indicates whether the CV object is immutable.
   @objc internal var immutable: Bool
@@ -14,7 +15,7 @@ import Foundation
     return "\(self.base).\(self.extension)\(self.immutable ? CorrelationVector.terminator : "")"
   }
 
-  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+  required init(_ base: String, _ extension: UInt32, _ immutable: Bool) {
     self.base = base
     self.extension = `extension`
     self.immutable = immutable
@@ -24,11 +25,11 @@ import Foundation
     if self.immutable {
       return self.value
     }
-    var snapshot = 0
-    var next = 0
+    var snapshot: UInt32 = 0
+    var next: UInt32 = 0
     repeat {
       snapshot = self.extension
-      if snapshot == Int.max {
+      if snapshot == UInt32.max {
         return self.value
       }
       next = snapshot + 1
@@ -36,7 +37,7 @@ import Foundation
         self.immutable = true
         return self.value
       }
-    } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<Int>(&self.extension)), UnsafeMutablePointer<Int>(&snapshot), next)
+    } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<UInt32>(&self.extension)), UnsafeMutablePointer<UInt32>(&snapshot), next)
     return "\(self.base)\(CorrelationVector.delimiter)\(next)"
   }
 }
@@ -55,7 +56,7 @@ internal extension CorrelationVectorProtocol where Self: CorrelationVectorBase {
       if immutable {
         ext = ext[..<ext.index(ext.endIndex, offsetBy: -CorrelationVector.terminator.count)]
       }
-      if let extValue = Int(ext), extValue >= 0 {
+      if let extValue = UInt32(ext) {
         return self.init(String(base), extValue, immutable)
       }
     }

@@ -23,7 +23,7 @@ import Foundation
     self.init(baseUuid(from: base, baseLength: CorrelationVectorV1.baseLength), 0, false)
   }
 
-  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+  required init(_ base: String, _ extension: UInt32, _ immutable: Bool) {
     super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV1.maxLength))
   }
 
@@ -44,10 +44,6 @@ import Foundation
   }
 
   private static func uniqueValue() -> String {
-    let uuid = UUID()
-    let data = withUnsafePointer(to: uuid.uuid) {
-      Data(bytes: $0, count: 12)
-    }
-    return data.base64EncodedString()
+    return UUID().data.prefix(12).base64EncodedString()
   }
 }

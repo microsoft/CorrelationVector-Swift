@@ -23,7 +23,7 @@ import Foundation
     self.init(baseUuid(from: base, baseLength: CorrelationVectorV2.baseLength), 0, false)
   }
 
-  required init(_ base: String, _ extension: Int, _ immutable: Bool) {
+  required init(_ base: String, _ extension: UInt32, _ immutable: Bool) {
     super.init(base, `extension`, immutable || isOversized(base, `extension`, maxLength: CorrelationVectorV2.maxLength))
   }
 
@@ -46,8 +46,7 @@ import Foundation
     if CorrelationVector.validateDuringCreation {
       try validate(correlationVector, baseLength: baseLength, maxLength: maxLength)
     }
-    let ticks = Int64(Date().timeIntervalSince1970 * 10_000_000)
-    var value = ticks >> parameters.interval.rawValue
+    var value = Date().ticks >> parameters.interval.rawValue
     randomBytes(count: parameters.entropy.rawValue).forEach {
       value = (value << 8) | Int64($0)
     }

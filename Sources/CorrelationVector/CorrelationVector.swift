@@ -26,7 +26,7 @@ import Foundation
     return self.implementation.base
   }
 
-  public var `extension`: Int {
+  public var `extension`: UInt32 {
     return self.implementation.extension
   }
 
@@ -93,20 +93,37 @@ import Foundation
   }
 
   public static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
-    let version = CorrelationVectorVersion.infer(from: correlationVector)
+    let version = inferVersion(correlationVector)
     let instance = version.type.parse(correlationVector)
     return CorrelationVector(instance)
   }
 
   public static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
-    let version = CorrelationVectorVersion.infer(from: correlationVector)
+    let version = inferVersion(correlationVector)
     let instance = try version.type.extend(correlationVector)
     return CorrelationVector(instance)
   }
 
   public static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
-    let version = CorrelationVectorVersion.infer(from: correlationVector)
+    let version = inferVersion(correlationVector)
     let instance = try version.type.spin(correlationVector, parameters)
     return CorrelationVector(instance)
+  }
+
+  /// Identifies which version of the Correlation Vector is being used.
+  ///
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: An enum indicating correlation vector version.
+  private static func inferVersion(_ correlationVector: String?) -> CorrelationVectorVersion {
+    if let index = correlationVector?.firstIndex(of: delimiter) {
+      let distance = correlationVector!.distance(from: correlationVector!.startIndex, to: index)
+      if CorrelationVectorV1.baseLength == distance {
+        return .v1
+      } else if CorrelationVectorV2.baseLength == distance {
+        return .v2
+      }
+    }
+    // Use version 1 by default.
+    return .v1
   }
 }
