@@ -68,7 +68,9 @@ final class CorrelationVectorTests: XCTestCase {
 
       // When
       let correlationVector = CorrelationVector.parse("\(vectorBase).0")
-      guard let baseAsGuid = try correlationVector.baseAsUUID() else { return XCTFail() }
+      guard let baseAsGuid = try correlationVector.baseAsUUID() else {
+        return XCTFail()
+      }
       let correlationVectorFromGuid = CorrelationVector(baseAsGuid)
       
       // Then
@@ -181,7 +183,7 @@ final class CorrelationVectorTests: XCTestCase {
     
     // If
     let baseValue = "tul4NUsfs9Cl7mOf"
-    let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647"
+    let baseValueWithExtension = "\(baseValue).4294967295.4294967295.4294967295.4294967295.4294967295"
     CorrelationVector.validateDuringCreation = true
     
     // When

@@ -44,7 +44,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testGetBaseAsUuidTest() throws {
 
     // If
-    let uuid = UUID.init()
+    let uuid = UUID()
 
     // When
     let cV = CorrelationVector(uuid)
@@ -89,7 +89,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testExtendOverMaxLength() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2141"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294"
     let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v2)
     
@@ -100,7 +100,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testImmutableWithTerminator() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.21474836479.0!"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.4294967295.4294967295.4294967295.4294967295.0!"
     
     // Then
     XCTAssertEqual(baseVector, try CorrelationVector.extend(baseVector).value)
@@ -111,7 +111,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testIncrementPastMaxWithNoErrors() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.429"
     let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v2)
     
@@ -133,7 +133,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testSpinOverMaxLength() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214"
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.429"
     
     // When
     let cv = try CorrelationVector.spin(baseVector)
@@ -146,7 +146,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     
     // If
     let baseValue = "KZY+dsX2jEaZesgCPjJ2Ng"
-    let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647"
+    let baseValueWithExtension = "\(baseValue).4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295.4294967295"
     CorrelationVector.validateDuringCreation = true
     
     // When
@@ -164,8 +164,8 @@ final class CorrelationVectorV2Tests: XCTestCase {
     
     // If
     let sut = CorrelationVector(.v2)
-    let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
-    var lastSpinValue : Int64 = 0
+    let params = SpinParameters(interval: .fine, periodicity: .short, entropy: .two)
+    var lastSpinValue: Int64 = 0
     var wrappedCounter = 0
     
     // When

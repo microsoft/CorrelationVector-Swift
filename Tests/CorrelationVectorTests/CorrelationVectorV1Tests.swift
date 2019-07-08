@@ -48,7 +48,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testExtendOverMaxLength() throws {
 
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23"
+    let baseVector = "tul4NUsfs9Cl7mOf.4294967295.4294967295.4294967295.4294967295.42"
     let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v1)
 
@@ -59,7 +59,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testExtendAndIncrementPastMaxWithNoErrors() throws {
 
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479"
+    let baseVector = "tul4NUsfs9Cl7mOf.4294967295.4294967295.4294967295.42949672959"
     let sut = try CorrelationVector.extend(baseVector)
     XCTAssertEqual(sut.version, .v1)
 
@@ -82,7 +82,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
 
     // If
     let vectorBase = "tul4NUsfs9Cl7mOf"
-    let uintMax:UInt32 = 0xFF_FF_FF_FF
+    let uintMax = UInt32.max
     let baseVector = "\(vectorBase).\(uintMax)"
     let sut = CorrelationVector.parse(baseVector)
     XCTAssertEqual(sut.version, .v1)
@@ -114,7 +114,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testSpinOverMaxLength() throws {
     
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23"
+    let baseVector = "tul4NUsfs9Cl7mOf.4294967295.4294967295.4294967295.4294967295.42"
     
     // When
     XCTAssertThrowsError(try CorrelationVector.spin(baseVector)) { error in
@@ -130,7 +130,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testImmutableWithTerminator() {
 
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.21474836479.0!"
+    let baseVector = "tul4NUsfs9Cl7mOf.4294967295.4294967295.4294967295.42949672959.0!"
 
     // Then
     XCTAssertEqual(baseVector, try CorrelationVector.extend(baseVector).value)
