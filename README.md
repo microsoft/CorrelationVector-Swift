@@ -64,10 +64,6 @@ pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector
 ```
 github "https://github.com/microsoft/CorrelationVector-Swift" "master"
 ```
-or if you want a specific version:
-```
-github "https://github.com/microsoft/CorrelationVector-Swift" == 2.0
-```
 3. Run `carthage update --platform iOS`
 
 # Usage
