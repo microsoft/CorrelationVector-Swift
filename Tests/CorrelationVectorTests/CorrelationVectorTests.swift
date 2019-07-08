@@ -146,9 +146,9 @@ final class CorrelationVectorTests: XCTestCase {
     let sut = try CorrelationVector.extend(emptyString)
     XCTAssertEqual(sut.value, ".0")
     XCTAssertEqual(sut.version, .v1)
-    
-    // When
     CorrelationVector.validateDuringCreation = true
+
+    // When
     XCTAssertThrowsError(try CorrelationVector.extend(emptyString)) { error in
       guard case CorrelationVectorError.invalidArgument(let value) = error else {
         return XCTFail()
@@ -221,9 +221,9 @@ final class CorrelationVectorTests: XCTestCase {
     let sut = try CorrelationVector.extend(baseValueWithExtension)
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v1)
-    
-    // When
     CorrelationVector.validateDuringCreation = true
+
+    // When
     XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
       guard case CorrelationVectorError.invalidArgument(let value) = error else {
         return XCTFail()
@@ -242,9 +242,9 @@ final class CorrelationVectorTests: XCTestCase {
     let sut = try CorrelationVector.extend(baseValueWithExtension)
     XCTAssertEqual(sut.extension, 0)
     XCTAssertEqual(sut.version, .v1)
+    CorrelationVector.validateDuringCreation = true
 
     // When
-    CorrelationVector.validateDuringCreation = true
     XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
       guard case CorrelationVectorError.invalidArgument(let value) = error else {
         return XCTFail()
