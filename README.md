@@ -101,7 +101,7 @@ let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 
 ```swift
 let correlationVector = CorrelationVector(.v2)
-let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
+let params = SpinParameters(interval: .fine, periodicity: .short, entropy: .two)
 let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, params)
 ```
 
@@ -112,11 +112,11 @@ let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, 
 let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 
 // Get base of cv ("vtul4NUsfs9Cl7mOf")
-let vBase = correlationVector.base
+let base = correlationVector.base
 
 // Get extension of cv (0)
-let vExtension = correlationVector.extension
+let ext = correlationVector.extension
 
 // Increment existing vector and return result ("vtul4NUsfs9Cl7mOf.1.1")
-let vIncrement = correlationVector.increment()
+let newValue = correlationVector.increment()
 ```
