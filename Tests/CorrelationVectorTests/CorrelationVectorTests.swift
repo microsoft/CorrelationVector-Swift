@@ -27,7 +27,7 @@ final class CorrelationVectorTests: XCTestCase {
     // CV base which has four non-zero least significant bits meaning conversion to Uuid will lose information.
     // CV Base -> Uuid -> CV Base conversion results in:
     //   /////////////////////B -> ffffffff-ffff-ffff-ffff-fffffffffffc -> /////////////////////A
-    let vectorBase = "/////////////////////B";
+    let vectorBase = "/////////////////////B"
     let vectorBaseUuid = UUID(uuidString: "ffffffff-ffff-ffff-ffff-fffffffffffc")
     let correlationVector = CorrelationVector.parse("\(vectorBase).0")
 
@@ -72,7 +72,7 @@ final class CorrelationVectorTests: XCTestCase {
       let correlationVectorFromGuid = CorrelationVector(baseAsGuid)
       
       // Then
-      XCTAssertEqual(correlationVector.value, correlationVectorFromGuid.value);
+      XCTAssertEqual(correlationVector.value, correlationVectorFromGuid.value)
     }
   }
 
@@ -148,7 +148,7 @@ final class CorrelationVectorTests: XCTestCase {
     XCTAssertEqual(sut.version, .v1)
     
     // When
-    CorrelationVector.validateDuringCreation = true;
+    CorrelationVector.validateDuringCreation = true
     XCTAssertThrowsError(try CorrelationVector.extend(emptyString)) { error in
       guard case CorrelationVectorError.invalidArgument(let value) = error else {
         return XCTFail()
@@ -182,7 +182,7 @@ final class CorrelationVectorTests: XCTestCase {
     // If
     let baseValue = "tul4NUsfs9Cl7mOf"
     let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647"
-    CorrelationVector.validateDuringCreation = true;
+    CorrelationVector.validateDuringCreation = true
     
     // When
     XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
@@ -200,7 +200,7 @@ final class CorrelationVectorTests: XCTestCase {
     // If
     let baseValue = "tul4NUsfs9Cl7mOf"
     let baseValueWithExtension = "\(baseValue).11111111111111111111111111111"
-    CorrelationVector.validateDuringCreation = true;
+    CorrelationVector.validateDuringCreation = true
     
     // When
     XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in

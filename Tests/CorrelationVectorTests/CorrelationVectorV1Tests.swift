@@ -29,7 +29,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
     XCTAssertEqual("tul4NUsfs9Cl7mOf.1.1", sut.value)
   }
 
-  func testGetBaseAsUuidTest(){
+  func testGetBaseAsUuidTest() {
 
     // If
     let cV = CorrelationVector()
@@ -53,7 +53,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
     XCTAssertEqual(sut.version, .v1)
 
     // Then
-    XCTAssertEqual(baseVector + CorrelationVector.terminator, sut.value);
+    XCTAssertEqual(baseVector + CorrelationVector.terminator, sut.value)
   }
 
   func testExtendAndIncrementPastMaxWithNoErrors() throws {
@@ -114,7 +114,7 @@ final class CorrelationVectorV1Tests: XCTestCase {
   func testSpinOverMaxLength() throws {
     
     // If
-    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23";
+    let baseVector = "tul4NUsfs9Cl7mOf.2147483647.2147483647.2147483647.214748364.23"
     
     // When
     XCTAssertThrowsError(try CorrelationVector.spin(baseVector)) { error in

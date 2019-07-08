@@ -84,8 +84,8 @@ final class CorrelationVectorV2Tests: XCTestCase {
     // Then
     let split = sut.value.split(separator: CorrelationVector.delimiter)
     let uuidString = uuid.uuidString
-    let base64String = Data(uuidString.utf8).base64EncodedString();
-    let endIndex = base64String.index(base64String.startIndex, offsetBy: 22);
+    let base64String = Data(uuidString.utf8).base64EncodedString()
+    let endIndex = base64String.index(base64String.startIndex, offsetBy: 22)
     XCTAssertEqual(String(base64String[..<endIndex]), String(split[0]))
     XCTAssertEqual(1, sut.extension)
   }
@@ -98,7 +98,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     XCTAssertEqual(sut.version, .v2)
     
     // Then
-    XCTAssertEqual(baseVector + CorrelationVector.terminator, sut.value);
+    XCTAssertEqual(baseVector + CorrelationVector.terminator, sut.value)
   }
   
   func testImmutableWithTerminator() throws {
@@ -137,10 +137,10 @@ final class CorrelationVectorV2Tests: XCTestCase {
   func testSpinOverMaxLength() throws {
     
     // If
-    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214";
+    let baseVector = "KZY+dsX2jEaZesgCPjJ2Ng.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.214"
     
     // When
-    let cv = try CorrelationVector.spin(baseVector);
+    let cv = try CorrelationVector.spin(baseVector)
     
     // Then
     XCTAssertEqual(baseVector + CorrelationVector.terminator, cv.value)
@@ -151,7 +151,7 @@ final class CorrelationVectorV2Tests: XCTestCase {
     // If
     let baseValue = "KZY+dsX2jEaZesgCPjJ2Ng"
     let baseValueWithExtension = "\(baseValue).2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647.2147483647"
-    CorrelationVector.validateDuringCreation = true;
+    CorrelationVector.validateDuringCreation = true
     
     // When
     XCTAssertThrowsError(try CorrelationVector.extend(baseValueWithExtension)) { error in
@@ -169,8 +169,8 @@ final class CorrelationVectorV2Tests: XCTestCase {
     // If
     let sut = CorrelationVector(.v2)
     let params = SpinParameters(interval: SpinCounterInterval.fine, periodicity: SpinCounterPeriodicity.short, entropy: SpinEntropy.two)
-    var lastSpinValue : Int64 = 0;
-    var wrappedCounter = 0;
+    var lastSpinValue : Int64 = 0
+    var wrappedCounter = 0
     
     // When
     for _ in 0...100 {
