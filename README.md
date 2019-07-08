@@ -41,10 +41,10 @@ dependencies: [
         .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
     ]
 ```
-3. Add dependency to the **Package**>**targets**>**target** section
+3. Add dependency to the **Package** > **targets** > **target** section
 ```swift
 .target(
-    name: "TestApp",
+    name: "YourApp",
     dependencies: ["CorrelationVector"])
 ```
 
