@@ -7,7 +7,8 @@ import Foundation
 ///
 /// - v1: represents the correlation vector version 1.
 /// - v2: represents the correlation vector version 2.
-@objc public enum CorrelationVectorVersion: Int {
+@objc(MSCorrelationVectorVersion)
+public enum CorrelationVectorVersion: Int {
   case v1 = 1
   case v2 = 2
 
