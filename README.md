@@ -86,7 +86,7 @@ let correlationVectorV2 = CorrelationVector(.v2)
 let parsedCorrelationVector = CorrelationVector.parse("vtul4NUsfs9Cl7mOf.1")
 ```
 
-## Create new vector via extending existing vector
+## Create new vector by extending an existing value
 
 ```swift
 // Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector by extending an existing value
