@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name               = "CorrelationVector"
-  spec.version            = "1.0.0"
+  spec.version            = "1.0"
   spec.summary            = "Provides the Swift implementation of the CorrelationVector protocol for tracing and correlation of events through a distributed system."
 
   spec.description        = <<-DESC
