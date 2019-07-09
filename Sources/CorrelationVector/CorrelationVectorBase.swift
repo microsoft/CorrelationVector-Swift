@@ -11,7 +11,7 @@ import Foundation
   @objc internal var immutable: Bool
 
   @objc var value: String {
-    return "\(self.base).\(self.extension)\(self.immutable ? CorrelationVector.terminator : "")"
+    return "\(self.base)\(CorrelationVector.delimiter)\(self.extension)\(self.immutable ? CorrelationVector.terminator : "")"
   }
 
   required init(_ base: String, _ extension: UInt32, _ immutable: Bool) {
