@@ -96,6 +96,8 @@ do {
     // log the error
 } catch CorrelationVectorError.invalidOperation(let description) {
     // log the error
+} catch {
+    // log the error
 }
 ```
 
