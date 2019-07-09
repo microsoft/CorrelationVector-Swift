@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import Foundation
-import CorrelationVectorBindings
 
 @objc internal class CorrelationVectorBase: NSObject {
   @objc internal var base: String
@@ -25,20 +24,22 @@ import CorrelationVectorBindings
     if self.immutable {
       return self.value
     }
-    var snapshot: UInt32 = 0
-    var next: UInt32 = 0
-    repeat {
-      snapshot = self.extension
-      if snapshot == UInt32.max {
-        return self.value
-      }
-      next = snapshot + 1
-      if isOversized(base, next, maxLength: maxLength) {
-        self.immutable = true
-        return self.value
-      }
-    } while !compareAndSwap(OpaquePointer(UnsafeMutablePointer<UInt32>(&self.extension)), UnsafeMutablePointer<UInt32>(&snapshot), next)
-    return "\(self.base)\(CorrelationVector.delimiter)\(next)"
+
+    // Use locks because atomics aren't usable in Swift at the moment.
+    // See https://bugs.swift.org/browse/SR-9144
+    objc_sync_enter(self)
+    defer { objc_sync_exit(self) }
+
+    if self.extension == UInt32.max {
+      return self.value
+    }
+    let next = self.extension + 1
+    if isOversized(self.base, next, maxLength: maxLength) {
+      self.immutable = true
+    } else {
+      self.extension = next
+    }
+    return self.value
   }
 }
 
