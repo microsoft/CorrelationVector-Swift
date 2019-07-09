@@ -4,7 +4,7 @@
 import Foundation
 
 /// This class represents a lightweight vector for identifying and measuring causality.
-@objc(MSCorrelationVector)
+@objc(MSCVCorrelationVector)
 public class CorrelationVector: NSObject, CorrelationVectorProtocol {
   internal static let delimiter: Character = "."
   internal static let terminator = "!"

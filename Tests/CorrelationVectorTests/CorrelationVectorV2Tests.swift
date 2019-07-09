@@ -51,10 +51,15 @@ final class CorrelationVectorV2Tests: XCTestCase {
 
     // When
     let cV = CorrelationVector(uuid)
-    let actualUuid = try cV.baseAsUUID()
 
     // Then
-    XCTAssertEqual(uuid, actualUuid)
+    XCTAssertEqual(uuid, try cV.baseAsUUID())
+
+    // When
+    let extendedVector = try CorrelationVector.extend(cV.value)
+
+    // Then
+    XCTAssertEqual(uuid, try extendedVector.baseAsUUID())
   }
 
   func testCreateIncrement() throws {

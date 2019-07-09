@@ -5,7 +5,7 @@ import Foundation
 
 /// This protocol represents the Correlation Vector.
 /// The Correlation Vector is a format for tracing and correlating events in large systems.
-@objc(MSCorrelationVectorProtocol)
+@objc(MSCVCorrelationVectorProtocol)
 public protocol CorrelationVectorProtocol {
 
   /// The value of the correlation vector as a string.
