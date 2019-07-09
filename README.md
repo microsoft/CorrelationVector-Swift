@@ -36,7 +36,7 @@ or trademarks, whether by implication, estoppel or otherwise.
 ## Swift Package Manager
 
 1. Run `swift package init` if not yet initialized
-2. Add the following dependency to the **Package** section:
+2. Add the following dependency to the **Package** section in `Package.swift`:
 ```swift
 dependencies: [
     .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
