@@ -106,7 +106,7 @@ let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, 
 ## General methods
 
 ```swift
-// Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector via extending the existing vector
+// Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector by extending an existing value
 let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 
 // Get base of cv ("vtul4NUsfs9Cl7mOf")
