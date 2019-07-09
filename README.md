@@ -35,7 +35,7 @@ or trademarks, whether by implication, estoppel or otherwise.
 
 ## Swift Package Manager
 
-1. Run `swift package init` if not yet initialized
+1. Run `swift package init` if it hasn't been initialized
 2. Add the following dependency to the **Package** section in `Package.swift`:
 ```swift
 dependencies: [
