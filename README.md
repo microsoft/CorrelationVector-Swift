@@ -62,7 +62,7 @@ pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector
 ## Carthage
 
 1. Run `touch Cartfile` if `Cartfile` hasn't been created
-2. Add the following line:
+2. Add the following line in `Cartfile`:
 ```
 github "https://github.com/microsoft/CorrelationVector-Swift" "master"
 ```
