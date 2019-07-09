@@ -4,7 +4,8 @@
 import Foundation
 
 /// This class represents a lightweight vector for identifying and measuring causality.
-@objc public class CorrelationVector: NSObject, CorrelationVectorProtocol {
+@objc(MSCVCorrelationVector)
+public class CorrelationVector: NSObject, CorrelationVectorProtocol {
   internal static let delimiter: Character = "."
   internal static let terminator = "!"
 
@@ -18,18 +19,22 @@ import Foundation
 
   private var implementation: CorrelationVectorProtocol
 
+  /// The value of the correlation vector as a string.
   public var value: String {
     return self.implementation.value
   }
 
+  /// The base value of the correlation vector.
   public var base: String {
     return self.implementation.base
   }
 
+  /// The extension number.
   public var `extension`: UInt32 {
     return self.implementation.extension
   }
 
+  /// The version of the correlation vector implementation.
   public var version: CorrelationVectorVersion {
     return self.implementation.version
   }
@@ -79,6 +84,10 @@ import Foundation
     super.init()
   }
 
+  /// Increments the extension, the numerical value at the end of the vector, by one
+  /// and returns the string representation.
+  ///
+  /// - Returns: the new cV value as a string that you can add to the outbound message header.
   public func increment() -> String {
     return self.implementation.increment()
   }
@@ -93,18 +102,37 @@ import Foundation
     return lhs.value == rhs.value
   }
 
+  /// Converts a string representation of a Correlation Vector into this class.
+  ///
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: the Correlation Vector based on its version.
   public static func parse(_ correlationVector: String?) -> CorrelationVectorProtocol {
     let version = inferVersion(correlationVector)
     let instance = version.type.parse(correlationVector)
     return CorrelationVector(instance)
   }
 
+  /// Creates a new correlation vector by extending an existing value.
+  /// This should be done at the entry point of an operation.
+  ///
+  /// - Parameter correlationVector: string representation.
+  /// - Returns: the Correlation Vector based on its version.
+  /// - Throws: CorrelationVectorError.invalidArgument if vector is not valid.
   public static func extend(_ correlationVector: String?) throws -> CorrelationVectorProtocol {
     let version = inferVersion(correlationVector)
     let instance = try version.type.extend(correlationVector)
     return CorrelationVector(instance)
   }
 
+  /// Creates a new correlation vector by applying the spin operator to an existing value.
+  /// This should be done at the entry point of an operation.
+  ///
+  /// - Parameters:
+  ///   - correlationVector: string representation.
+  ///   - parameters: the parameters to use when applying the Spin operator.
+  /// - Returns: the Correlation Vector based on its version.
+  /// - Throws: CorrelationVectorError.invalidOperation if spin operation isn't supported
+  ///           for this correlation vector.
   public static func spin(_ correlationVector: String?, _ parameters: SpinParameters) throws -> CorrelationVectorProtocol {
     let version = inferVersion(correlationVector)
     let instance = try version.type.spin(correlationVector, parameters)

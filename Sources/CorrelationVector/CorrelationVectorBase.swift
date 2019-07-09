@@ -4,18 +4,25 @@
 import Foundation
 
 @objc internal class CorrelationVectorBase: NSObject {
-  @objc internal var base: String
+  @objc internal var baseVector: String
   @objc internal var `extension`: UInt32
 
   /// Indicates whether the CV object is immutable.
   @objc internal var immutable: Bool
 
-  @objc var value: String {
-    return "\(self.base)\(CorrelationVector.delimiter)\(self.extension)\(self.immutable ? CorrelationVector.terminator : "")"
+  @objc internal var base: String {
+    if let index = self.baseVector.firstIndex(of: CorrelationVector.delimiter) {
+      return String(self.baseVector[..<index])
+    }
+    return self.baseVector
   }
 
-  required init(_ base: String, _ extension: UInt32, _ immutable: Bool) {
-    self.base = base
+  @objc internal var value: String {
+    return "\(self.baseVector)\(CorrelationVector.delimiter)\(self.extension)\(self.immutable ? CorrelationVector.terminator : "")"
+  }
+
+  required init(_ baseVector: String, _ extension: UInt32, _ immutable: Bool) {
+    self.baseVector = baseVector
     self.extension = `extension`
     self.immutable = immutable
   }
@@ -34,7 +41,7 @@ import Foundation
       return self.value
     }
     let next = self.extension + 1
-    if isOversized(self.base, next, maxLength: maxLength) {
+    if isOversized(self.baseVector, next, maxLength: maxLength) {
       self.immutable = true
     } else {
       self.extension = next

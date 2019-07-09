@@ -10,7 +10,8 @@ import Foundation
 ///           resulting in a counter that increments every 1.67 seconds.
 /// - fine: the fine interval drops the 16 least significant bits resulting
 ///         in a counter that increments every 6.5 milliseconds.
-@objc public enum SpinCounterInterval: Int {
+@objc(MSCVSpinCounterInterval)
+public enum SpinCounterInterval: Int {
   case coarse = 24
   case fine = 16
 }
@@ -21,7 +22,8 @@ import Foundation
 /// - short: the short periodicity stores the counter using 16 bits.
 /// - medium: the medium periodicity stores the counter using 24 bits.
 /// - long: the long periodicity stores the counter using 32 bits.
-@objc public enum SpinCounterPeriodicity: Int {
+@objc(MSCVSpinCounterPeriodicity)
+public enum SpinCounterPeriodicity: Int {
   case none = 0
   case short = 16
   case medium = 24
@@ -35,7 +37,8 @@ import Foundation
 /// - two: generate entropy using 16 bits.
 /// - three: generate entropy using 24 bits.
 /// - four: generate entropy using 32 bits.
-@objc public enum SpinEntropy: Int {
+@objc(MSCVSpinEntropy)
+public enum SpinEntropy: Int {
   case none = 0
   case one = 1
   case two = 2
@@ -44,7 +47,8 @@ import Foundation
 }
 
 /// Configuration parameters used by CV's spin operation.
-@objc public class SpinParameters: NSObject {
+@objc(MSCVSpinParameters)
+public class SpinParameters: NSObject {
 
   /// The interval (proportional to time) by which the counter increments.
   var interval: SpinCounterInterval
