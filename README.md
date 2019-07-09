@@ -90,7 +90,13 @@ let parsedCorrelationVector = CorrelationVector.parse("vtul4NUsfs9Cl7mOf.1")
 
 ```swift
 // Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector by extending an existing value
-let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
+do {
+    let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
+} catch CorrelationVectorError.invalidArgument(let description) {
+    // log the error
+} catch CorrelationVectorError.invalidOperation(let description) {
+    // log the error
+}
 ```
 
 ## Spin
@@ -100,14 +106,22 @@ let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
 ```swift
 let correlationVector = CorrelationVector(.v2)
 let params = SpinParameters(interval: .fine, periodicity: .short, entropy: .two)
-let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, params)
+do {
+    let spinCorrelationVector = try CorrelationVector.spin(correlationVector.value, params)
+} catch {
+    // log the error
+}
 ```
 
 ## General methods
 
 ```swift
-// Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector by extending an existing value
-let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
+do {
+    // Initialize "vtul4NUsfs9Cl7mOf.1.0" correlation vector by extending an existing value
+    let correlationVector = try CorrelationVector.extend("vtul4NUsfs9Cl7mOf.1")
+} catch {
+    // log the error
+}
 
 // Get base of cv ("vtul4NUsfs9Cl7mOf")
 let base = correlationVector.base
