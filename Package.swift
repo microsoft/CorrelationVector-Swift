@@ -12,11 +12,8 @@ let package = Package(
     dependencies: [],
     targets: [
         .target(
-            name: "CorrelationVectorBindings",
-            dependencies: []),
-        .target(
             name: "CorrelationVector",
-            dependencies: ["CorrelationVectorBindings"]),
+            dependencies: []),
         .testTarget(
             name: "CorrelationVectorTests",
             dependencies: ["CorrelationVector"]),
