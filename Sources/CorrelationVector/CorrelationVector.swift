@@ -59,6 +59,7 @@ import Foundation
   /// was found in the message header.
   ///
   /// - Parameter version: the Correlation Vector implementation version.
+  @objc(initWithVersion:)
   public convenience init(_ version: CorrelationVectorVersion) {
     self.init(version.type.init())
   }
