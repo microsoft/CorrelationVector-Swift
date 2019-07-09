@@ -7,7 +7,7 @@ import Foundation
 ///
 /// - invalidOperation: invalid operation.
 /// - invalidArgument: invalid argument.
-enum CorrelationVectorError: Error {
+public enum CorrelationVectorError: Error {
   case invalidOperation(_ description: String)
   case invalidArgument(_ description: String)
 }

@@ -63,7 +63,7 @@ import Foundation
     return periodicity.rawValue + entropy.rawValue * bitsInByte
   }
 
-  init(interval: SpinCounterInterval = .coarse, periodicity: SpinCounterPeriodicity = .short, entropy: SpinEntropy = .two) {
+  public init(interval: SpinCounterInterval = .coarse, periodicity: SpinCounterPeriodicity = .short, entropy: SpinEntropy = .two) {
     self.interval = interval
     self.periodicity = periodicity
     self.entropy = entropy
