@@ -37,36 +37,46 @@ or trademarks, whether by implication, estoppel or otherwise.
 
 1. Run `swift package init` if it hasn't been initialized
 2. Add the following dependency to the **Package** section in `Package.swift`:
+
 ```swift
 dependencies: [
-    .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", .branch("master"))
+    .package(url: "https://github.com/microsoft/CorrelationVector-Swift.git", from: "1.0.0")
 ]
 ```
+
 3. Add dependency to the **Package** > **targets** > **target** > **dependencies** section
+
 ```swift
 .target(
     name: "YourApp",
     dependencies: ["CorrelationVector"])
 ```
+
 4. Run `swift build` to download, link and compile dependencies
 
-## Cocoapods
+## CocoaPods
 
 1. Run `pod init` if it hasn't been initialized
 2. Add the following line to the corresponding target section in the **Podfile**:
+
 ```
-pod 'CorrelationVector', :git => 'https://github.com/microsoft/CorrelationVector-Swift.git', :branch => 'master'
+pod 'CorrelationVector'
 ```
+
 3. Run `pod install`
+
+Learn more about using CocoaPods in [the official guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
 ## Carthage
 
 1. Run `touch Cartfile` if `Cartfile` hasn't been created
 2. Add the following line in `Cartfile`:
+
 ```
-github "https://github.com/microsoft/CorrelationVector-Swift" "master"
+github "microsoft/CorrelationVector-Swift"
 ```
-3. Run `carthage update --platform iOS`
+
+3. Run `carthage update --platform iOS` and follow the [additional steps](https://github.com/Carthage/Carthage#getting-started) in order to add the framework to your project.
 
 # Usage
 
